@@ -15,6 +15,7 @@ const ProfileScreen = (): React.JSX.Element => {
           <Header />
           <CollectionFlatList style={styles.collectionFlatList} />
           <ProfileDetails />
+          <LinkCollection style={styles.linkCollection}/>
           
         </View>
         <View style={styles.blackView}></View>
@@ -38,4 +39,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 15,
   },
+  linkCollection: {
+    marginTop: 20,
+    marginBottom: 10
+  }
 });

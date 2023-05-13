@@ -4,6 +4,8 @@ import React from 'react';
 import CollectionFlatList from '../views/CollectionFlatList';
 import PrimaryContainer from '../views/PrimaryContainer';
 import Header from '../views/Header';
+import ProfileDetails from '../views/ProfileDetails';
+import LinkCollection from '../views/LinkCollection';
 
 const ProfileScreen = (): React.JSX.Element => {
   return (
@@ -11,8 +13,9 @@ const ProfileScreen = (): React.JSX.Element => {
       <PrimaryContainer>
         <View style={styles.blueView}>
           <Header />
-
-          <CollectionFlatList />
+          <CollectionFlatList style={styles.collectionFlatList} />
+          <ProfileDetails />
+          
         </View>
         <View style={styles.blackView}></View>
       </PrimaryContainer>
@@ -30,5 +33,9 @@ const styles = StyleSheet.create({
   blueView: {
     width: '100%',
     paddingHorizontal: 15,
+  },
+  collectionFlatList: {
+    marginTop: 10,
+    marginBottom: 15,
   },
 });

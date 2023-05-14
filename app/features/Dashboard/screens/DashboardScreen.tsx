@@ -1,8 +1,8 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import ProfileScreen from '../../ProfileView/screens/ProfileScreen';
 import DummyScreen from '../../ProfileView/screens/DummyScreen';
-import { View } from 'react-native/types';
 
 const DashboardScreen = (): React.JSX.Element => {
   const Tab = createBottomTabNavigator();
@@ -13,20 +13,101 @@ const DashboardScreen = (): React.JSX.Element => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarStyle: {backgroundColor: 'pink', height: 56},
+        tabBarStyle: styles.tabBarStyle,
       }}>
       <Tab.Screen
         name="ProfileView"
         component={ProfileScreen}
         options={{
-          tabBarIconStyle: {backgroundColor: 'green', width: 30, height: 30, marginBottom: 10}
-          //tabBarIcon: {size: 30}
+          tabBarIcon: ({focused}) => (
+            <>
+              <Image
+                style={styles.leftTabIcon}
+                resizeMode="contain"
+                source={require('../../../assets/images/bottom-tab-icons/conttent-icon/content-icon.png')}
+              />
+
+              <View
+                style={
+                  focused ? styles.tabIconActiveBar : styles.tabIconInactiveBar
+                }
+              />
+            </>
+          ),
         }}
       />
-      <Tab.Screen name="DummyOne" component={DummyScreen} />
-      <Tab.Screen name="DummyTwo" component={DummyScreen} />
+      <Tab.Screen
+        name="DummyOne"
+        component={DummyScreen}
+        options={{
+          tabBarIcon: () => (
+            <Image
+              style={styles.middleTabIcon}
+              resizeMode="contain"
+              source={require('../../../assets/images/bottom-tab-icons/add-icon/add-icon.png')}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="DummyTwo"
+        component={DummyScreen}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <>
+              <Image
+                style={styles.rightTabIcon}
+                resizeMode="contain"
+                source={require('../../../assets/dummyImages/philhughes-profile/philhughes.png')}
+              />
+              <View
+                style={
+                  focused ? styles.tabIconActiveBar : styles.tabIconInactiveBar
+                }
+              />
+            </>
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
 
 export default DashboardScreen;
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    width: '100%',
+    height: 56,
+    justifyContent: 'flex-start',
+    paddingVertical: 8,
+    backgroundColor: '#222322',
+  },
+  leftTabIcon: {
+    width: 30,
+    height: 30,
+  },
+  rightTabIcon: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+  },
+  middleTabIcon: {
+    width: 60,
+    height: 50,
+  },
+  tabIconActiveBar: {
+    width: 30,
+    height: 2,
+    borderRadius: 1,
+    marginTop: 4,
+    backgroundColor: '#06D30F',
+  },
+  tabIconInactiveBar: {
+    width: 30,
+    height: 2,
+    borderRadius: 1,
+    marginTop: 4,
+    backgroundColor: 'transparent',
+  },
+});

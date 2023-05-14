@@ -7,6 +7,10 @@ import {
   View,
 } from 'react-native';
 import React, {useState} from 'react';
+import {Dimensions} from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const ProfileDetails = (): React.JSX.Element => {
   const status = {Add: 'Add', Added: 'Added'};
@@ -57,7 +61,7 @@ export default ProfileDetails;
 
 const styles = StyleSheet.create({
   parentView: {
-    width: '100%',
+    width: (windowWidth < windowHeight ? windowWidth : windowHeight) - 30,
   },
   topRow: {
     width: '100%',

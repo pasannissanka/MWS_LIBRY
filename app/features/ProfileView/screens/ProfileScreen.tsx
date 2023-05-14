@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
   blueView: {
     width: '100%',
     paddingTop: 8,
-    alignItems: 'center',
     paddingHorizontal: 15,
     backgroundColor: '#012674',
   },

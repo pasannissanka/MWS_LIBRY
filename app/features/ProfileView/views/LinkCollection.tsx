@@ -104,12 +104,12 @@ const styles = StyleSheet.create({
   expandIcon: {
     width: 12,
     height: 6,
-    marginTop: 4,
+    transform: [{rotate: '180deg'}],
+    margin: 4,
   },
   collapseIcon: {
     width: 12,
     height: 6,
-    transform: [{rotate: '180deg'}],
     margin: 4,
   },
   expandButtonContainer: {

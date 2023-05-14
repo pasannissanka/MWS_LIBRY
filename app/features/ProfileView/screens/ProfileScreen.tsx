@@ -6,22 +6,27 @@ import Header from '../views/Header';
 import ProfileDetails from '../views/ProfileDetails';
 import LinkCollection from '../views/LinkCollection';
 import ContentFlatList from '../views/ContentFlatList';
+import LinearGradient from 'react-native-linear-gradient';
 
 const ProfileScreen = (): React.JSX.Element => {
   return (
     <View style={styles.parentView}>
-      <View style={styles.contentFlatListStyle}>
-        <ContentFlatList
-          headerComponent={
-            <View style={styles.blueView}>
-              <Header />
-              <CollectionFlatList style={styles.collectionFlatList} />
-              <ProfileDetails />
-              <LinkCollection style={styles.linkCollection} />
-            </View>
-          }
-        />
-      </View>
+      <LinearGradient
+        colors={['#012674', '#222322']}
+        style={styles.linearGradient}>
+        <View style={styles.contentFlatListStyle}>
+          <ContentFlatList
+            headerComponent={
+              <View style={styles.blueView}>
+                <Header />
+                <CollectionFlatList style={styles.collectionFlatList} />
+                <ProfileDetails />
+                <LinkCollection style={styles.linkCollection} />
+              </View>
+            }
+          />
+        </View>
+      </LinearGradient>
     </View>
   );
 };
@@ -31,7 +36,9 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
   parentView: {
     flex: 1,
-    backgroundColor: '#1F1F1F',
+  },
+  linearGradient: {
+    flex: 1,
   },
   blueView: {
     width: '100%',

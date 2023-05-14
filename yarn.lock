@@ -2716,6 +2716,7 @@ __metadata:
     react-native: 0.71.8
     react-native-collapsible: ^1.6.1
     react-native-gesture-handler: ^2.10.0
+    react-native-linear-gradient: ^2.6.2
     react-native-safe-area-context: ^4.5.2
     react-native-screens: ^3.20.0
     react-test-renderer: 18.2.0
@@ -8252,6 +8253,16 @@ __metadata:
   version: 0.71.18
   resolution: "react-native-gradle-plugin@npm:0.71.18"
   checksum: 19f0a41e29c9210ff495010aaa612f2c2f4f5f937b6c20266c8dc62f4ccedc65bb7576de59b2f3fd2bb8044ce9785e56673879f2eb452f948e6659a5e1fa5894
+  languageName: node
+  linkType: hard
+
+"react-native-linear-gradient@npm:^2.6.2":
+  version: 2.6.2
+  resolution: "react-native-linear-gradient@npm:2.6.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: dd0e27d3ddffa239d46919fd397f1ad68cdb6bcaa48c11ec9b01a0f54f0ad383f203a2245f2f06206e63aa4443fe7b2b1cc105ee262bf9a84ee62dabad6028ad
   languageName: node
   linkType: hard
 

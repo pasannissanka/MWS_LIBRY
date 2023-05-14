@@ -171,7 +171,6 @@ export default ContentFlatList;
 const styles = StyleSheet.create({
   parentView: {
     width: '100%',
-    backgroundColor: '#1F1F1F',
   },
   item: {
     width: '100%',
@@ -276,7 +275,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     paddingVertical: 18,
-    paddingBottom: 135,
+    marginBottom: 135,
     backgroundColor: '#1F1F1F',
   },
   viewAllTouchable: {

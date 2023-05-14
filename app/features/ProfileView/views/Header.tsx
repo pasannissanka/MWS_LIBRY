@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     fontWeight: '400',
+    paddingVertical: 0,
     color: '#B3B3B3',
   },
   bellIcon: {

@@ -16,7 +16,10 @@ const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
   const [expanded, setExpanded] = useState<boolean>(false);
   return (
     <View style={{...styles.parentView, ...style}}>
-      <Collapsible collapsed={expanded} style={styles.collapsibleView}>
+      <Collapsible
+        collapsed={expanded}
+        style={styles.collapsibleView}
+        duration={1000}>
         {data.links.slice(0, 2).map((item, index) => (
           <TouchableOpacity style={styles.touchableLink} key={index}>
             <Text
@@ -28,7 +31,10 @@ const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
           </TouchableOpacity>
         ))}
       </Collapsible>
-      <Collapsible collapsed={!expanded} style={styles.collapsibleView}>
+      <Collapsible
+        collapsed={!expanded}
+        style={styles.collapsibleView}
+        duration={1000}>
         <Text style={styles.discriptionText}>
           {
             'The official Sky Sports account, featuring highlights from every game of the season, as well as exclusive player access - only on Sky Sports!'

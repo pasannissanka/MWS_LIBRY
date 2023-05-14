@@ -11,7 +11,7 @@ const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
     <View style={{...styles.parentView, ...style}}>
       <Collapsible collapsed={expanded} style={styles.collapsibleView}>
         {data.links.slice(0, 2).map((item, index) => (
-          <TouchableOpacity style={styles.touchableLink}>
+          <TouchableOpacity style={styles.touchableLink} key={index}>
             <Text
               style={styles.linkText}
               numberOfLines={1}
@@ -28,7 +28,7 @@ const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
           }
         </Text>
         {data.links.map((item, index) => (
-          <TouchableOpacity style={styles.touchableLink}>
+          <TouchableOpacity style={styles.touchableLink} key={index}>
             <Text
               style={styles.linkText}
               numberOfLines={1}

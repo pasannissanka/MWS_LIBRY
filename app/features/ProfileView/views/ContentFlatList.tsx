@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {PropsWithChildren} from 'react';
+import React, {PropsWithChildren, useEffect, useState} from 'react';
 import data from '../dummyData/data';
 
 type SectionProps = PropsWithChildren<{
@@ -38,8 +38,10 @@ const ContentFlatList = ({
     };
     index: number;
   }>;
+  const [CONTENT_DATA, SET_CONTENT_DATA] = useState(data.contents);
 
-  let CONTENT_DATA = [...data.contents];
+  // let CONTENT_DATA = data.contents;
+
   const Item = ({item, index}: ItemProps) => {
     const previousCollobarators =
       index === 0 ? [] : CONTENT_DATA[index - 1].collobarators;
@@ -119,7 +121,10 @@ const ContentFlatList = ({
             <Text style={styles.dateText}>{item.artical.date}</Text>
             <TouchableOpacity
               onPress={() => {
-                CONTENT_DATA[index].artical.favorite = false;
+                data.contents[index].artical.favorite =
+                  !data.contents[index].artical.favorite;
+
+                SET_CONTENT_DATA([...data.contents]);
               }}>
               <Image
                 source={
@@ -214,7 +219,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#1F1F1F',
   },
   collobaratorIconText: {
-    fontFamily: Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 11,
     lineHeight: 13,
     textAlign: 'center',
@@ -241,7 +247,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   thumbnailTitle: {
-    fontFamily: Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'left',
@@ -266,7 +273,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   dateText: {
-    fontFamily: Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 13,
     lineHeight: 15,
     textAlign: 'center',
@@ -285,7 +293,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewAllText: {
-    fontFamily: Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'left',

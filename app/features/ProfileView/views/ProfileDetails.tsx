@@ -1,4 +1,11 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 
 const ProfileDetails = (): React.JSX.Element => {
@@ -120,7 +127,8 @@ const styles = StyleSheet.create({
   },
   followingButtonText: {
     flex: 1,
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'center',
@@ -128,7 +136,8 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   followingButtonGreenText: {
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'center',

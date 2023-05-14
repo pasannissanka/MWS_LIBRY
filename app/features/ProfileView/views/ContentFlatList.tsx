@@ -2,6 +2,7 @@ import {
   FlatList,
   Image,
   ImageSourcePropType,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -196,7 +197,8 @@ const styles = StyleSheet.create({
   },
   collobaratorsUserNameText: {
     flex: 1,
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 16,
     lineHeight: 18,
     textAlign: 'left',
@@ -212,7 +214,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1F1F1F',
   },
   collobaratorIconText: {
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily: Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 11,
     lineHeight: 13,
     textAlign: 'center',
@@ -239,7 +241,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   thumbnailTitle: {
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily: Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'left',
@@ -264,7 +266,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   dateText: {
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily: Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 13,
     lineHeight: 15,
     textAlign: 'center',
@@ -283,7 +285,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewAllText: {
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily: Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'left',

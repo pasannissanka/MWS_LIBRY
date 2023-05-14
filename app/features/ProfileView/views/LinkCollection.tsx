@@ -1,4 +1,11 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {PropsWithChildren, useState} from 'react';
 import data from '../dummyData/data';
 import Collapsible from 'react-native-collapsible';
@@ -61,7 +68,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   discriptionText: {
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'center',
@@ -80,7 +88,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   linkText: {
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 14,
     lineHeight: 20,
     textAlign: 'center',

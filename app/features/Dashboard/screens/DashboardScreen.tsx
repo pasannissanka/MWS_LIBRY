@@ -23,7 +23,7 @@ const DashboardScreen = (): React.JSX.Element => {
             <>
               <Image
                 style={styles.leftTabIcon}
-                resizeMode="contain"
+                resizeMode="stretch"
                 source={require('../../../assets/images/bottom-tab-icons/conttent-icon/content-icon.png')}
               />
 
@@ -43,7 +43,7 @@ const DashboardScreen = (): React.JSX.Element => {
           tabBarIcon: () => (
             <Image
               style={styles.middleTabIcon}
-              resizeMode="contain"
+              resizeMode="stretch"
               source={require('../../../assets/images/bottom-tab-icons/add-icon/add-icon.png')}
             />
           ),
@@ -57,7 +57,7 @@ const DashboardScreen = (): React.JSX.Element => {
             <>
               <Image
                 style={styles.rightTabIcon}
-                resizeMode="contain"
+                resizeMode="stretch"
                 source={require('../../../assets/dummyImages/philhughes-profile/philhughes.png')}
               />
               <View
@@ -78,10 +78,12 @@ export default DashboardScreen;
 const styles = StyleSheet.create({
   tabBarStyle: {
     width: '100%',
-    height: 56,
-    justifyContent: 'flex-start',
+    height: 68,
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingVertical: 8,
     backgroundColor: '#222322',
+    borderTopColor: 'transparent',
   },
   leftTabIcon: {
     width: 30,
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
   middleTabIcon: {
     width: 60,
     height: 50,
+    marginBottom: 4,
   },
   tabIconActiveBar: {
     width: 30,

@@ -1,4 +1,11 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {FlatList} from 'react-native-gesture-handler';
@@ -57,7 +64,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   title: {
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 14,
     lineHeight: 16,
     textAlign: 'left',

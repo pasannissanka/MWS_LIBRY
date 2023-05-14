@@ -1,4 +1,11 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 
 const ProfileDetails = (): React.JSX.Element => {
@@ -24,14 +31,12 @@ const ProfileDetails = (): React.JSX.Element => {
                 <TouchableOpacity
                   style={styles.filledButtonAdded}
                   onPress={() => setAddButton(status.Add)}>
-                  <Text style={styles.followingButtonGreenText}>
-                    <Image
-                      source={require('../../../assets/images/tick-icon/tick.png')}
-                      style={styles.tickIcon}
-                      resizeMode="contain"
-                    />
-                    {' ADDED'}
-                  </Text>
+                  <Image
+                    source={require('../../../assets/images/tick-icon/tick.png')}
+                    style={styles.tickIcon}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.followingButtonGreenText}>{'ADDED'}</Text>
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
@@ -122,7 +127,8 @@ const styles = StyleSheet.create({
   },
   followingButtonText: {
     flex: 1,
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'center',
@@ -130,8 +136,8 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
   followingButtonGreenText: {
-    //flex: 1,
-    fontFamily: 'Myriad Pro Bold',
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 15,
     lineHeight: 18,
     textAlign: 'center',
@@ -141,5 +147,7 @@ const styles = StyleSheet.create({
   tickIcon: {
     width: 10,
     height: 12,
+    marginBottom: 3,
+    marginRight: 6,
   },
 });

@@ -1,5 +1,6 @@
 import {
   Image,
+  ImageSourcePropType,
   Platform,
   StyleSheet,
   Text,
@@ -18,15 +19,17 @@ type SectionProps = PropsWithChildren<{
 type ItemProps = PropsWithChildren<{
   item: {
     title: string;
-    image: string;
+    image: ImageSourcePropType;
   };
   index: number;
 }>;
 
 const CollectionFlatList = ({style}: SectionProps): React.JSX.Element => {
   const Item = ({item}: ItemProps) => (
-    <TouchableOpacity style={styles.item}>
-      <Image style={styles.image} resizeMode="stretch" source={item.image} />
+    <TouchableOpacity style={styles.item} activeOpacity={0.7}>
+      <View style={styles.imageShadow}>
+        <Image style={styles.image} resizeMode="stretch" source={item.image} />
+      </View>
       <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
         {item.title}
       </Text>
@@ -60,8 +63,21 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 230,
-    marginBottom: 10,
+    backgroundColor: '#012674',
     borderRadius: 4,
+  },
+  imageShadow: {
+    shadowColor: '#000000',
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    elevation: 5,
+    borderRadius: 4,
+    marginBottom: 10,
+    backgroundColor: '#00000040',
   },
   title: {
     fontFamily:

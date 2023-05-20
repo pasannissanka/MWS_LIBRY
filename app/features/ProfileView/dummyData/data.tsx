@@ -41,6 +41,7 @@ let data = {
   ],
   contents: [
     {
+      id: 0,
       collobarators: [
         {
           userName: 'philhughes',
@@ -56,10 +57,11 @@ let data = {
         title: 'Post title so long that it will need to take up multiple lines',
         views: 174,
         date: 'Yest',
-        favorite: false,
       },
+      favorite: false,
     },
     {
+      id: 1,
       collobarators: [
         {
           userName: 'skysports',
@@ -71,10 +73,11 @@ let data = {
         title: 'Post title so long that it will need to take up multiple lines',
         views: 174,
         date: 'Yest',
-        favorite: false,
       },
+      favorite: false,
     },
     {
+      id: 2,
       collobarators: [
         {
           userName: 'skysports',
@@ -86,10 +89,11 @@ let data = {
         title: 'Post title so long that it will need to take up multiple lines',
         views: 174,
         date: '1 Apr',
-        favorite: false,
       },
+      favorite: false,
     },
     {
+      id: 3,
       collobarators: [
         {
           userName: 'skysports',
@@ -101,10 +105,11 @@ let data = {
         title: 'Single line post with a pic',
         views: 174,
         date: '30 Mar',
-        favorite: false,
       },
+      favorite: false,
     },
     {
+      id: 4,
       collobarators: [
         {
           userName: 'skysports',
@@ -124,10 +129,11 @@ let data = {
         title: 'Post title so long that it will need to take up multiple lines',
         views: 174,
         date: '29 Mar',
-        favorite: false,
       },
+      favorite: false,
     },
     {
+      id: 5,
       collobarators: [
         {
           userName: 'garynev',
@@ -147,8 +153,8 @@ let data = {
         title: 'Post title so long that it will need to take up multiple lines',
         views: 174,
         date: '25 Mar',
-        favorite: false,
       },
+      favorite: false,
     },
   ],
 };

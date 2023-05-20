@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {PropsWithChildren, useEffect, useState} from 'react';
+import React, {PropsWithChildren, useState, useCallback} from 'react';
 import data from '../dummyData/data';
 
 type SectionProps = PropsWithChildren<{
@@ -24,6 +24,7 @@ const ContentFlatList = ({
 }: SectionProps): React.JSX.Element => {
   type ItemProps = PropsWithChildren<{
     item: {
+      id: number;
       collobarators: {
         userName: string;
         profileImage: ImageSourcePropType;
@@ -37,110 +38,9 @@ const ContentFlatList = ({
       };
     };
     index: number;
+    onToggle: any;
   }>;
   const [CONTENT_DATA, SET_CONTENT_DATA] = useState(data.contents);
-
-  // let CONTENT_DATA = data.contents;
-
-  const Item = ({item, index}: ItemProps) => {
-    const previousCollobarators =
-      index === 0 ? [] : CONTENT_DATA[index - 1].collobarators;
-    const currentCollobarators = item.collobarators;
-
-    const sameCollobarators =
-      JSON.stringify(previousCollobarators) ===
-      JSON.stringify(currentCollobarators);
-
-    return (
-      <View style={styles.item}>
-        {!sameCollobarators && (
-          <View style={styles.collobaratorsRow}>
-            <View
-              style={{
-                ...styles.collobaratorsProfileImageRow,
-                width: 20 + (currentCollobarators.length - 1) * 8,
-              }}>
-              {currentCollobarators.map(
-                (collobaratorItem, collobaratorIndex) => (
-                  <Image
-                    key={collobaratorIndex}
-                    source={collobaratorItem.profileImage}
-                    style={{
-                      ...styles.collobaratorsProfileImage,
-                      left: collobaratorIndex * 8,
-                    }}
-                    resizeMode="contain"
-                  />
-                ),
-              )}
-            </View>
-
-            <Text
-              style={styles.collobaratorsUserNameText}
-              numberOfLines={1}
-              ellipsizeMode="tail">
-              {currentCollobarators.map(
-                (collobaratorItem, collobaratorIndex) => (
-                  <Text key={collobaratorIndex}>
-                    {collobaratorIndex === 0
-                      ? '' + collobaratorItem.userName
-                      : ', ' + collobaratorItem.userName}
-                  </Text>
-                ),
-              )}
-            </Text>
-
-            {currentCollobarators.length > 1 && (
-              <View style={styles.collobaratorIcon}>
-                <Text style={styles.collobaratorIconText}>{'C'}</Text>
-              </View>
-            )}
-          </View>
-        )}
-
-        <View style={styles.contentThumbnail}>
-          <Image
-            style={styles.thumbnailImage}
-            source={item.artical.image}
-            resizeMode="contain"
-          />
-
-          <View style={styles.thumbnailTextContainer}>
-            <Text
-              style={styles.thumbnailTitle}
-              numberOfLines={2}
-              ellipsizeMode="tail">
-              {item.artical.title}
-            </Text>
-            <Text style={styles.thumbnailViewsText}>
-              {item.artical.views + ' views'}
-            </Text>
-          </View>
-
-          <View style={styles.itemRightContainer}>
-            <Text style={styles.dateText}>{item.artical.date}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                data.contents[index].artical.favorite =
-                  !data.contents[index].artical.favorite;
-
-                SET_CONTENT_DATA([...data.contents]);
-              }}>
-              <Image
-                source={
-                  item.artical.favorite
-                    ? require('../../../assets/images/star-icon/star.png')
-                    : require('../../../assets/images/filled-star-icon/star.png')
-                }
-                resizeMode="contain"
-                style={styles.favoriteIcon}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    );
-  };
 
   const footerComponent = () => {
     return (
@@ -157,16 +57,133 @@ const ContentFlatList = ({
     );
   };
 
+  const Item = React.memo(
+    ({item, index, onToggle}: ItemProps) => {
+      console.log(`Rendering item ${item.id}`);
+
+      const previousCollobarators =
+        index === 0 ? [] : CONTENT_DATA[index - 1].collobarators;
+      const currentCollobarators = item.collobarators;
+
+      const sameCollobarators =
+        JSON.stringify(previousCollobarators) ===
+        JSON.stringify(currentCollobarators);
+
+      return (
+        <View style={styles.item}>
+          {!sameCollobarators && (
+            <View style={styles.collobaratorsRow}>
+              <View
+                style={{
+                  ...styles.collobaratorsProfileImageRow,
+                  width: 20 + (currentCollobarators.length - 1) * 8,
+                }}>
+                {currentCollobarators.map(
+                  (collobaratorItem, collobaratorIndex) => (
+                    <Image
+                      key={collobaratorIndex}
+                      source={collobaratorItem.profileImage}
+                      style={{
+                        ...styles.collobaratorsProfileImage,
+                        left: collobaratorIndex * 8,
+                      }}
+                      resizeMode="contain"
+                    />
+                  ),
+                )}
+              </View>
+
+              <Text
+                style={styles.collobaratorsUserNameText}
+                numberOfLines={1}
+                ellipsizeMode="tail">
+                {currentCollobarators.map(
+                  (collobaratorItem, collobaratorIndex) => (
+                    <Text key={collobaratorIndex}>
+                      {collobaratorIndex === 0
+                        ? '' + collobaratorItem.userName
+                        : ', ' + collobaratorItem.userName}
+                    </Text>
+                  ),
+                )}
+              </Text>
+
+              {currentCollobarators.length > 1 && (
+                <View style={styles.collobaratorIcon}>
+                  <Text style={styles.collobaratorIconText}>{'C'}</Text>
+                </View>
+              )}
+            </View>
+          )}
+
+          <View style={styles.contentThumbnail}>
+            <Image
+              style={styles.thumbnailImage}
+              source={item.artical.image}
+              resizeMode="contain"
+            />
+
+            <View style={styles.thumbnailTextContainer}>
+              <Text
+                style={styles.thumbnailTitle}
+                numberOfLines={2}
+                ellipsizeMode="tail">
+                {item.artical.title}
+              </Text>
+              <Text style={styles.thumbnailViewsText}>
+                {item.artical.views + ' views'}
+              </Text>
+            </View>
+
+            <View style={styles.itemRightContainer}>
+              <Text style={styles.dateText}>{item.artical.date}</Text>
+              <TouchableOpacity onPress={() => onToggle(item.id)}>
+                <Image
+                  source={
+                    item.favorite
+                      ? require('../../../assets/images/star-icon/star.png')
+                      : require('../../../assets/images/filled-star-icon/star.png')
+                  }
+                  resizeMode="contain"
+                  style={styles.favoriteIcon}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      );
+    },
+    (prevProps, nextProps) => {
+      // Compare only the 'enabled' property
+      return prevProps.item.favorite === nextProps.item.favorite;
+    },
+  );
+
+  const toggleItem = useCallback(itemId => {
+    SET_CONTENT_DATA(prevData =>
+      prevData.map(item =>
+        item.id === itemId ? {...item, favorite: !item.favorite} : item,
+      ),
+    );
+  }, []);
+
+  const renderItem = useCallback(
+    ({item, index}: ItemProps) => (
+      <Item item={item} onToggle={toggleItem} index={index} />
+    ),
+    [toggleItem],
+  );
   return (
     <View style={{...styles.parentView, ...containerStyle}}>
       <FlatList
         style={{...style}}
         data={CONTENT_DATA}
         showsHorizontalScrollIndicator={false}
-        renderItem={({item, index}) => <Item item={item} index={index} />}
-        keyExtractor={(item, index) => index.toString()}
+        renderItem={renderItem}
+        keyExtractor={item => item.id.toString()}
         ListHeaderComponent={<>{headerComponent}</>}
         ListFooterComponent={footerComponent}
+        extraData={CONTENT_DATA}
       />
     </View>
   );

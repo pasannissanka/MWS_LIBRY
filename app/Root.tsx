@@ -1,11 +1,15 @@
 import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import NavigationStack from './navigation/NavigationStack';
-import React from 'react';
+import React, {useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {navigationRef} from './navigation/RootNavigation';
+import SplashScreen from 'react-native-splash-screen';
 
 const Root = (): React.JSX.Element => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
   return (
     <>
       <StatusBar

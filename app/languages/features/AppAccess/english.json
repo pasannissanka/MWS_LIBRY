@@ -1,0 +1,18 @@
+{
+    "translation": {
+        "appAccess": {
+            "openingScreen": {
+                "descriptionPartOne": "By tapping “Sign Up” or “Log In”, you agree to our ",
+                "descriptionPartTwo": "terms",
+                "descriptionPartThree": ".\n Learn how we process your data in our",
+                "descriptionPartFour": " Privacy Policy",
+                "descriptionPartFive": " and\n ",
+                "descriptionPartSix": "Cookies Policy",
+                "descriptionPartSeven": ".",
+                "signUp": "SIGN UP",
+                "logIn": "LOG IN",
+                "troubleSigningIn": "Trouble signing in?"
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {Colors} from '../../theme';
@@ -7,14 +7,19 @@ type SectionProps = PropsWithChildren<{
   style?: object;
   text?: any;
   color: 'green' | 'black';
+  onPress?: any;
 }>;
 const PrimaryButton = ({
   style,
   text,
   color,
+  onPress,
 }: SectionProps): React.JSX.Element => {
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        onPress();
+      }}
       style={{
         ...styles.parentView,
         ...(color === 'green' ? styles.greenButton : styles.blackButton),
@@ -27,7 +32,7 @@ const PrimaryButton = ({
         }}>
         {text}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

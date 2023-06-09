@@ -6,12 +6,24 @@
                 "descriptionPartTwo": "terms",
                 "descriptionPartThree": ".\n Learn how we process your data in our",
                 "descriptionPartFour": " Privacy Policy",
-                "descriptionPartFive": " and\n ",
+                "descriptionPartFive": " and ",
                 "descriptionPartSix": "Cookies Policy",
                 "descriptionPartSeven": ".",
                 "signUp": "SIGN UP",
                 "logIn": "LOG IN",
                 "troubleSigningIn": "Trouble signing in?"
+            },
+            "loginScreen": {
+                "emailPlaceholder": "Email",
+                "passwordPlaceholder": "Password",
+                "logIn": "LOG IN",
+                "troubleSigningIn": "Trouble signing in?",
+                "back": "back",
+                "warnings": {
+                    "incorrectEmailFormat": "Please enter an email in the correct format.",
+                    "emailNotRegistered":"This email is not registered. Please Sign Up or try again.",
+                    "incorrectPassword": "This password is incorrect. Please try again."
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {Colors, Sizes, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
+import * as RootNavigation from '../../../navigation/RootNavigation';
 
 const OpeningScreen = () => {
   const {t} = useTranslation();
@@ -52,6 +53,9 @@ const OpeningScreen = () => {
                 style={styles.button}
               />
               <PrimaryButton
+                onPress={() => {
+                  RootNavigation.navigate('LoginScreen');
+                }}
                 text={t('appAccess.openingScreen.logIn')}
                 color="black"
                 style={styles.button}

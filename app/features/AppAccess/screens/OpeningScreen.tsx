@@ -62,7 +62,10 @@ const OpeningScreen = () => {
               />
             </View>
 
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                RootNavigation.navigate('SendResetPasswordScreen');
+              }}>
               <Text style={styles.troubleSignInText}>
                 {t('appAccess.openingScreen.troubleSigningIn')}
               </Text>

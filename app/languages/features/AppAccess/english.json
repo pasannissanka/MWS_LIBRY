@@ -24,6 +24,15 @@
                     "emailNotRegistered":"This email is not registered. Please Sign Up or try again.",
                     "incorrectPassword": "This password is incorrect. Please try again."
                 }
+            },
+            "sendResetPasswordScreen": {
+                "emailPlaceholder": "Email you used to sign up",
+                "sendPasswordReset": "SEND PASSWORD RESET",
+                "back": "back",
+                "warnings": {
+                    "incorrectEmailFormat": "Please enter an email in the correct format.",
+                    "emailNotRegistered":"This email is not registered. Please Sign Up or try again.",
+                }
             }
         }
     }

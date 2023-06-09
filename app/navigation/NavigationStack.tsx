@@ -6,13 +6,14 @@ import DashboardScreen from '../features/Dashboard/screens/DashboardScreen';
 import OpeningScreen from '../features/AppAccess/screens/OpeningScreen';
 import LoginScreen from '../features/AppAccess/screens/LoginScreen';
 import SendResetPasswordScreen from '../features/AppAccess/screens/SendResetPasswordScreen';
+import ChangePasswordScreen from '../features/AppAccess/screens/ChangePasswordScreen';
 
 const Stack = createStackNavigator();
 
 const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName="SendResetPasswordScreen"
+      initialRouteName="OpeningScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -24,6 +25,10 @@ const NavigationStack = (): React.JSX.Element => {
       <Stack.Screen
         name="SendResetPasswordScreen"
         component={SendResetPasswordScreen}
+      />
+      <Stack.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
       />
     </Stack.Navigator>
   );

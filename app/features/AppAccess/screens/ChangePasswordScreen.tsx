@@ -1,12 +1,4 @@
-import {
-  Image,
-  Platform,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Platform, StatusBar, StyleSheet, View} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Sizes, Images} from '../../../theme';
@@ -14,29 +6,25 @@ import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryTextInput from '../components/PrimaryTextInput';
-import Collapsible from 'react-native-collapsible';
-import {emailFormatevalidate} from '../../../helper/formatters';
 
-const SendResetPasswordScreen = () => {
+const ChangePasswordScreen = () => {
   const {t} = useTranslation();
-  const warnings = {
-    IncorrectEmailFormat: 'IncorrectEmailFormat',
-  };
 
-  const [email, onChangeEmail] = useState('');
-  const [warning, setWarning] = useState('');
+  const [password, onChangePassword] = useState('');
+  const [confirmPassword, onChangeConfirmPassword] = useState('');
 
-  const emailRef = useRef<any>();
+  const passwordRef = useRef<any>();
+  const confirmPasswordRef = useRef<any>();
 
-  const onPressResetPassword = () => {
-    const validEmail = emailFormatevalidate(email);
-
-    if (validEmail) {
-      setWarning('');
-      RootNavigation.navigate('ChangePasswordScreen');
+  const onPressChangePassword = () => {
+    if (confirmPassword.length === 0) {
+      confirmPasswordRef.current.focus();
+    } else if (password.length === 0) {
+      passwordRef.current.focus();
+    } else if (confirmPassword !== password) {
+      passwordRef.current.focus();
     } else {
-      emailRef.current.focus();
-      setWarning(warnings.IncorrectEmailFormat);
+      RootNavigation.replace('LoginScreen');
     }
   };
 
@@ -58,48 +46,38 @@ const SendResetPasswordScreen = () => {
 
             <View style={styles.textInputContainer}>
               <PrimaryTextInput
-                reference={emailRef}
-                value={email}
+                reference={passwordRef}
+                value={password}
                 style={styles.textInput}
                 placeholder={t(
-                  'appAccess.sendResetPasswordScreen.emailPlaceholder',
+                  'appAccess.changePasswordScreen.passwordPlaceholder',
                 )}
-                inputMode="email"
+                inputMode="text"
                 keyboardType="default"
-                onChangeText={onChangeEmail}
+                onChangeText={onChangePassword}
+                secureTextEntry={true}
               />
-
-              <Collapsible
-                collapsed={warning === ''}
-                style={styles.collapsibleView}
-                duration={500}>
-                {warning === warnings.IncorrectEmailFormat && (
-                  <Text style={styles.warning}>
-                    {t(
-                      'appAccess.sendResetPasswordScreen.warnings.incorrectEmailFormat',
-                    )}
-                  </Text>
+              <PrimaryTextInput
+                reference={confirmPasswordRef}
+                value={confirmPassword}
+                style={styles.textInput}
+                placeholder={t(
+                  'appAccess.changePasswordScreen.confirmPasswordPlaceholder',
                 )}
-              </Collapsible>
+                inputMode="text"
+                keyboardType="default"
+                onChangeText={onChangeConfirmPassword}
+                secureTextEntry={true}
+              />
             </View>
             <PrimaryButton
-              text={t('appAccess.sendResetPasswordScreen.sendPasswordReset')}
+              text={t('appAccess.changePasswordScreen.changePassword')}
               color="green"
               style={styles.button}
               onPress={() => {
-                onPressResetPassword();
+                onPressChangePassword();
               }}
             />
-
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => {
-                RootNavigation.navigate('LoginScreen');
-              }}>
-              <Text style={styles.backText}>
-                {t('appAccess.sendResetPasswordScreen.back')}
-              </Text>
-            </TouchableOpacity>
           </View>
         </PrimaryContainer>
       </View>
@@ -107,7 +85,7 @@ const SendResetPasswordScreen = () => {
   );
 };
 
-export default SendResetPasswordScreen;
+export default ChangePasswordScreen;
 
 const styles = StyleSheet.create({
   parentView: {
@@ -121,7 +99,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginTop: Sizes.HEIGHT_RATIO * 294,
-    marginBottom: Sizes.HEIGHT_RATIO * 185,
+    marginBottom: Sizes.HEIGHT_RATIO * 181,
   },
   logo: {
     width: 155,
@@ -136,10 +114,7 @@ const styles = StyleSheet.create({
     marginTop: 18,
   },
   button: {
-    marginVertical: 18,
-  },
-  backButton: {
-    marginTop: 0,
+    marginTop: 18,
   },
   backText: {
     fontFamily:

@@ -61,6 +61,14 @@ const LoginScreen = () => {
               resizeMode="contain"
               style={styles.logo}
             />
+            <Collapsible
+              collapsed={true}
+              style={styles.collapsibleView}
+              duration={500}>
+              <Text style={styles.alert}>
+                {t('appAccess.loginScreen.alert.passwordResetSuccess')}
+              </Text>
+            </Collapsible>
 
             <View style={styles.textInputContainer}>
               <PrimaryTextInput
@@ -147,6 +155,16 @@ const styles = StyleSheet.create({
     width: 155,
     height: 80,
     marginBottom: 10,
+  },
+  alert: {
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontSize: 13,
+    textAlign: 'center',
+    lineHeight: 15,
+    fontWeight: '400',
+    color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
+    marginTop: 10,
   },
   textInputContainer: {
     width: '100%',

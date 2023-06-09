@@ -23,6 +23,9 @@
                     "incorrectEmailFormat": "Please enter an email in the correct format.",
                     "emailNotRegistered":"This email is not registered. Please Sign Up or try again.",
                     "incorrectPassword": "This password is incorrect. Please try again."
+                },
+                "alert": {
+                    "passwordResetSuccess": "Password reset successfully."
                 }
             },
             "sendResetPasswordScreen": {
@@ -33,6 +36,11 @@
                     "incorrectEmailFormat": "Please enter an email in the correct format.",
                     "emailNotRegistered":"This email is not registered. Please Sign Up or try again.",
                 }
+            },
+            "changePasswordScreen": {
+                "passwordPlaceholder": "New Password",
+                "confirmPasswordPlaceholder": "Confirm New Password",
+                "changePassword": "CHANGE PASSWORD"
             }
         }
     }

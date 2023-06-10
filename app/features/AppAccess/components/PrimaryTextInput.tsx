@@ -5,13 +5,13 @@ import {Colors} from '../../../theme';
 type SectionProps = PropsWithChildren<{
   style?: object;
   placeholder?: any;
-  onChange?: any;
-  keyboardType: 'email-address' | 'default';
-  inputMode: 'email' | 'text';
+  keyboardType: 'email-address' | 'default' | 'phone-pad';
+  inputMode: 'email' | 'text' | 'numeric';
   onChangeText: any;
   value: string;
   secureTextEntry?: boolean;
   reference?: any;
+  error?: boolean;
 }>;
 
 const PrimaryTextInput = ({
@@ -23,6 +23,7 @@ const PrimaryTextInput = ({
   onChangeText,
   secureTextEntry = false,
   reference,
+  error = false,
 }: SectionProps) => {
   return (
     <View style={{...styles.parentView, ...style}}>
@@ -32,7 +33,7 @@ const PrimaryTextInput = ({
         keyboardType={keyboardType}
         inputMode={inputMode}
         placeholder={placeholder}
-        style={styles.textInput}
+        style={error ? styles.textInputError : styles.textInput}
         placeholderTextColor={Colors.text.TEXT_INPUT_PLACEHOLDER_COLOR}
         onChangeText={onChangeText}
         numberOfLines={1}
@@ -67,6 +68,24 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1.4,
     borderColor: Colors.PRIMARY_TEXT_INPUT_BORDER_COLOR,
+    height: 40,
+  },
+  textInputError: {
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontSize: 18,
+    lineHeight: 21,
+    textAlign: 'left',
+    fontWeight: '400',
+    color: Colors.text.SECONDARY_COLOR,
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    backgroundColor: Colors.PRIMARY_TEXT_INPUT_BACKGROUND_COLOR,
+    borderRadius: 5,
+    borderWidth: 1.4,
+    borderColor: Colors.PRIMARY_TEXT_INPUT_ERROR_BORDER_COLOR,
     height: 40,
   },
 });

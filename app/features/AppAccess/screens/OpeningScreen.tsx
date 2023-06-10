@@ -48,6 +48,9 @@ const OpeningScreen = () => {
             </Text>
             <View style={styles.buttonContainer}>
               <PrimaryButton
+                onPress={() => {
+                  RootNavigation.navigate('EnterMobileNumberScreen');
+                }}
                 text={t('appAccess.openingScreen.signUp')}
                 color="green"
                 style={styles.button}

@@ -7,6 +7,7 @@ import OpeningScreen from '../features/AppAccess/screens/OpeningScreen';
 import LoginScreen from '../features/AppAccess/screens/LoginScreen';
 import SendResetPasswordScreen from '../features/AppAccess/screens/SendResetPasswordScreen';
 import ChangePasswordScreen from '../features/AppAccess/screens/ChangePasswordScreen';
+import EnterMobileNumberScreen from '../features/AppAccess/screens/EnterMobileNumberScreen';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,10 @@ const NavigationStack = (): React.JSX.Element => {
       <Stack.Screen
         name="ChangePasswordScreen"
         component={ChangePasswordScreen}
+      />
+      <Stack.Screen
+        name="EnterMobileNumberScreen"
+        component={EnterMobileNumberScreen}
       />
     </Stack.Navigator>
   );

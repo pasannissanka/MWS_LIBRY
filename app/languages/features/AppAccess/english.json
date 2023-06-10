@@ -41,6 +41,17 @@
                 "passwordPlaceholder": "New Password",
                 "confirmPasswordPlaceholder": "Confirm New Password",
                 "changePassword": "CHANGE PASSWORD"
+            },
+            "enterMobileNumberScreen": {
+                "title": "My number",
+                "description": "We will send you a text with an authentication code. Message and data rates may apply.",
+                "next": "NEXT",
+                "dropdown": {
+                    "title": "Select country code"
+                },
+                "warnings": {
+                    "notRealPhoneNumber": "Not a real phone number.",
+                }
             }
         }
     }

@@ -89,6 +89,11 @@
                 "warnings": {
                     "incorrectPasswordFormat": "Please use a correct password format."
                 }
+            },
+            "enterNameScreen": {
+                "title": "My name is",
+                "description": "This will be shown on your profile. You can edit your profile at any time.",
+                "next": "NEXT"
             }
         }
     }

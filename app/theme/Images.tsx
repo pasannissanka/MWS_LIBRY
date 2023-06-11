@@ -5,6 +5,7 @@ const Images = {
   icons: {
     back_icon: require('../assets/images/back-arrow/back-arrow.png'),
     dropdown_icon: require('../assets/images/dropdown-icon/dropdown-icon.png'),
+    agreement_tick_icon: require('../assets/images/agreement-tick/agreement-tick.png'),
   },
 };
 

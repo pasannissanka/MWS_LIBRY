@@ -72,6 +72,15 @@
                         "button": "OK"
                     }
                 }
+            },
+            "enterEmailScreen": {
+                "title": "My email",
+                "description": "Make sure to verify this email so that you don’t lose access to your account.",
+                "next": "NEXT",
+                "agreement": "I want to receive mail with offers, news, and content creator opportunities.",
+                "warnings": {
+                    "incorrectEmailFormat": "Please use a correct email format."
+                }
             }
         }
     }

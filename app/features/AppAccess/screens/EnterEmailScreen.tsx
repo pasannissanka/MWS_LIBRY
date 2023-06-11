@@ -1,5 +1,5 @@
 import {Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Colors, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
@@ -8,53 +8,35 @@ import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import Collapsible from 'react-native-collapsible';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import OTPInput from '../components/OTPInput';
-import OTPModal from '../components/OTPModal';
+import PrimaryTextInput from '../components/PrimaryTextInput';
+import {emailFormatevalidate} from '../../../helper/formatters';
+import AgreementRow from '../components/AgreementRow';
 
-const EnterOTPScreen = () => {
+const EnterEmailScreen = () => {
   const {t} = useTranslation();
 
   const warnings = {
-    IncorrectCode: 'IncorrectCode',
+    IncorrectEmailFormat: 'IncorrectEmailFormat',
   };
-
-  const ALERTS = [
-    {
-      title: t('appAccess.enterOTPScreen.alerts.cannotSendCode.title'),
-      description: t(
-        'appAccess.enterOTPScreen.alerts.cannotSendCode.description',
-      ),
-      button: t('appAccess.enterOTPScreen.alerts.cannotSendCode.button'),
-      action: () => {
-        setModalVisible(false);
-      },
-    },
-    {
-      title: t('appAccess.enterOTPScreen.alerts.sentCode.title'),
-      description: t('appAccess.enterOTPScreen.alerts.sentCode.description'),
-      button: t('appAccess.enterOTPScreen.alerts.sentCode.button'),
-      action: () => {
-        setModalVisible(false);
-      },
-    },
-  ];
-
-  const [OTP, onChangeOTP] = useState('');
-  const [alert, setAlert] = useState(ALERTS[0]);
+  const ref = useRef<any>();
+  const [email, onChangeEmail] = useState('');
+  const [checked, setChecked] = useState(false);
   const [warning, setWarning] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressBack = () => {
     RootNavigation.goBack();
   };
 
   const onPressNext = () => {
-    if (OTP.length === 5) {
+    const validEmail = emailFormatevalidate(email);
+    if (validEmail) {
       setWarning('');
-      RootNavigation.navigate('EnterEmailScreen');
+      if (checked) {
+        RootNavigation.navigate('EnterOTPScreen');
+      }
     } else {
-      setWarning(warnings.IncorrectCode);
+      ref.current.focus();
+      setWarning(warnings.IncorrectEmailFormat);
     }
   };
 
@@ -66,38 +48,46 @@ const EnterOTPScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={2} uncompleted={7} />
+        <ProgressBar completed={3} uncompleted={6} />
         <PrimaryContainer style={styles.primaryContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 
-          <View style={styles.otpInputContainer}>
+          <View style={styles.emailInputContainer}>
             <Text style={styles.title}>
-              {t('appAccess.enterOTPScreen.title')}
+              {t('appAccess.enterEmailScreen.title')}
             </Text>
 
-            <OTPInput onChangeOTP={onChangeOTP} error={warning !== ''} />
+            <Text style={styles.description}>
+              {t('appAccess.enterEmailScreen.description')}
+            </Text>
+
+            <PrimaryTextInput
+              reference={ref}
+              value={email}
+              inputMode="email"
+              keyboardType="default"
+              onChangeText={onChangeEmail}
+            />
 
             <Collapsible
               collapsed={warning === ''}
               style={styles.collapsibleView}
               duration={500}>
               <Text style={styles.warning}>
-                {t('appAccess.enterOTPScreen.warnings.incorrectCode')}
+                {t('appAccess.enterEmailScreen.warnings.incorrectEmailFormat')}
               </Text>
             </Collapsible>
-
-            <TouchableOpacity
-              style={styles.resendTouchable}
+            <AgreementRow
+              checked={checked}
+              style={styles.agreementRow}
+              description={t('appAccess.enterEmailScreen.agreement')}
               onPress={() => {
-                setModalVisible(true);
-              }}>
-              <Text style={styles.resend}>
-                {t('appAccess.enterOTPScreen.resend')}
-              </Text>
-            </TouchableOpacity>
+                setChecked(!checked);
+              }}
+            />
           </View>
           <PrimaryButton
-            text={t('appAccess.enterOTPScreen.next')}
+            text={t('appAccess.enterEmailScreen.next')}
             color="green"
             style={styles.button}
             onPress={() => {
@@ -106,18 +96,11 @@ const EnterOTPScreen = () => {
           />
         </PrimaryContainer>
       </View>
-      <OTPModal
-        visible={modalVisible}
-        title={alert.title}
-        description={alert.description}
-        button={alert.button}
-        onPress={alert.action}
-      />
     </>
   );
 };
 
-export default EnterOTPScreen;
+export default EnterEmailScreen;
 
 const styles = StyleSheet.create({
   parentView: {
@@ -130,12 +113,12 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 10,
   },
-  otpInputContainer: {
+  emailInputContainer: {
     flex: 1,
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 107,
+    marginBottom: Sizes.HEIGHT_RATIO * 115,
   },
   title: {
     fontFamily:
@@ -144,18 +127,16 @@ const styles = StyleSheet.create({
     lineHeight: 45,
     fontWeight: '600',
     color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
-    marginBottom: 10,
+    marginBottom: 24,
   },
-  resendTouchable: {
-    marginTop: 16,
-  },
-  resend: {
+  description: {
     fontFamily:
       Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 14,
     lineHeight: 16,
     fontWeight: '400',
-    color: Colors.text.LINK_TEXT_COLOR,
+    color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
+    marginBottom: 16,
   },
   button: {
     marginBottom: 20,
@@ -170,5 +151,9 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     fontWeight: '400',
     color: Colors.text.WARNING_RED_COLOR,
+    marginTop: 14,
+  },
+  agreementRow: {
+    marginTop: 24,
   },
 });

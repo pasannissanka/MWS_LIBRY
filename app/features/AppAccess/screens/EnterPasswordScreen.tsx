@@ -9,18 +9,16 @@ import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import Collapsible from 'react-native-collapsible';
 import PrimaryTextInput from '../components/PrimaryTextInput';
-import {emailFormatevalidate} from '../../../helper/formatters';
-import AgreementRow from '../components/AgreementRow';
+import {validatePassword} from '../../../helper/formatters';
 
-const EnterEmailScreen = () => {
+const EnterPasswordScreen = () => {
   const {t} = useTranslation();
 
   const warnings = {
-    IncorrectEmailFormat: 'IncorrectEmailFormat',
+    IncorrectPasswordFormat: 'IncorrectPasswordFormat',
   };
   const ref = useRef<any>();
-  const [email, onChangeEmail] = useState('');
-  const [checked, setChecked] = useState(false);
+  const [password, onChangePassword] = useState('');
   const [warning, setWarning] = useState('');
 
   const onPressBack = () => {
@@ -28,15 +26,15 @@ const EnterEmailScreen = () => {
   };
 
   const onPressNext = () => {
-    const validEmail = emailFormatevalidate(email);
-    if (validEmail) {
+    const validPassword = validatePassword(password);
+
+    if (validPassword) {
       setWarning('');
-      if (checked) {
-        RootNavigation.navigate('EnterPasswordScreen');
-      }
+
+      RootNavigation.navigate('EnterPasswordScreen');
     } else {
       ref.current.focus();
-      setWarning(warnings.IncorrectEmailFormat);
+      setWarning(warnings.IncorrectPasswordFormat);
     }
   };
 
@@ -48,25 +46,27 @@ const EnterEmailScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={3} uncompleted={6} />
+        <ProgressBar completed={4} uncompleted={5} />
         <PrimaryContainer style={styles.primaryContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 
-          <View style={styles.emailInputContainer}>
+          <View style={styles.passwordInputContainer}>
             <Text style={styles.title}>
-              {t('appAccess.enterEmailScreen.title')}
+              {t('appAccess.enterPasswordScreen.title')}
             </Text>
 
             <Text style={styles.description}>
-              {t('appAccess.enterEmailScreen.description')}
+              {t('appAccess.enterPasswordScreen.description')}
             </Text>
 
             <PrimaryTextInput
               reference={ref}
-              value={email}
-              inputMode="email"
+              value={password}
+              inputMode="text"
               keyboardType="default"
-              onChangeText={onChangeEmail}
+              onChangeText={onChangePassword}
+              secureTextEntry={true}
+              error={warning !== ''}
             />
 
             <Collapsible
@@ -74,20 +74,14 @@ const EnterEmailScreen = () => {
               style={styles.collapsibleView}
               duration={500}>
               <Text style={styles.warning}>
-                {t('appAccess.enterEmailScreen.warnings.incorrectEmailFormat')}
+                {t(
+                  'appAccess.enterPasswordScreen.warnings.incorrectPasswordFormat',
+                )}
               </Text>
             </Collapsible>
-            <AgreementRow
-              checked={checked}
-              style={styles.agreementRow}
-              description={t('appAccess.enterEmailScreen.agreement')}
-              onPress={() => {
-                setChecked(!checked);
-              }}
-            />
           </View>
           <PrimaryButton
-            text={t('appAccess.enterEmailScreen.next')}
+            text={t('appAccess.enterPasswordScreen.next')}
             color="green"
             style={styles.button}
             onPress={() => {
@@ -100,7 +94,7 @@ const EnterEmailScreen = () => {
   );
 };
 
-export default EnterEmailScreen;
+export default EnterPasswordScreen;
 
 const styles = StyleSheet.create({
   parentView: {
@@ -113,12 +107,12 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 10,
   },
-  emailInputContainer: {
+  passwordInputContainer: {
     flex: 1,
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 115,
+    marginBottom: Sizes.HEIGHT_RATIO * 130,
   },
   title: {
     fontFamily:
@@ -152,8 +146,5 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: Colors.text.WARNING_RED_COLOR,
     marginTop: 14,
-  },
-  agreementRow: {
-    marginTop: 24,
   },
 });

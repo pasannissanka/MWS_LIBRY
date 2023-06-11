@@ -10,6 +10,7 @@ import ChangePasswordScreen from '../features/AppAccess/screens/ChangePasswordSc
 import EnterMobileNumberScreen from '../features/AppAccess/screens/EnterMobileNumberScreen';
 import EnterOTPScreen from '../features/AppAccess/screens/EnterOTPScreen';
 import EnterEmailScreen from '../features/AppAccess/screens/EnterEmailScreen';
+import EnterPasswordScreen from '../features/AppAccess/screens/EnterPasswordScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +18,7 @@ const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
       initialRouteName="OpeningScreen"
-      //initialRouteName="EnterEmailScreen"
+      //initialRouteName="EnterPasswordScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -40,6 +41,10 @@ const NavigationStack = (): React.JSX.Element => {
       />
       <Stack.Screen name="EnterOTPScreen" component={EnterOTPScreen} />
       <Stack.Screen name="EnterEmailScreen" component={EnterEmailScreen} />
+      <Stack.Screen
+        name="EnterPasswordScreen"
+        component={EnterPasswordScreen}
+      />
     </Stack.Navigator>
   );
 };

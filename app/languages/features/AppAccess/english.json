@@ -81,6 +81,14 @@
                 "warnings": {
                     "incorrectEmailFormat": "Please use a correct email format."
                 }
+            },
+            "enterPasswordScreen": {
+                "title": "My password",
+                "description": "Please use a password with at least 1 uppercase letter, 1 lowercase letter, one number, and one special character (eg. !, %, $)",
+                "next": "NEXT",
+                "warnings": {
+                    "incorrectPasswordFormat": "Please use a correct password format."
+                }
             }
         }
     }

@@ -12,6 +12,7 @@ type SectionProps = PropsWithChildren<{
   secureTextEntry?: boolean;
   reference?: any;
   error?: boolean;
+  maxLength?: number;
 }>;
 
 const PrimaryTextInput = ({
@@ -24,6 +25,7 @@ const PrimaryTextInput = ({
   secureTextEntry = false,
   reference,
   error = false,
+  maxLength,
 }: SectionProps) => {
   return (
     <View style={{...styles.parentView, ...style}}>
@@ -40,6 +42,7 @@ const PrimaryTextInput = ({
         contextMenuHidden={true}
         secureTextEntry={secureTextEntry}
         autoCapitalize="none"
+        maxLength={maxLength}
       />
     </View>
   );

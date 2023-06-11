@@ -21,7 +21,7 @@
                 "back": "back",
                 "warnings": {
                     "incorrectEmailFormat": "Please enter an email in the correct format.",
-                    "emailNotRegistered":"This email is not registered. Please Sign Up or try again.",
+                    "emailNotRegistered": "This email is not registered. Please Sign Up or try again.",
                     "incorrectPassword": "This password is incorrect. Please try again."
                 },
                 "alert": {
@@ -34,7 +34,7 @@
                 "back": "back",
                 "warnings": {
                     "incorrectEmailFormat": "Please enter an email in the correct format.",
-                    "emailNotRegistered":"This email is not registered. Please Sign Up or try again.",
+                    "emailNotRegistered": "This email is not registered. Please Sign Up or try again.",
                 }
             },
             "changePasswordScreen": {
@@ -51,6 +51,26 @@
                 },
                 "warnings": {
                     "notRealPhoneNumber": "Not a real phone number.",
+                }
+            },
+            "enterOTPScreen": {
+                "title": "My code is",
+                "resend": "Click here to resend",
+                "next": "NEXT",
+                "warnings": {
+                    "incorrectCode": "Incorrect code. Try again."
+                },
+                "alerts": {
+                    "cannotSendCode": {
+                        "title": "Can’t send a new code",
+                        "description": "Please wait 1 minute before requesting a new code.",
+                        "button": "OK"
+                    },
+                    "sentCode": {
+                        "title": "New code sent",
+                        "description": "You should receive it as a text on your mobile device",
+                        "button": "OK"
+                    }
                 }
             }
         }

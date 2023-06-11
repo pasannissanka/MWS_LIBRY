@@ -7,29 +7,54 @@ import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import MobileNumInput from '../components/MobileNumInput';
 import Collapsible from 'react-native-collapsible';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import OTPInput from '../components/OTPInput';
+import OTPModal from '../components/OTPModal';
 
-const EnterMobileNumberScreen = () => {
+const EnterOTPScreen = () => {
   const {t} = useTranslation();
 
   const warnings = {
-    IncorrectEmailFormat: ' IncorrectEmailFormat',
+    IncorrectCode: 'IncorrectCode',
   };
 
-  const [mobileNum, onChangeMobileNum] = useState('');
+  const ALERTS = [
+    {
+      title: t('appAccess.enterOTPScreen.alerts.cannotSendCode.title'),
+      description: t(
+        'appAccess.enterOTPScreen.alerts.cannotSendCode.description',
+      ),
+      button: t('appAccess.enterOTPScreen.alerts.cannotSendCode.button'),
+      action: () => {
+        setModalVisible(false);
+      },
+    },
+    {
+      title: t('appAccess.enterOTPScreen.alerts.sentCode.title'),
+      description: t('appAccess.enterOTPScreen.alerts.sentCode.description'),
+      button: t('appAccess.enterOTPScreen.alerts.sentCode.button'),
+      action: () => {
+        setModalVisible(false);
+      },
+    },
+  ];
+
+  const [OTP, onChangeOTP] = useState('');
+  const [alert, setAlert] = useState(ALERTS[0]);
   const [warning, setWarning] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressBack = () => {
     RootNavigation.goBack();
   };
 
   const onPressNext = () => {
-    if (/^\d+$/.test(mobileNum)) {
+    if (OTP.length === 5) {
       setWarning('');
       RootNavigation.navigate('EnterOTPScreen');
     } else {
-      setWarning(warnings.IncorrectEmailFormat);
+      setWarning(warnings.IncorrectCode);
     }
   };
 
@@ -41,38 +66,38 @@ const EnterMobileNumberScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={1} uncompleted={8} />
+        <ProgressBar completed={2} uncompleted={7} />
         <PrimaryContainer style={styles.primaryContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 
-          <View style={styles.mobileInputContainer}>
+          <View style={styles.otpInputContainer}>
             <Text style={styles.title}>
-              {t('appAccess.enterMobileNumberScreen.title')}
+              {t('appAccess.enterOTPScreen.title')}
             </Text>
 
-            <MobileNumInput
-              onChangeMobileNum={onChangeMobileNum}
-              value={mobileNum}
-              error={warning !== ''}
-            />
+            <OTPInput onChangeOTP={onChangeOTP} error={warning !== ''} />
 
             <Collapsible
               collapsed={warning === ''}
               style={styles.collapsibleView}
               duration={500}>
               <Text style={styles.warning}>
-                {t(
-                  'appAccess.enterMobileNumberScreen.warnings.notRealPhoneNumber',
-                )}
+                {t('appAccess.enterOTPScreen.warnings.incorrectCode')}
               </Text>
             </Collapsible>
 
-            <Text style={styles.description}>
-              {t('appAccess.enterMobileNumberScreen.description')}
-            </Text>
+            <TouchableOpacity
+              style={styles.resendTouchable}
+              onPress={() => {
+                setModalVisible(true);
+              }}>
+              <Text style={styles.resend}>
+                {t('appAccess.enterOTPScreen.resend')}
+              </Text>
+            </TouchableOpacity>
           </View>
           <PrimaryButton
-            text={t('appAccess.enterMobileNumberScreen.next')}
+            text={t('appAccess.enterOTPScreen.next')}
             color="green"
             style={styles.button}
             onPress={() => {
@@ -81,11 +106,18 @@ const EnterMobileNumberScreen = () => {
           />
         </PrimaryContainer>
       </View>
+      <OTPModal
+        visible={modalVisible}
+        title={alert.title}
+        description={alert.description}
+        button={alert.button}
+        onPress={alert.action}
+      />
     </>
   );
 };
 
-export default EnterMobileNumberScreen;
+export default EnterOTPScreen;
 
 const styles = StyleSheet.create({
   parentView: {
@@ -98,7 +130,7 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 10,
   },
-  mobileInputContainer: {
+  otpInputContainer: {
     flex: 1,
     width: '100%',
     paddingHorizontal: 12,
@@ -114,14 +146,16 @@ const styles = StyleSheet.create({
     color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
     marginBottom: 10,
   },
-  description: {
+  resendTouchable: {
+    marginTop: 16,
+  },
+  resend: {
     fontFamily:
       Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 14,
     lineHeight: 16,
     fontWeight: '400',
-    color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
-    marginTop: 16,
+    color: Colors.text.LINK_TEXT_COLOR,
   },
   button: {
     marginBottom: 20,

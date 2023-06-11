@@ -94,6 +94,12 @@
                 "title": "My name is",
                 "description": "This will be shown on your profile. You can edit your profile at any time.",
                 "next": "NEXT"
+            },
+            "enterBirthdayScreen": {
+                "title": "My birthday is",
+                "description": "Your age is not public.",
+                "placeholder": "DD / MM / YY",
+                "next": "NEXT"
             }
         }
     }

@@ -9,21 +9,33 @@ import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryTextInput from '../components/PrimaryTextInput';
 
-const EnterNameScreen = () => {
+const EnterBirthdayScreen = () => {
   const {t} = useTranslation();
 
   const ref = useRef<any>();
-  const [name, onChangeName] = useState('');
+  const [birthday, setBirthday] = useState('');
   const [warning, setWarning] = useState(false);
 
   const onPressBack = () => {
     RootNavigation.goBack();
   };
 
+  const onChangeBirthday = (text: string) => {
+    // Remove all non-digit characters from the input
+    const digitsOnly = text.replace(/\D/g, '');
+
+    // Split the input into groups of two digits
+    const groups = digitsOnly.match(/(\d{1,2})/g);
+
+    // Join the groups with a "/"
+    const formatted = groups ? groups.join('/') : '';
+    setBirthday(formatted);
+  };
+
   const onPressNext = () => {
-    if (name.trim().length > 0) {
+    if (birthday.trim().length > 0) {
       setWarning(false);
-     // RootNavigation.navigate('EnterBirthdayScreen');
+      // RootNavigation.navigate('EnterBirthdayScreen');
     } else {
       setWarning(true);
       ref.current.focus();
@@ -38,30 +50,33 @@ const EnterNameScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={6} uncompleted={3} />
+        <ProgressBar completed={7} uncompleted={2} />
         <PrimaryContainer style={styles.primaryContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 
-          <View style={styles.nameInputContainer}>
+          <View style={styles.birthdayInputContainer}>
             <Text style={styles.title}>
-              {t('appAccess.enterNameScreen.title')}
+              {t('appAccess.enterBirthdayScreen.title')}
             </Text>
-
-            <Text style={styles.description}>
-              {t('appAccess.enterNameScreen.description')}
-            </Text>
-
             <PrimaryTextInput
               reference={ref}
-              value={name}
+              placeholder={t('appAccess.enterBirthdayScreen.placeholder')}
+              value={birthday}
               inputMode="numeric"
               keyboardType="phone-pad"
-              onChangeText={onChangeName}
+              onChangeText={(text: string) => {
+                onChangeBirthday(text);
+              }}
               error={warning}
+              maxLength={8}
             />
+
+            <Text style={styles.description}>
+              {t('appAccess.enterBirthdayScreen.description')}
+            </Text>
           </View>
           <PrimaryButton
-            text={t('appAccess.enterNameScreen.next')}
+            text={t('appAccess.enterBirthdayScreen.next')}
             color="green"
             style={styles.button}
             onPress={() => {
@@ -74,7 +89,7 @@ const EnterNameScreen = () => {
   );
 };
 
-export default EnterNameScreen;
+export default EnterBirthdayScreen;
 
 const styles = StyleSheet.create({
   parentView: {
@@ -85,14 +100,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
   },
   header: {
-    marginTop: 10,
+    marginTop: 20,
   },
-  nameInputContainer: {
+  birthdayInputContainer: {
     flex: 1,
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 171,
+    marginBottom: Sizes.HEIGHT_RATIO * 107,
   },
   title: {
     fontFamily:
@@ -110,7 +125,7 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     fontWeight: '400',
     color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
-    marginBottom: 16,
+    marginTop: 40,
   },
   button: {
     marginBottom: 20,

@@ -34,7 +34,13 @@ const Colors = {
     WARNING_RED_COLOR: '#FF7171',
 
     GRAY_TEXT_COLOR: '#BEBEBE',
+    GREEN_TEXT_COLOR: '#06D30F',
   },
+
+  button: {
+    ADD_BUTTON_GREEN: '#06D30F',
+    ADDED_BUTTON_GRAY: '#303030',
+  }
 };
 
 export {Colors};

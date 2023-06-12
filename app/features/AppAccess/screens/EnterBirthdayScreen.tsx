@@ -35,7 +35,7 @@ const EnterBirthdayScreen = () => {
   const onPressNext = () => {
     if (birthday.trim().length > 0) {
       setWarning(false);
-      // RootNavigation.navigate('EnterBirthdayScreen');
+      RootNavigation.navigate('AddYourLibryScreen');
     } else {
       setWarning(true);
       ref.current.focus();

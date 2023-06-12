@@ -23,7 +23,7 @@ const EnterNameScreen = () => {
   const onPressNext = () => {
     if (name.trim().length > 0) {
       setWarning(false);
-     // RootNavigation.navigate('EnterBirthdayScreen');
+      RootNavigation.navigate('EnterBirthdayScreen');
     } else {
       setWarning(true);
       ref.current.focus();

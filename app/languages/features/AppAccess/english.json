@@ -108,7 +108,12 @@
                 "skip": "SKIP",
                 "add": "+ ADD TO LIBRY",
                 "added": "ADDED"
-            }
+            },
+            "welcomeLibryScreen": {
+                "title": "Welcome to Libry",
+                "description": "Let’s begin by setting up your profile.",
+                "next": "CONTINUE"
+            },
         }
     }
 }

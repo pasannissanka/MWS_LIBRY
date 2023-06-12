@@ -31,7 +31,7 @@ const EnterPasswordScreen = () => {
     if (validPassword) {
       setWarning('');
 
-      RootNavigation.navigate('EnterPasswordScreen');
+      RootNavigation.replace('WelcomeLibryScreen');
     } else {
       ref.current.focus();
       setWarning(warnings.IncorrectPasswordFormat);

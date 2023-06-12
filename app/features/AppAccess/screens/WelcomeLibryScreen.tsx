@@ -1,15 +1,11 @@
 import {Image, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {Colors, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import ProgressBar from '../components/ProgressBar';
-import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import Collapsible from 'react-native-collapsible';
-import PrimaryTextInput from '../components/PrimaryTextInput';
-import {validatePassword} from '../../../helper/formatters';
 
 const WelcomeLibryScreen = () => {
   const {t} = useTranslation();

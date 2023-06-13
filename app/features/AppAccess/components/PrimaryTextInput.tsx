@@ -13,6 +13,7 @@ type SectionProps = PropsWithChildren<{
   reference?: any;
   error?: boolean;
   maxLength?: number;
+  textInputStyle?: object;
 }>;
 
 const PrimaryTextInput = ({
@@ -26,6 +27,7 @@ const PrimaryTextInput = ({
   reference,
   error = false,
   maxLength,
+  textInputStyle,
 }: SectionProps) => {
   return (
     <View style={{...styles.parentView, ...style}}>
@@ -35,7 +37,10 @@ const PrimaryTextInput = ({
         keyboardType={keyboardType}
         inputMode={inputMode}
         placeholder={placeholder}
-        style={error ? styles.textInputError : styles.textInput}
+        style={{
+          ...(error ? styles.textInputError : styles.textInput),
+          ...textInputStyle,
+        }}
         placeholderTextColor={Colors.text.TEXT_INPUT_PLACEHOLDER_COLOR}
         onChangeText={onChangeText}
         numberOfLines={1}

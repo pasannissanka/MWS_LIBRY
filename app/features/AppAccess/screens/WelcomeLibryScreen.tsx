@@ -22,19 +22,20 @@ const WelcomeLibryScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={5} uncompleted={4} />
-        <PrimaryContainer style={styles.primaryContainer}>
-          <View style={styles.welcomeContainer}>
-            <Text style={styles.title}>
-              {t('appAccess.welcomeLibryScreen.title')}
-            </Text>
+        <View style={styles.primaryContentContainer}>
+          <PrimaryContainer>
+            <View style={styles.welcomeContainer}>
+              <Text style={styles.title}>
+                {t('appAccess.welcomeLibryScreen.title')}
+              </Text>
 
-            <Image style={styles.imagePlaceholder} resizeMode="contain" />
+              <Image style={styles.imagePlaceholder} resizeMode="contain" />
 
-            <Text style={styles.description}>
-              {t('appAccess.welcomeLibryScreen.description')}
-            </Text>
-          </View>
-
+              <Text style={styles.description}>
+                {t('appAccess.welcomeLibryScreen.description')}
+              </Text>
+            </View>
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.welcomeLibryScreen.next')}
             color="green"
@@ -43,7 +44,7 @@ const WelcomeLibryScreen = () => {
               onPressContinue();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
     </>
   );
@@ -56,16 +57,16 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
+
   welcomeContainer: {
     flex: 1,
     width: '100%',
+    marginTop: Sizes.HEIGHT_RATIO * 80,
     paddingHorizontal: 12,
-    marginTop: Sizes.HEIGHT_RATIO * 79,
-    marginBottom: Sizes.HEIGHT_RATIO * 130,
   },
   title: {
     fontFamily:
@@ -73,6 +74,8 @@ const styles = StyleSheet.create({
     fontSize: 38,
     lineHeight: 45,
     fontWeight: '600',
+    alignItems: 'center',
+    alignSelf: 'center',
     color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
     marginBottom: Sizes.HEIGHT_RATIO * 77,
   },

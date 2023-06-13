@@ -42,35 +42,36 @@ const EnterMobileNumberScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={1} uncompleted={8} />
-        <PrimaryContainer style={styles.primaryContainer}>
+        <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-
-          <View style={styles.mobileInputContainer}>
-            <Text style={styles.title}>
-              {t('appAccess.enterMobileNumberScreen.title')}
-            </Text>
-
-            <MobileNumInput
-              onChangeMobileNum={onChangeMobileNum}
-              value={mobileNum}
-              error={warning !== ''}
-            />
-
-            <Collapsible
-              collapsed={warning === ''}
-              style={styles.collapsibleView}
-              duration={500}>
-              <Text style={styles.warning}>
-                {t(
-                  'appAccess.enterMobileNumberScreen.warnings.notRealPhoneNumber',
-                )}
+          <PrimaryContainer>
+            <View style={styles.mobileInputContainer}>
+              <Text style={styles.title}>
+                {t('appAccess.enterMobileNumberScreen.title')}
               </Text>
-            </Collapsible>
 
-            <Text style={styles.description}>
-              {t('appAccess.enterMobileNumberScreen.description')}
-            </Text>
-          </View>
+              <MobileNumInput
+                onChangeMobileNum={onChangeMobileNum}
+                value={mobileNum}
+                error={warning !== ''}
+              />
+
+              <Collapsible
+                collapsed={warning === ''}
+                style={styles.collapsibleView}
+                duration={500}>
+                <Text style={styles.warning}>
+                  {t(
+                    'appAccess.enterMobileNumberScreen.warnings.notRealPhoneNumber',
+                  )}
+                </Text>
+              </Collapsible>
+
+              <Text style={styles.description}>
+                {t('appAccess.enterMobileNumberScreen.description')}
+              </Text>
+            </View>
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.enterMobileNumberScreen.next')}
             color="green"
@@ -79,7 +80,7 @@ const EnterMobileNumberScreen = () => {
               onPressNext();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
     </>
   );
@@ -92,7 +93,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
   header: {
@@ -103,7 +105,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 107,
   },
   title: {
     fontFamily:

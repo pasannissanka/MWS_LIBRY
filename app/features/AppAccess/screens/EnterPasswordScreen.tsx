@@ -47,39 +47,40 @@ const EnterPasswordScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={4} uncompleted={5} />
-        <PrimaryContainer style={styles.primaryContainer}>
+        <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-
-          <View style={styles.passwordInputContainer}>
-            <Text style={styles.title}>
-              {t('appAccess.enterPasswordScreen.title')}
-            </Text>
-
-            <Text style={styles.description}>
-              {t('appAccess.enterPasswordScreen.description')}
-            </Text>
-
-            <PrimaryTextInput
-              reference={ref}
-              value={password}
-              inputMode="text"
-              keyboardType="default"
-              onChangeText={onChangePassword}
-              secureTextEntry={true}
-              error={warning !== ''}
-            />
-
-            <Collapsible
-              collapsed={warning === ''}
-              style={styles.collapsibleView}
-              duration={500}>
-              <Text style={styles.warning}>
-                {t(
-                  'appAccess.enterPasswordScreen.warnings.incorrectPasswordFormat',
-                )}
+          <PrimaryContainer>
+            <View style={styles.passwordInputContainer}>
+              <Text style={styles.title}>
+                {t('appAccess.enterPasswordScreen.title')}
               </Text>
-            </Collapsible>
-          </View>
+
+              <Text style={styles.description}>
+                {t('appAccess.enterPasswordScreen.description')}
+              </Text>
+
+              <PrimaryTextInput
+                reference={ref}
+                value={password}
+                inputMode="text"
+                keyboardType="default"
+                onChangeText={onChangePassword}
+                secureTextEntry={true}
+                error={warning !== ''}
+              />
+
+              <Collapsible
+                collapsed={warning === ''}
+                style={styles.collapsibleView}
+                duration={500}>
+                <Text style={styles.warning}>
+                  {t(
+                    'appAccess.enterPasswordScreen.warnings.incorrectPasswordFormat',
+                  )}
+                </Text>
+              </Collapsible>
+            </View>
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.enterPasswordScreen.next')}
             color="green"
@@ -88,7 +89,7 @@ const EnterPasswordScreen = () => {
               onPressNext();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
     </>
   );
@@ -101,7 +102,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
   header: {
@@ -112,7 +114,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 130,
   },
   title: {
     fontFamily:

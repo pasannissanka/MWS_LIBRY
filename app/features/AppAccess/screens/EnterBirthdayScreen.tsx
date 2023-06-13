@@ -51,30 +51,34 @@ const EnterBirthdayScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={7} uncompleted={2} />
-        <PrimaryContainer style={styles.primaryContainer}>
+        <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
+          <PrimaryContainer>
+            <View style={styles.birthdayInputContainer}>
+              <>
+                <Text style={styles.title}>
+                  {t('appAccess.enterBirthdayScreen.title')}
+                </Text>
+                <PrimaryTextInput
+                  reference={ref}
+                  placeholder={t('appAccess.enterBirthdayScreen.placeholder')}
+                  value={birthday}
+                  inputMode="numeric"
+                  keyboardType="phone-pad"
+                  onChangeText={(text: string) => {
+                    onChangeBirthday(text);
+                  }}
+                  error={warning}
+                  maxLength={8}
+                />
 
-          <View style={styles.birthdayInputContainer}>
-            <Text style={styles.title}>
-              {t('appAccess.enterBirthdayScreen.title')}
-            </Text>
-            <PrimaryTextInput
-              reference={ref}
-              placeholder={t('appAccess.enterBirthdayScreen.placeholder')}
-              value={birthday}
-              inputMode="numeric"
-              keyboardType="phone-pad"
-              onChangeText={(text: string) => {
-                onChangeBirthday(text);
-              }}
-              error={warning}
-              maxLength={8}
-            />
-
-            <Text style={styles.description}>
-              {t('appAccess.enterBirthdayScreen.description')}
-            </Text>
-          </View>
+                <Text style={styles.description}>
+                  {t('appAccess.enterBirthdayScreen.description')}
+                </Text>
+              </>
+              <View style={styles.bottomSpace} />
+            </View>
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.enterBirthdayScreen.next')}
             color="green"
@@ -83,7 +87,7 @@ const EnterBirthdayScreen = () => {
               onPressNext();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
     </>
   );
@@ -96,7 +100,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
   header: {
@@ -107,7 +112,9 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 107,
+  },
+  bottomSpace: {
+    flex: 1,
   },
   title: {
     fontFamily:

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Colors, Sizes, Images} from '../../../theme';
+import {Colors, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import * as RootNavigation from '../../../navigation/RootNavigation';
@@ -20,7 +20,7 @@ import {emailFormatevalidate} from '../../../helper/formatters';
 const LoginScreen = () => {
   const {t} = useTranslation();
   const warnings = {
-    IncorrectEmailFormat: ' IncorrectEmailFormat',
+    IncorrectEmailFormat: 'IncorrectEmailFormat',
   };
 
   const [email, onChangeEmail] = useState('');
@@ -56,6 +56,7 @@ const LoginScreen = () => {
       />
       <View style={styles.parentView}>
         <PrimaryContainer style={styles.primaryContainer}>
+          <View style={styles.topSpace} />
           <View style={styles.contentContainer}>
             <Image
               source={Images.logos.app_logo}
@@ -130,6 +131,7 @@ const LoginScreen = () => {
               </Text>
             </TouchableOpacity>
           </View>
+          <View style={styles.bottomSpace} />
         </PrimaryContainer>
       </View>
     </>
@@ -149,8 +151,12 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: '100%',
     alignItems: 'center',
-    marginTop: Sizes.HEIGHT_RATIO * 294,
-    marginBottom: Sizes.HEIGHT_RATIO * 39,
+  },
+  topSpace: {
+    flex: 7.5,
+  },
+  bottomSpace: {
+    flex: 1,
   },
   logo: {
     width: 155,

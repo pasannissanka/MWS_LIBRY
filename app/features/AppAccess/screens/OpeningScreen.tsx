@@ -26,53 +26,57 @@ const OpeningScreen = () => {
       <View style={styles.parentView}>
         <PrimaryContainer style={styles.primaryContainer}>
           <View style={styles.contentContainer}>
-            <Image
-              source={Images.logos.app_logo}
-              resizeMode="contain"
-              style={styles.logo}
-            />
-            <Text style={styles.description}>
-              <Text>{t('appAccess.openingScreen.descriptionPartOne')}</Text>
-              <Text style={styles.underlinedDescription}>
-                {t('appAccess.openingScreen.descriptionPartTwo')}
-              </Text>
-              <Text>{t('appAccess.openingScreen.descriptionPartThree')}</Text>
-              <Text style={styles.underlinedDescription}>
-                {t('appAccess.openingScreen.descriptionPartFour')}
-              </Text>
-              <Text>{t('appAccess.openingScreen.descriptionPartFive')}</Text>
-              <Text style={styles.underlinedDescription}>
-                {t('appAccess.openingScreen.descriptionPartSix')}
-              </Text>
-              <Text>{t('appAccess.openingScreen.descriptionPartSeven')}</Text>
-            </Text>
-            <View style={styles.buttonContainer}>
-              <PrimaryButton
-                onPress={() => {
-                  RootNavigation.navigate('EnterMobileNumberScreen');
-                }}
-                text={t('appAccess.openingScreen.signUp')}
-                color="green"
-                style={styles.button}
+            <View style={styles.topSpace} />
+            <>
+              <Image
+                source={Images.logos.app_logo}
+                resizeMode="contain"
+                style={styles.logo}
               />
-              <PrimaryButton
-                onPress={() => {
-                  RootNavigation.navigate('LoginScreen');
-                }}
-                text={t('appAccess.openingScreen.logIn')}
-                color="black"
-                style={styles.button}
-              />
-            </View>
+              <Text style={styles.description}>
+                <Text>{t('appAccess.openingScreen.descriptionPartOne')}</Text>
+                <Text style={styles.underlinedDescription}>
+                  {t('appAccess.openingScreen.descriptionPartTwo')}
+                </Text>
+                <Text>{t('appAccess.openingScreen.descriptionPartThree')}</Text>
+                <Text style={styles.underlinedDescription}>
+                  {t('appAccess.openingScreen.descriptionPartFour')}
+                </Text>
+                <Text>{t('appAccess.openingScreen.descriptionPartFive')}</Text>
+                <Text style={styles.underlinedDescription}>
+                  {t('appAccess.openingScreen.descriptionPartSix')}
+                </Text>
+                <Text>{t('appAccess.openingScreen.descriptionPartSeven')}</Text>
+              </Text>
+              <View style={styles.buttonContainer}>
+                <PrimaryButton
+                  onPress={() => {
+                    RootNavigation.navigate('EnterMobileNumberScreen');
+                  }}
+                  text={t('appAccess.openingScreen.signUp')}
+                  color="green"
+                  style={styles.button}
+                />
+                <PrimaryButton
+                  onPress={() => {
+                    RootNavigation.navigate('LoginScreen');
+                  }}
+                  text={t('appAccess.openingScreen.logIn')}
+                  color="black"
+                  style={styles.button}
+                />
+              </View>
 
-            <TouchableOpacity
-              onPress={() => {
-                RootNavigation.navigate('SendResetPasswordScreen');
-              }}>
-              <Text style={styles.troubleSignInText}>
-                {t('appAccess.openingScreen.troubleSigningIn')}
-              </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  RootNavigation.navigate('SendResetPasswordScreen');
+                }}>
+                <Text style={styles.troubleSignInText}>
+                  {t('appAccess.openingScreen.troubleSigningIn')}
+                </Text>
+              </TouchableOpacity>
+            </>
+            <View style={styles.bottomSpace} />
           </View>
         </PrimaryContainer>
       </View>
@@ -91,10 +95,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
   },
   contentContainer: {
+    flex: 1,
     width: '100%',
     alignItems: 'center',
-    marginTop: Sizes.HEIGHT_RATIO * 294,
-    marginBottom: Sizes.HEIGHT_RATIO * 77,
+  },
+  topSpace: {
+    flex: 3.8, 
+  },
+  bottomSpace: {
+    flex: 1, 
   },
   logo: {
     width: 155,

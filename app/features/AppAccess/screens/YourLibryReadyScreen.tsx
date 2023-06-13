@@ -8,7 +8,7 @@ import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 
-const WelcomeLibryScreen = () => {
+const YourLibryReadyScreen = () => {
   const {t} = useTranslation();
 
   const onPressNext = () => {
@@ -42,29 +42,30 @@ const WelcomeLibryScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={8} uncompleted={1} />
-        <PrimaryContainer style={styles.primaryContainer}>
+        <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-          <View style={styles.middleContainer}>
-            <Image style={styles.titleImage} resizeMode="contain" />
-            <Text style={styles.title}>
-              {t('appAccess.yourLibryReadyScreen.title')}
-            </Text>
+          <PrimaryContainer>
+            <View style={styles.middleContainer}>
+              <Image style={styles.titleImage} resizeMode="contain" />
+              <Text style={styles.title}>
+                {t('appAccess.yourLibryReadyScreen.title')}
+              </Text>
 
-            <View style={styles.featureContainer}>
-              {FEATURES.map((item, index) => (
-                <View style={styles.featureRow} key={index}>
-                  <Image style={styles.featureImage} />
-                  <View style={styles.featureTextContainer}>
-                    <Text style={styles.featureTitle}>{item.title}</Text>
-                    <Text style={styles.featureDescription}>
-                      {item.description}
-                    </Text>
+              <View style={styles.featureContainer}>
+                {FEATURES.map((item, index) => (
+                  <View style={styles.featureRow} key={index}>
+                    <Image style={styles.featureImage} />
+                    <View style={styles.featureTextContainer}>
+                      <Text style={styles.featureTitle}>{item.title}</Text>
+                      <Text style={styles.featureDescription}>
+                        {item.description}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              ))}
+                ))}
+              </View>
             </View>
-          </View>
-
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.yourLibryReadyScreen.next')}
             color="green"
@@ -73,21 +74,21 @@ const WelcomeLibryScreen = () => {
               onPressNext();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
     </>
   );
 };
 
-export default WelcomeLibryScreen;
+export default YourLibryReadyScreen;
 
 const styles = StyleSheet.create({
   parentView: {
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
   header: {
@@ -98,7 +99,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginTop: Sizes.HEIGHT_RATIO * 16,
-    marginBottom: Sizes.HEIGHT_RATIO * 148,
   },
   titleImage: {
     width: Sizes.HEIGHT_RATIO * 76,

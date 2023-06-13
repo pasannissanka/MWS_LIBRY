@@ -31,33 +31,35 @@ const PublishFirstIdeaScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={9} uncompleted={0} />
-        <PrimaryContainer style={styles.primaryContainer}>
+
+        <View style={styles.primaryContentContainer}>
           <Header
             style={styles.header}
             onPressBack={onPressBack}
             skipButton={true}
             onPressSkip={onPressSkip}
           />
-          <View style={styles.middleContainer}>
-            <Text style={styles.title}>
-              {t('appAccess.publishFirstIdeaScreen.title')}
-            </Text>
+          <PrimaryContainer>
+            <View style={styles.middleContainer}>
+              <Text style={styles.title}>
+                {t('appAccess.publishFirstIdeaScreen.title')}
+              </Text>
 
-            <Text style={styles.description}>
-              {t('appAccess.publishFirstIdeaScreen.descriptionTop')}
-            </Text>
+              <Text style={styles.description}>
+                {t('appAccess.publishFirstIdeaScreen.descriptionTop')}
+              </Text>
 
-            <Text style={styles.description}>
-              {t('appAccess.publishFirstIdeaScreen.descriptionMiddle')}
-            </Text>
+              <Text style={styles.description}>
+                {t('appAccess.publishFirstIdeaScreen.descriptionMiddle')}
+              </Text>
 
-            <Image style={styles.image} resizeMode="contain" />
+              <Image style={styles.image} resizeMode="contain" />
 
-            <Text style={styles.description}>
-              {t('appAccess.publishFirstIdeaScreen.descriptionBottom')}
-            </Text>
-          </View>
-
+              <Text style={styles.description}>
+                {t('appAccess.publishFirstIdeaScreen.descriptionBottom')}
+              </Text>
+            </View>
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.publishFirstIdeaScreen.next')}
             color="green"
@@ -66,7 +68,7 @@ const PublishFirstIdeaScreen = () => {
               onPressNext();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
     </>
   );
@@ -79,7 +81,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
   header: {
@@ -91,7 +94,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 4,
     marginTop: Sizes.HEIGHT_RATIO * 20,
-    marginBottom: Sizes.HEIGHT_RATIO * 50,
   },
   title: {
     fontFamily:

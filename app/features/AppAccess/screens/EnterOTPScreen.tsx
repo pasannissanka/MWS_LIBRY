@@ -67,35 +67,36 @@ const EnterOTPScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={2} uncompleted={7} />
-        <PrimaryContainer style={styles.primaryContainer}>
+        <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-
-          <View style={styles.otpInputContainer}>
-            <Text style={styles.title}>
-              {t('appAccess.enterOTPScreen.title')}
-            </Text>
-
-            <OTPInput onChangeOTP={onChangeOTP} error={warning !== ''} />
-
-            <Collapsible
-              collapsed={warning === ''}
-              style={styles.collapsibleView}
-              duration={500}>
-              <Text style={styles.warning}>
-                {t('appAccess.enterOTPScreen.warnings.incorrectCode')}
+          <PrimaryContainer>
+            <View style={styles.otpInputContainer}>
+              <Text style={styles.title}>
+                {t('appAccess.enterOTPScreen.title')}
               </Text>
-            </Collapsible>
 
-            <TouchableOpacity
-              style={styles.resendTouchable}
-              onPress={() => {
-                setModalVisible(true);
-              }}>
-              <Text style={styles.resend}>
-                {t('appAccess.enterOTPScreen.resend')}
-              </Text>
-            </TouchableOpacity>
-          </View>
+              <OTPInput onChangeOTP={onChangeOTP} error={warning !== ''} />
+
+              <Collapsible
+                collapsed={warning === ''}
+                style={styles.collapsibleView}
+                duration={500}>
+                <Text style={styles.warning}>
+                  {t('appAccess.enterOTPScreen.warnings.incorrectCode')}
+                </Text>
+              </Collapsible>
+
+              <TouchableOpacity
+                style={styles.resendTouchable}
+                onPress={() => {
+                  setModalVisible(true);
+                }}>
+                <Text style={styles.resend}>
+                  {t('appAccess.enterOTPScreen.resend')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.enterOTPScreen.next')}
             color="green"
@@ -104,7 +105,7 @@ const EnterOTPScreen = () => {
               onPressNext();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
       <OTPModal
         visible={modalVisible}
@@ -124,7 +125,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
   header: {
@@ -135,7 +137,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 107,
   },
   title: {
     fontFamily:

@@ -39,27 +39,28 @@ const EnterNameScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={6} uncompleted={3} />
-        <PrimaryContainer style={styles.primaryContainer}>
+        <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
+          <PrimaryContainer>
+            <View style={styles.nameInputContainer}>
+              <Text style={styles.title}>
+                {t('appAccess.enterNameScreen.title')}
+              </Text>
 
-          <View style={styles.nameInputContainer}>
-            <Text style={styles.title}>
-              {t('appAccess.enterNameScreen.title')}
-            </Text>
+              <Text style={styles.description}>
+                {t('appAccess.enterNameScreen.description')}
+              </Text>
 
-            <Text style={styles.description}>
-              {t('appAccess.enterNameScreen.description')}
-            </Text>
-
-            <PrimaryTextInput
-              reference={ref}
-              value={name}
-              inputMode="text"
-              keyboardType="default"
-              onChangeText={onChangeName}
-              error={warning}
-            />
-          </View>
+              <PrimaryTextInput
+                reference={ref}
+                value={name}
+                inputMode="text"
+                keyboardType="default"
+                onChangeText={onChangeName}
+                error={warning}
+              />
+            </View>
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.enterNameScreen.next')}
             color="green"
@@ -68,7 +69,7 @@ const EnterNameScreen = () => {
               onPressNext();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
     </>
   );
@@ -81,7 +82,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
   header: {
@@ -92,7 +94,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 171,
   },
   title: {
     fontFamily:

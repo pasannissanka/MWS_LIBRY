@@ -11,12 +11,10 @@ import React, {PropsWithChildren, useState} from 'react';
 import {Colors, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
-import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import AddLibryItem from '../components/AddLibryItem';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const AddYourLibryScreen = () => {
   type ItemProps = PropsWithChildren<{
@@ -41,6 +39,24 @@ const AddYourLibryScreen = () => {
     RootNavigation.navigate('YourLibryReadyScreen');
   };
   const DATA = [
+    {
+      name: 'Bilal Pervez',
+      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
+      image: require('../../../assets/dummyImages/content-6/content.png'),
+      added: 'false',
+    },
+    {
+      name: 'Bilal Pervez',
+      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
+      image: require('../../../assets/dummyImages/content-6/content.png'),
+      added: 'false',
+    },
+    {
+      name: 'Bilal Pervez',
+      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
+      image: require('../../../assets/dummyImages/content-6/content.png'),
+      added: 'false',
+    },
     {
       name: 'Bilal Pervez',
       bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
@@ -173,7 +189,7 @@ const styles = StyleSheet.create({
   flatList: {
     flex: 1,
     width: '100%',
-    marginTop: 32,
+    marginTop: 16,
   },
   button: {
     marginBottom: 20,

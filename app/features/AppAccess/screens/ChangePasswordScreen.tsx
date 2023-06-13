@@ -1,7 +1,7 @@
 import {Image, Platform, StatusBar, StyleSheet, View} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {Colors, Sizes, Images} from '../../../theme';
+import {Colors, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import * as RootNavigation from '../../../navigation/RootNavigation';
@@ -38,46 +38,51 @@ const ChangePasswordScreen = () => {
       <View style={styles.parentView}>
         <PrimaryContainer style={styles.primaryContainer}>
           <View style={styles.contentContainer}>
-            <Image
-              source={Images.logos.app_logo}
-              resizeMode="contain"
-              style={styles.logo}
-            />
+            <View style={styles.topSpace} />
 
-            <View style={styles.textInputContainer}>
-              <PrimaryTextInput
-                reference={passwordRef}
-                value={password}
-                style={styles.textInput}
-                placeholder={t(
-                  'appAccess.changePasswordScreen.passwordPlaceholder',
-                )}
-                inputMode="text"
-                keyboardType="default"
-                onChangeText={onChangePassword}
-                secureTextEntry={true}
+            <>
+              <Image
+                source={Images.logos.app_logo}
+                resizeMode="contain"
+                style={styles.logo}
               />
-              <PrimaryTextInput
-                reference={confirmPasswordRef}
-                value={confirmPassword}
-                style={styles.textInput}
-                placeholder={t(
-                  'appAccess.changePasswordScreen.confirmPasswordPlaceholder',
-                )}
-                inputMode="text"
-                keyboardType="default"
-                onChangeText={onChangeConfirmPassword}
-                secureTextEntry={true}
+              <View style={styles.textInputContainer}>
+                <PrimaryTextInput
+                  reference={passwordRef}
+                  value={password}
+                  style={styles.textInput}
+                  placeholder={t(
+                    'appAccess.changePasswordScreen.passwordPlaceholder',
+                  )}
+                  inputMode="text"
+                  keyboardType="default"
+                  onChangeText={onChangePassword}
+                  secureTextEntry={true}
+                />
+                <PrimaryTextInput
+                  reference={confirmPasswordRef}
+                  value={confirmPassword}
+                  style={styles.textInput}
+                  placeholder={t(
+                    'appAccess.changePasswordScreen.confirmPasswordPlaceholder',
+                  )}
+                  inputMode="text"
+                  keyboardType="default"
+                  onChangeText={onChangeConfirmPassword}
+                  secureTextEntry={true}
+                />
+              </View>
+
+              <PrimaryButton
+                text={t('appAccess.changePasswordScreen.changePassword')}
+                color="green"
+                style={styles.button}
+                onPress={() => {
+                  onPressChangePassword();
+                }}
               />
-            </View>
-            <PrimaryButton
-              text={t('appAccess.changePasswordScreen.changePassword')}
-              color="green"
-              style={styles.button}
-              onPress={() => {
-                onPressChangePassword();
-              }}
-            />
+            </>
+            <View style={styles.bottomSpace} />
           </View>
         </PrimaryContainer>
       </View>
@@ -96,10 +101,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 28,
   },
   contentContainer: {
+    flex: 1,
     width: '100%',
     alignItems: 'center',
-    marginTop: Sizes.HEIGHT_RATIO * 294,
-    marginBottom: Sizes.HEIGHT_RATIO * 181,
+    // marginTop: Sizes.HEIGHT_RATIO * 294,
+    // marginBottom: Sizes.HEIGHT_RATIO * 181,
+  },
+  topSpace: {
+    flex: 1.6,
+  },
+  bottomSpace: {
+    flex: 1,
   },
   logo: {
     width: 155,

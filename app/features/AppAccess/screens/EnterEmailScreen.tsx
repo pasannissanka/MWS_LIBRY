@@ -49,43 +49,46 @@ const EnterEmailScreen = () => {
       />
       <View style={styles.parentView}>
         <ProgressBar completed={3} uncompleted={6} />
-        <PrimaryContainer style={styles.primaryContainer}>
+        <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-
-          <View style={styles.emailInputContainer}>
-            <Text style={styles.title}>
-              {t('appAccess.enterEmailScreen.title')}
-            </Text>
-
-            <Text style={styles.description}>
-              {t('appAccess.enterEmailScreen.description')}
-            </Text>
-
-            <PrimaryTextInput
-              reference={ref}
-              value={email}
-              inputMode="email"
-              keyboardType="default"
-              onChangeText={onChangeEmail}
-            />
-
-            <Collapsible
-              collapsed={warning === ''}
-              style={styles.collapsibleView}
-              duration={500}>
-              <Text style={styles.warning}>
-                {t('appAccess.enterEmailScreen.warnings.incorrectEmailFormat')}
+          <PrimaryContainer>
+            <View style={styles.emailInputContainer}>
+              <Text style={styles.title}>
+                {t('appAccess.enterEmailScreen.title')}
               </Text>
-            </Collapsible>
-            <AgreementRow
-              checked={checked}
-              style={styles.agreementRow}
-              description={t('appAccess.enterEmailScreen.agreement')}
-              onPress={() => {
-                setChecked(!checked);
-              }}
-            />
-          </View>
+
+              <Text style={styles.description}>
+                {t('appAccess.enterEmailScreen.description')}
+              </Text>
+
+              <PrimaryTextInput
+                reference={ref}
+                value={email}
+                inputMode="email"
+                keyboardType="default"
+                onChangeText={onChangeEmail}
+              />
+
+              <Collapsible
+                collapsed={warning === ''}
+                style={styles.collapsibleView}
+                duration={500}>
+                <Text style={styles.warning}>
+                  {t(
+                    'appAccess.enterEmailScreen.warnings.incorrectEmailFormat',
+                  )}
+                </Text>
+              </Collapsible>
+              <AgreementRow
+                checked={checked}
+                style={styles.agreementRow}
+                description={t('appAccess.enterEmailScreen.agreement')}
+                onPress={() => {
+                  setChecked(!checked);
+                }}
+              />
+            </View>
+          </PrimaryContainer>
           <PrimaryButton
             text={t('appAccess.enterEmailScreen.next')}
             color="green"
@@ -94,7 +97,7 @@ const EnterEmailScreen = () => {
               onPressNext();
             }}
           />
-        </PrimaryContainer>
+        </View>
       </View>
     </>
   );
@@ -107,7 +110,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
-  primaryContainer: {
+  primaryContentContainer: {
+    flex: 1,
     paddingHorizontal: 28,
   },
   header: {
@@ -118,7 +122,6 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 12,
     marginTop: Sizes.HEIGHT_RATIO * 36,
-    marginBottom: Sizes.HEIGHT_RATIO * 115,
   },
   title: {
     fontFamily:

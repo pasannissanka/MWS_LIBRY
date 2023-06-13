@@ -1,21 +1,23 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {PropsWithChildren, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import React, {PropsWithChildren, useRef, useState} from 'react';
 import PrimaryTextInput from './PrimaryTextInput';
 import {Colors, Sizes} from '../../../theme';
 
 type SectionProps = PropsWithChildren<{
   style?: object;
   onChangeOTP?: any;
-  reference?: any;
+  //reference?: any;
   error?: boolean;
 }>;
 
-const OTPInput = ({style, onChangeOTP, reference, error}: SectionProps) => {
+const OTPInput = ({style, onChangeOTP, error}: SectionProps) => {
   const [digitOne, onChangeDigitOne] = useState('');
   const [digitTwo, onChangeDigitTwo] = useState('');
   const [digitThree, onChangeDigitThree] = useState('');
   const [digitFour, onChangeDigitFour] = useState('');
   const [digitFive, onChangeDigitFive] = useState('');
+
+  const reference = useRef<any>([]);
 
   const getOTPdigit = (index: number): string => {
     switch (index) {
@@ -55,6 +57,9 @@ const OTPInput = ({style, onChangeOTP, reference, error}: SectionProps) => {
         break;
     }
     onChangeOTP(digitOne + digitTwo + digitThree + digitFour + digitFive);
+    if (index < 4 && text !== '') {
+      reference.current[index + 1].focus();
+    }
   };
   return (
     <View style={{...styles.otpInput, ...style}}>
@@ -63,7 +68,7 @@ const OTPInput = ({style, onChangeOTP, reference, error}: SectionProps) => {
           <View key={index.toString()}>
             <PrimaryTextInput
               error={error}
-              reference={reference}
+              reference={(el: any) => (reference.current[index] = el)}
               value={getOTPdigit(index)}
               style={styles.textInput}
               inputMode="numeric"

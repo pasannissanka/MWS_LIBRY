@@ -14,7 +14,7 @@ const EnterMobileNumberScreen = () => {
   const {t} = useTranslation();
 
   const warnings = {
-    IncorrectEmailFormat: ' IncorrectEmailFormat',
+    IncorrectNumberFormat: 'IncorrectNumberFormat',
   };
 
   const [mobileNum, onChangeMobileNum] = useState('');
@@ -29,7 +29,7 @@ const EnterMobileNumberScreen = () => {
       setWarning('');
       RootNavigation.navigate('EnterOTPScreen');
     } else {
-      setWarning(warnings.IncorrectEmailFormat);
+      setWarning(warnings.IncorrectNumberFormat);
     }
   };
 

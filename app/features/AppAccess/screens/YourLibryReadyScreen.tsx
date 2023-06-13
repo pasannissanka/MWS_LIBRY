@@ -51,8 +51,8 @@ const WelcomeLibryScreen = () => {
             </Text>
 
             <View style={styles.featureContainer}>
-              {FEATURES.map(item => (
-                <View style={styles.featureRow}>
+              {FEATURES.map((item, index) => (
+                <View style={styles.featureRow} key={index}>
                   <Image style={styles.featureImage} />
                   <View style={styles.featureTextContainer}>
                     <Text style={styles.featureTitle}>{item.title}</Text>

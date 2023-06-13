@@ -41,16 +41,19 @@ const AddLibryItem = ({item, index, onClickAdd}: SectionProps) => {
         }}
         style={item.added ? styles.addedButton : styles.addButton}>
         {item.added ? (
-          <Text style={styles.addedText} numberOfLines={1} ellipsizeMode="tail">
-            <>
-              <Image
-                source={Images.icons.green_tick_icon}
-                style={styles.tickIcon}
-                resizeMode="contain"
-              />
+          <View style={styles.addedTextContainer}>
+            <Image
+              source={Images.icons.green_tick_icon}
+              style={styles.tickIcon}
+              resizeMode="stretch"
+            />
+            <Text
+              style={styles.addedText}
+              numberOfLines={1}
+              ellipsizeMode="tail">
               {t('appAccess.addYourLibryScreen.added')}
-            </>
-          </Text>
+            </Text>
+          </View>
         ) : (
           <Text style={styles.addText} numberOfLines={1} ellipsizeMode="tail">
             {t('appAccess.addYourLibryScreen.add')}
@@ -129,6 +132,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Colors.text.PRIMARY_COLOR,
   },
+  addedTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   addedText: {
     fontFamily:
       Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
@@ -142,5 +149,6 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     marginRight: 6,
+    marginBottom: 3,
   },
 });

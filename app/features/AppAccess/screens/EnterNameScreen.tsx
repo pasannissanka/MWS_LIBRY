@@ -54,8 +54,8 @@ const EnterNameScreen = () => {
             <PrimaryTextInput
               reference={ref}
               value={name}
-              inputMode="numeric"
-              keyboardType="phone-pad"
+              inputMode="text"
+              keyboardType="default"
               onChangeText={onChangeName}
               error={warning}
             />

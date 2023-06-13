@@ -1,4 +1,4 @@
-import {Image, Platform, StatusBar, StyleSheet, View} from 'react-native';
+import {Image, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Images} from '../../../theme';
@@ -6,24 +6,39 @@ import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryTextInput from '../components/PrimaryTextInput';
+import {
+  emailFormatevalidate,
+  validatePassword,
+} from '../../../helper/formatters';
+import Collapsible from 'react-native-collapsible';
 
 const ChangePasswordScreen = () => {
   const {t} = useTranslation();
 
   const [password, onChangePassword] = useState('');
   const [confirmPassword, onChangeConfirmPassword] = useState('');
+  const [warning, setWarning] = useState('');
 
   const passwordRef = useRef<any>();
   const confirmPasswordRef = useRef<any>();
 
+  const warnings = {
+    IncorrectPasswordFormat: 'IncorrectPasswordFormat',
+  };
+
   const onPressChangePassword = () => {
-    if (confirmPassword.length === 0) {
-      confirmPasswordRef.current.focus();
+    const validPassword = validatePassword(password);
+    if (!validPassword) {
+      setWarning(warnings.IncorrectPasswordFormat);
+      passwordRef.current.focus();
     } else if (password.length === 0) {
+      setWarning('');
       passwordRef.current.focus();
     } else if (confirmPassword !== password) {
-      passwordRef.current.focus();
+      setWarning('');
+      confirmPasswordRef.current.focus();
     } else {
+      setWarning('');
       RootNavigation.replace('LoginScreen');
     }
   };
@@ -58,6 +73,7 @@ const ChangePasswordScreen = () => {
                   keyboardType="default"
                   onChangeText={onChangePassword}
                   secureTextEntry={true}
+                  error={warning !== ''}
                 />
                 <PrimaryTextInput
                   reference={confirmPasswordRef}
@@ -71,6 +87,17 @@ const ChangePasswordScreen = () => {
                   onChangeText={onChangeConfirmPassword}
                   secureTextEntry={true}
                 />
+
+                <Collapsible
+                  collapsed={warning === ''}
+                  style={styles.collapsibleView}
+                  duration={500}>
+                  <Text style={styles.warning}>
+                    {t(
+                      'appAccess.enterPasswordScreen.warnings.incorrectPasswordFormat',
+                    )}
+                  </Text>
+                </Collapsible>
               </View>
 
               <PrimaryButton
@@ -137,6 +164,9 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: Colors.text.PRIMARY_COLOR,
   },
+  collapsibleView: {
+    width: '100%',
+  },
   warning: {
     fontFamily:
       Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
@@ -144,9 +174,6 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     fontWeight: '400',
     color: Colors.text.WARNING_RED_COLOR,
-    marginTop: 18,
-  },
-  collapsibleView: {
-    width: '100%',
+    marginTop: 14,
   },
 });

@@ -40,6 +40,7 @@ const LoginScreen = () => {
     }
     if (validEmail) {
       setWarning('');
+      RootNavigation.replace('DashboardScreen');
     } else {
       emailRef.current.focus();
       setWarning(warnings.IncorrectEmailFormat);

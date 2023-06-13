@@ -12,14 +12,14 @@ const PublishFirstIdeaScreen = () => {
   const {t} = useTranslation();
 
   const onPressNext = () => {
-    RootNavigation.navigate('DashboardScreen');
+    RootNavigation.replace('DashboardScreen');
   };
 
   const onPressBack = () => {
     RootNavigation.goBack();
   };
   const onPressSkip = () => {
-    RootNavigation.navigate('DashboardScreen');
+    RootNavigation.replace('DashboardScreen');
   };
 
   return (

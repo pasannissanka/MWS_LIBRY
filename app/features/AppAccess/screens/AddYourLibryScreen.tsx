@@ -38,7 +38,7 @@ const AddYourLibryScreen = () => {
   const [toggled, setToggled] = useState(false);
 
   const onPressPrimaryButton = () => {
-    RootNavigation.navigate('WelcomeLibryScreen');
+    RootNavigation.navigate('YourLibryReadyScreen');
   };
   const DATA = [
     {

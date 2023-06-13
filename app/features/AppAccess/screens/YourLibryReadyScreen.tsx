@@ -12,7 +12,7 @@ const WelcomeLibryScreen = () => {
   const {t} = useTranslation();
 
   const onPressNext = () => {
-    RootNavigation.navigate('EnterNameScreen');
+    RootNavigation.navigate('PublishFirstIdeaScreen');
   };
 
   const onPressBack = () => {

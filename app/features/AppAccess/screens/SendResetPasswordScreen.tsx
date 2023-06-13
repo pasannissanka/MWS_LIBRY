@@ -94,7 +94,7 @@ const SendResetPasswordScreen = () => {
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => {
-                RootNavigation.navigate('LoginScreen');
+                RootNavigation.goBack();
               }}>
               <Text style={styles.backText}>
                 {t('appAccess.sendResetPasswordScreen.back')}

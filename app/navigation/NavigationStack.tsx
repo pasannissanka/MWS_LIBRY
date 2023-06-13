@@ -15,6 +15,7 @@ import EnterNameScreen from '../features/AppAccess/screens/EnterNameScreen';
 import EnterBirthdayScreen from '../features/AppAccess/screens/EnterBirthdayScreen';
 import AddYourLibryScreen from '../features/AppAccess/screens/AddYourLibryScreen';
 import WelcomeLibryScreen from '../features/AppAccess/screens/WelcomeLibryScreen';
+import YourLibryReadyScreen from '../features/AppAccess/screens/YourLibryReadyScreen';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,7 @@ const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
       initialRouteName="OpeningScreen"
-      //initialRouteName="WelcomeLibryScreen"
+      //initialRouteName="YourLibryReadyScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -56,6 +57,10 @@ const NavigationStack = (): React.JSX.Element => {
       />
       <Stack.Screen name="AddYourLibryScreen" component={AddYourLibryScreen} />
       <Stack.Screen name="WelcomeLibryScreen" component={WelcomeLibryScreen} />
+      <Stack.Screen
+        name="YourLibryReadyScreen"
+        component={YourLibryReadyScreen}
+      />
     </Stack.Navigator>
   );
 };

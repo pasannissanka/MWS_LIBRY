@@ -114,6 +114,10 @@
                 "description": "Let’s begin by setting up your profile.",
                 "next": "CONTINUE"
             },
+            "yourLibryReadyScreen": {
+                "title": "Your Libry is ready",
+                "next": "NEXT"
+            }
         }
     }
 }

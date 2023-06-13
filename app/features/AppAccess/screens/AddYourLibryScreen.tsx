@@ -37,13 +37,9 @@ const AddYourLibryScreen = () => {
   const [itemIndex, setItemIndex] = useState<number>();
   const [toggled, setToggled] = useState(false);
 
-  const onPressNext = () => {
-    //RootNavigation.navigate('EnterBirthdayScreen');
+  const onPressPrimaryButton = () => {
+    RootNavigation.navigate('WelcomeLibryScreen');
   };
-  const onPressSkip = () => {
-    //RootNavigation.navigate('EnterBirthdayScreen');
-  };
-
   const DATA = [
     {
       name: 'Bilal Pervez',
@@ -122,11 +118,7 @@ const AddYourLibryScreen = () => {
             color="green"
             style={styles.button}
             onPress={() => {
-              if (toggled) {
-                onPressNext();
-              } else {
-                onPressSkip();
-              }
+              onPressPrimaryButton();
             }}
           />
         </View>

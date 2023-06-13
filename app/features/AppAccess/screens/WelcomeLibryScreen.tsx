@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
     marginBottom: Sizes.HEIGHT_RATIO * 77,
   },
   imagePlaceholder: {
-    width: Sizes.WIDTH_RATIO * 224,
-    height: Sizes.HEIGHT_RATIO * 226,
+    width: 224,
+    height: 226,
     backgroundColor: '#FF781A',
     alignSelf: 'center',
   },

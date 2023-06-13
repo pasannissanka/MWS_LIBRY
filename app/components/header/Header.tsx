@@ -14,12 +14,16 @@ type SectionProps = PropsWithChildren<{
   style?: object;
   onPressBack?: any;
   title?: string;
+  skipButton?: boolean;
+  onPressSkip?: any;
 }>;
 
 const Header = ({
   style,
   onPressBack,
   title,
+  skipButton,
+  onPressSkip,
 }: SectionProps): React.JSX.Element => {
   const [text, setText] = useState<string>('skysports');
 
@@ -38,6 +42,16 @@ const Header = ({
             {title}
           </Text>
         </View>
+      )}
+
+      {skipButton && (
+        <>
+          <View style={styles.flexOne} />
+          <TouchableOpacity onPress={onPressSkip} >
+          <Text style={styles.skipButton}>SKIP</Text>
+          </TouchableOpacity>
+         
+        </>
       )}
 
       {false && (
@@ -159,5 +173,17 @@ const styles = StyleSheet.create({
   meatballsIcon: {
     height: 6,
     width: 28,
+  },
+  flexOne: {
+    flex: 1,
+  },
+  skipButton: {
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontSize: 25,
+    lineHeight: 30,
+    textAlign: 'right',
+    fontWeight: '600',
+    color: Colors.text.GRAY_TEXT_COLOR,
   },
 });

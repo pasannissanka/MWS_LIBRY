@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     fontFamily:
       Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
     fontSize: 40,
+    textAlign: 'center',
     lineHeight: 48,
     fontWeight: '600',
     color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,

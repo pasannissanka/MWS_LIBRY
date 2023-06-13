@@ -16,6 +16,7 @@ import EnterBirthdayScreen from '../features/AppAccess/screens/EnterBirthdayScre
 import AddYourLibryScreen from '../features/AppAccess/screens/AddYourLibryScreen';
 import WelcomeLibryScreen from '../features/AppAccess/screens/WelcomeLibryScreen';
 import YourLibryReadyScreen from '../features/AppAccess/screens/YourLibryReadyScreen';
+import PublishFirstIdeaScreen from '../features/AppAccess/screens/PublishFirstIdeaScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,7 +24,7 @@ const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
       initialRouteName="OpeningScreen"
-      //initialRouteName="YourLibryReadyScreen"
+      //initialRouteName="PublishFirstIdeaScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -60,6 +61,10 @@ const NavigationStack = (): React.JSX.Element => {
       <Stack.Screen
         name="YourLibryReadyScreen"
         component={YourLibryReadyScreen}
+      />
+      <Stack.Screen
+        name="PublishFirstIdeaScreen"
+        component={PublishFirstIdeaScreen}
       />
     </Stack.Navigator>
   );

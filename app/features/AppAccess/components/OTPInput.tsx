@@ -6,7 +6,6 @@ import {Colors, Sizes} from '../../../theme';
 type SectionProps = PropsWithChildren<{
   style?: object;
   onChangeOTP?: any;
-  //reference?: any;
   error?: boolean;
 }>;
 
@@ -37,27 +36,32 @@ const OTPInput = ({style, onChangeOTP, error}: SectionProps) => {
   };
 
   const onChangeOTPdigit = (text: string, index: number) => {
+    const digit = text.replace(/[^0-9]/g, '');
     switch (index) {
       case 0:
-        onChangeDigitOne(text);
+        onChangeDigitOne(digit);
+        onChangeOTP(digit + digitTwo + digitThree + digitFour + digitFive);
         break;
       case 1:
-        onChangeDigitTwo(text);
+        onChangeDigitTwo(digit);
+        onChangeOTP(digitOne + digit + digitThree + digitFour + digitFive);
         break;
       case 2:
-        onChangeDigitThree(text);
+        onChangeDigitThree(digit);
+        onChangeOTP(digitOne + digitTwo + digit + digitFour + digitFive);
         break;
       case 3:
-        onChangeDigitFour(text);
+        onChangeDigitFour(digit);
+        onChangeOTP(digitOne + digitTwo + digitThree + digit + digitFive);
         break;
       case 4:
-        onChangeDigitFive(text);
+        onChangeDigitFive(digit);
+        onChangeOTP(digitOne + digitTwo + digitThree + digitFour + digit);
         break;
       default:
         break;
     }
-    onChangeOTP(digitOne + digitTwo + digitThree + digitFour + digitFive);
-    if (index < 4 && text !== '') {
+    if (index < 4 && text.length === 1) {
       reference.current[index + 1].focus();
     }
   };
@@ -70,7 +74,7 @@ const OTPInput = ({style, onChangeOTP, error}: SectionProps) => {
               error={error}
               reference={(el: any) => (reference.current[index] = el)}
               value={getOTPdigit(index)}
-              style={styles.textInput}
+              textInputStyle={styles.textInput}
               inputMode="numeric"
               keyboardType="phone-pad"
               onChangeText={(text: string) => onChangeOTPdigit(text, index)}
@@ -98,6 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   textInput: {
+    alignItems: 'center',
     width: Sizes.WIDTH_RATIO * 32,
     textAlign: 'center',
     paddingHorizontal: 0,

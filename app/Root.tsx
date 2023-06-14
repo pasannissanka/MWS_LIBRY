@@ -5,6 +5,7 @@ import React, {useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {navigationRef} from './navigation/RootNavigation';
 import SplashScreen from 'react-native-splash-screen';
+import { Colors } from './theme';
 
 const Root = (): React.JSX.Element => {
   useEffect(() => {
@@ -36,11 +37,11 @@ export default Root;
 const styles = StyleSheet.create({
   parentSafeAreaView: {
     flex: 0,
-    backgroundColor: '#012674',
+    backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
   childSafeAreaView: {
     flex: 1,
-    backgroundColor: '#222322',
+    backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
   linearGradient: {
     flex: 1,

@@ -1,0 +1,130 @@
+{
+    "translation": {
+        "appAccess": {
+            "openingScreen": {
+                "descriptionPartOne": "By tapping “Sign Up” or “Log In”, you agree to our ",
+                "descriptionPartTwo": "terms",
+                "descriptionPartThree": ".\n Learn how we process your data in our",
+                "descriptionPartFour": " Privacy Policy",
+                "descriptionPartFive": " and ",
+                "descriptionPartSix": "Cookies Policy",
+                "descriptionPartSeven": ".",
+                "signUp": "SIGN UP",
+                "logIn": "LOG IN",
+                "troubleSigningIn": "Trouble signing in?"
+            },
+            "loginScreen": {
+                "emailPlaceholder": "Email",
+                "passwordPlaceholder": "Password",
+                "logIn": "LOG IN",
+                "troubleSigningIn": "Trouble signing in?",
+                "back": "back",
+                "warnings": {
+                    "incorrectEmailFormat": "Please enter an email in the correct format.",
+                    "emailNotRegistered": "This email is not registered. Please Sign Up or try again.",
+                    "incorrectPassword": "This password is incorrect. Please try again."
+                },
+                "alert": {
+                    "passwordResetSuccess": "Password reset successfully."
+                }
+            },
+            "sendResetPasswordScreen": {
+                "emailPlaceholder": "Email you used to sign up",
+                "sendPasswordReset": "SEND PASSWORD RESET",
+                "back": "back",
+                "warnings": {
+                    "incorrectEmailFormat": "Please enter an email in the correct format.",
+                    "emailNotRegistered": "This email is not registered. Please Sign Up or try again.",
+                }
+            },
+            "changePasswordScreen": {
+                "passwordPlaceholder": "New Password",
+                "confirmPasswordPlaceholder": "Confirm New Password",
+                "changePassword": "CHANGE PASSWORD"
+            },
+            "enterMobileNumberScreen": {
+                "title": "My number",
+                "description": "We will send you a text with an authentication code. Message and data rates may apply.",
+                "next": "NEXT",
+                "dropdown": {
+                    "title": "Select country code"
+                },
+                "warnings": {
+                    "notRealPhoneNumber": "Not a real phone number.",
+                }
+            },
+            "enterOTPScreen": {
+                "title": "My code is",
+                "resend": "Click here to resend",
+                "next": "NEXT",
+                "warnings": {
+                    "incorrectCode": "Incorrect code. Try again."
+                },
+                "alerts": {
+                    "cannotSendCode": {
+                        "title": "Can’t send a new code",
+                        "description": "Please wait 1 minute before requesting a new code.",
+                        "button": "OK"
+                    },
+                    "sentCode": {
+                        "title": "New code sent",
+                        "description": "You should receive it as a text on your mobile device",
+                        "button": "OK"
+                    }
+                }
+            },
+            "enterEmailScreen": {
+                "title": "My email",
+                "description": "Make sure to verify this email so that you don’t lose access to your account.",
+                "next": "NEXT",
+                "agreement": "I want to receive mail with offers, news, and content creator opportunities.",
+                "warnings": {
+                    "incorrectEmailFormat": "Please use a correct email format."
+                }
+            },
+            "enterPasswordScreen": {
+                "title": "My password",
+                "description": "Please use a password with at least 1 uppercase letter, 1 lowercase letter, one number, and one special character (eg. !, %, $)",
+                "next": "NEXT",
+                "warnings": {
+                    "incorrectPasswordFormat": "Please use a correct password format."
+                }
+            },
+            "enterNameScreen": {
+                "title": "My name is",
+                "description": "This will be shown on your profile. You can edit your profile at any time.",
+                "next": "NEXT"
+            },
+            "enterBirthdayScreen": {
+                "title": "My birthday is",
+                "description": "Your age is not public.",
+                "placeholder": "DD / MM / YY",
+                "next": "NEXT"
+            },
+            "addYourLibryScreen": {
+                "title": "Add to your Libry",
+                "description": "You will see their new posts appear on the app.",
+                "next": "NEXT",
+                "skip": "SKIP",
+                "add": "+ ADD TO LIBRY",
+                "added": "ADDED"
+            },
+            "welcomeLibryScreen": {
+                "title": "Welcome to Libry",
+                "description": "Let’s begin by setting up your profile.",
+                "next": "CONTINUE"
+            },
+            "yourLibryReadyScreen": {
+                "title": "Your Libry is ready",
+                "next": "NEXT"
+            },
+            "publishFirstIdeaScreen": {
+                "title": "Publish your first Idea",
+                "descriptionTop": "Ideas are like emails you send out to the world.",
+                "descriptionMiddle": "We’ve created an “Announcements” collection on\n your profile to help you post your first Idea.\n Tap next to edit and post it:",
+                "descriptionBottom": "You can always edit or delete things later.",
+                "next": "NEXT →"
+            }
+        }
+    }
+}

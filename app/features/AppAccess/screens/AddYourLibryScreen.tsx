@@ -1,13 +1,12 @@
 import {
   FlatList,
-  ImageSourcePropType,
   Platform,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import React, {PropsWithChildren, useState} from 'react';
+import React, {useState} from 'react';
 import {Colors, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
@@ -15,69 +14,62 @@ import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import AddLibryItem from '../components/AddLibryItem';
+import {LibryItemInterface} from '../interfaces';
 
 const AddYourLibryScreen = () => {
-  type ItemProps = PropsWithChildren<{
-    item: {
-      name: string;
-      bio: string;
-      image: ImageSourcePropType;
-      added: boolean;
-    };
-    index: number;
-  }>;
 
   const {t} = useTranslation();
   const onPressBack = () => {
     RootNavigation.goBack();
   };
 
-  const [itemIndex, setItemIndex] = useState<number>();
-  const [toggled, setToggled] = useState(false);
-
+  const [selectedCount, setSelectedCount] = useState(0);
   const onPressPrimaryButton = () => {
     RootNavigation.navigate('YourLibryReadyScreen');
   };
-  const DATA = [
+
+  const onSelectionChange = (count: number) => {
+    setSelectedCount(selectedCount + count);
+  };
+
+  const DATA: LibryItemInterface[] = [
     {
-      name: 'Bilal Pervez',
+      name: 'Bilal Pervez 1',
       bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
       image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: 'false',
+      added: false,
     },
     {
-      name: 'Bilal Pervez',
+      name: 'Bilal Pervez 2',
       bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
       image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: 'false',
+      added: false,
     },
     {
-      name: 'Bilal Pervez',
+      name: 'Bilal Pervez 3',
       bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
       image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: 'false',
+      added: false,
     },
     {
-      name: 'Bilal Pervez',
+      name: 'Bilal Pervez 4',
       bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
       image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: 'false',
+      added: false,
     },
     {
-      name: 'Bilal Pervez',
+      name: 'Bilal Pervez 5',
       bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
       image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: 'false',
+      added: false,
     },
     {
-      name: 'Bilal Pervez',
+      name: 'Bilal Pervez 6',
       bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
       image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: 'false',
+      added: false,
     },
   ];
-
-  const [data, setData] = useState(DATA);
 
   return (
     <>
@@ -102,34 +94,23 @@ const AddYourLibryScreen = () => {
               </Text>
             </View>
             <FlatList
-              data={data}
+              data={DATA}
               keyExtractor={(item, index) => index.toString()}
-              renderItem={({item, index}) => (
-                <AddLibryItem
-                  item={item}
-                  index={index}
-                  onClickAdd={(
-                    index: React.SetStateAction<number | undefined>,
-                  ) => {
-                    setToggled(true);
-                    setItemIndex(index);
-                    DATA[parseInt(index)].added = !DATA[parseInt(index)].added;
-                    setData(DATA);
-                  }}
-                />
+              renderItem={({item}) => (
+                <AddLibryItem item={item} onAction={onSelectionChange} />
               )}
               showsVerticalScrollIndicator
               scrollIndicatorInsets={{right: 0, left: 1, top: 1, bottom: 1}}
-              extraData={data}
+              extraData={DATA}
               style={styles.flatList}
             />
           </View>
 
           <PrimaryButton
             text={
-              toggled
-                ? t('appAccess.addYourLibryScreen.next')
-                : t('appAccess.addYourLibryScreen.skip')
+              selectedCount === 0
+                ? t('appAccess.addYourLibryScreen.skip')
+                : t('appAccess.addYourLibryScreen.next')
             }
             color="green"
             style={styles.button}

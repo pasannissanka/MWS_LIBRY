@@ -43,7 +43,11 @@ const CountryCodeDropdown = ({
 
       <View style={{width: '100%', paddingHorizontal: 10}}>
         <TouchableOpacity
-          style={styles.itemTouchable}
+          style={
+            index < DATA.length - 1
+              ? styles.itemTouchable
+              : styles.itemTouchableLast
+          }
           onPress={() => {
             onPressItem(item);
             _reference.current.close();
@@ -124,6 +128,16 @@ const styles = StyleSheet.create({
     paddingTop: 9,
     paddingBottom: 7,
     borderTopWidth: 0.35,
+    borderColor: Colors.DROPDOWN_LINE_BRAKER_COLOR,
+  },
+  itemTouchableLast: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    paddingTop: 9,
+    paddingBottom: 7,
+    borderTopWidth: 0.35,
+    marginBottom: 16,
     borderColor: Colors.DROPDOWN_LINE_BRAKER_COLOR,
   },
   itemName: {

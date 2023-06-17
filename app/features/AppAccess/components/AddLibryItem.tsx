@@ -1,29 +1,25 @@
 import {
   Image,
-  ImageSourcePropType,
   Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {PropsWithChildren} from 'react';
+import React, {useState} from 'react';
 import {Colors, Images, Sizes} from '../../../theme';
 import {useTranslation} from 'react-i18next';
+import {AddLibryItemInterface} from '../interfaces';
 
-type SectionProps = PropsWithChildren<{
-  item: {
-    name: string;
-    bio: string;
-    image: ImageSourcePropType;
-    added: boolean;
-  };
-  index: number;
-  onClickAdd?: any;
-}>;
+const AddLibryItem = ({item, onAction}: AddLibryItemInterface) => {
+  const [buttonStatus, setButtonStatus] = useState(item.added);
 
-const AddLibryItem = ({item, index, onClickAdd}: SectionProps) => {
   const {t} = useTranslation();
+
+  const onClickAdd = () => {
+    setButtonStatus(!buttonStatus);
+    buttonStatus ? onAction(1) : onAction(-1);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -37,10 +33,10 @@ const AddLibryItem = ({item, index, onClickAdd}: SectionProps) => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          onClickAdd(index);
+          onClickAdd();
         }}
-        style={item.added ? styles.addedButton : styles.addButton}>
-        {item.added ? (
+        style={buttonStatus ? styles.addedButton : styles.addButton}>
+        {buttonStatus ? (
           <View style={styles.addedTextContainer}>
             <Image
               source={Images.icons.green_tick_icon}

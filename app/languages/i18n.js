@@ -8,7 +8,12 @@ i18next.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   lng: 'en',
   resources: {
-    en: app_access_english,
+    en: {
+      translation: {
+        ...app_access_english,
+        ...dummy_screens_english,
+      },
+    },
     es: dummy_screens_spanish,
   },
   react: {

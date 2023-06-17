@@ -1,9 +1,7 @@
 {
-    "translation": {
-        "dummyScreens": {
-            "dummyScreenOne": {
-                "title": "Dummy Screen"
-            }
+    "dummyScreens": {
+        "dummyScreenOne": {
+            "title": "Dummy Screen"
         }
     }
 }

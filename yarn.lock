@@ -2732,6 +2732,7 @@ __metadata:
     react-native-safe-area-context: ^4.5.2
     react-native-screens: ^3.20.0
     react-native-splash-screen: ^3.3.0
+    react-phone-number-input: ^3.2.23
     react-test-renderer: 18.2.0
     typescript: 4.8.4
   languageName: unknown
@@ -3561,6 +3562,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"classnames@npm:^2.3.1":
+  version: 2.3.2
+  resolution: "classnames@npm:2.3.2"
+  checksum: 2c62199789618d95545c872787137262e741f9db13328e216b093eea91c85ef2bfb152c1f9e63027204e2559a006a92eb74147d46c800a9f96297ae1d9f96f4e
+  languageName: node
+  linkType: hard
+
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -3854,6 +3862,13 @@ __metadata:
     js-yaml: ^3.13.1
     parse-json: ^4.0.0
   checksum: 8b6f1d3c8a5ffdf663a952f17af0761adf210b7a5933d0fe8988f3ca3a1f0e1e5cbbb74d5b419c15933dd2fdcaec31dbc5cc85cb8259a822342b93b529eff89c
+  languageName: node
+  linkType: hard
+
+"country-flag-icons@npm:^1.5.4":
+  version: 1.5.7
+  resolution: "country-flag-icons@npm:1.5.7"
+  checksum: b2512623ec7fa5a7b3d875b173469637f8782bb160d6054cd281223847b434316b22a736488a441168fc278fc9ee4b0b5e84a0b6164ab0a371a7afb1c2d50ca5
   languageName: node
   linkType: hard
 
@@ -5489,6 +5504,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"input-format@npm:^0.3.8":
+  version: 0.3.8
+  resolution: "input-format@npm:0.3.8"
+  dependencies:
+    prop-types: ^15.8.1
+  checksum: 22a0266504536c4c18cee1e44f45d995a7c3f8599e63f52e0cf1805eea16997508dc6182736caf8676d5e279695997ef8edc4f4e091a9f17fa365ffe6e19710e
+  languageName: node
+  linkType: hard
+
 "internal-slot@npm:^1.0.3, internal-slot@npm:^1.0.5":
   version: 1.0.5
   resolution: "internal-slot@npm:1.0.5"
@@ -6678,6 +6702,13 @@ __metadata:
     prelude-ls: ^1.2.1
     type-check: ~0.4.0
   checksum: 12c5021c859bd0f5248561bf139121f0358285ec545ebf48bb3d346820d5c61a4309535c7f387ed7d84361cf821e124ce346c6b7cef8ee09a67c1473b46d0fc4
+  languageName: node
+  linkType: hard
+
+"libphonenumber-js@npm:^1.10.30":
+  version: 1.10.36
+  resolution: "libphonenumber-js@npm:1.10.36"
+  checksum: e5a52e13add03db3cb8c0b7401f4cc5a4167a78965954a6e61b64bf412aacd5424e37ea6ab6ef9f77fc8994e7812bd758585f78b8fb871ca75e2c6b6507982fb
   languageName: node
   linkType: hard
 
@@ -8397,6 +8428,22 @@ __metadata:
   bin:
     react-native: cli.js
   checksum: fe887c1b8bded23f9efea9dc10a8a8b2f32147e06418fc9a78294944874797abb0185ebcb0fdc5ce88046280bca72264ae8d119f4ca681a3e0bc502d0f75bfbe
+  languageName: node
+  linkType: hard
+
+"react-phone-number-input@npm:^3.2.23":
+  version: 3.2.23
+  resolution: "react-phone-number-input@npm:3.2.23"
+  dependencies:
+    classnames: ^2.3.1
+    country-flag-icons: ^1.5.4
+    input-format: ^0.3.8
+    libphonenumber-js: ^1.10.30
+    prop-types: ^15.8.1
+  peerDependencies:
+    react: ">=16.8"
+    react-dom: ">=16.8"
+  checksum: 2e5096821dc2c91ab2b34d948d7aa8dc508c4aba8de067d3d20623dd6bfc8c8f18153a74669cf7f11985ed06e89e4b064c23c251df3d383d4b24cefb8e5bec4d
   languageName: node
   linkType: hard
 

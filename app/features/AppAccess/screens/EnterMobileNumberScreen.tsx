@@ -9,27 +9,24 @@ import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import MobileNumInput from '../components/MobileNumInput';
 import Collapsible from 'react-native-collapsible';
+import {isValidPhoneNumber} from 'react-phone-number-input';
 
 const EnterMobileNumberScreen = () => {
   const {t} = useTranslation();
 
-  const warnings = {
-    IncorrectNumberFormat: 'IncorrectNumberFormat',
-  };
-
   const [mobileNum, onChangeMobileNum] = useState('');
-  const [warning, setWarning] = useState('');
+  const [validMobileNumber, setValidMobileNumber] = useState(true);
 
   const onPressBack = () => {
     RootNavigation.goBack();
   };
 
   const onPressNext = () => {
-    if (/^\d+$/.test(mobileNum)) {
-      setWarning('');
+    if (isValidPhoneNumber(mobileNum)) {
+      setValidMobileNumber(true);
       RootNavigation.navigate('EnterOTPScreen');
     } else {
-      setWarning(warnings.IncorrectNumberFormat);
+      setValidMobileNumber(false);
     }
   };
 
@@ -52,12 +49,10 @@ const EnterMobileNumberScreen = () => {
 
               <MobileNumInput
                 onChangeMobileNum={onChangeMobileNum}
-                value={mobileNum}
-                error={warning !== ''}
+                error={!validMobileNumber}
               />
-
               <Collapsible
-                collapsed={warning === ''}
+                collapsed={validMobileNumber}
                 style={styles.collapsibleView}
                 duration={500}>
                 <Text style={styles.warning}>

@@ -5,9 +5,14 @@ import React, {useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import {navigationRef} from './navigation/RootNavigation';
 import SplashScreen from 'react-native-splash-screen';
-import { Colors } from './theme';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
+import {Colors} from './theme';
+import {useSelector} from 'react-redux';
 
 const Root = (): React.JSX.Element => {
+  const SpinnerVisibility = useSelector(
+    (state: any) => state.commonReducer.spinnerVisibility,
+  );
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -17,6 +22,10 @@ const Root = (): React.JSX.Element => {
         translucent={false}
         backgroundColor={'#012674'}
         barStyle={'default'}
+      />
+      <Spinner
+        visible={SpinnerVisibility}
+        overlayColor={Colors.SPINNER_OVERLAY_COLOR}
       />
       <SafeAreaView style={styles.parentSafeAreaView} />
       <SafeAreaView style={styles.childSafeAreaView}>

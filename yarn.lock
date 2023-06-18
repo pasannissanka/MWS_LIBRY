@@ -2945,6 +2945,7 @@ __metadata:
     "@types/react": ^18.0.24
     "@types/react-test-renderer": ^18.0.0
     "@types/redux-logger": ^3.0.9
+    axios: 0.18.0
     babel-jest: ^29.2.1
     eslint: ^8.19.0
     i18next: ^22.5.0
@@ -2957,6 +2958,7 @@ __metadata:
     react-native-collapsible: ^1.6.1
     react-native-gesture-handler: ^2.10.0
     react-native-linear-gradient: ^2.6.2
+    react-native-loading-spinner-overlay: ^3.0.1
     react-native-raw-bottom-sheet: ^2.2.0
     react-native-safe-area-context: ^4.5.2
     react-native-screens: ^3.20.0
@@ -3334,6 +3336,16 @@ __metadata:
   version: 1.0.5
   resolution: "available-typed-arrays@npm:1.0.5"
   checksum: 20eb47b3cefd7db027b9bbb993c658abd36d4edd3fe1060e83699a03ee275b0c9b216cc076ff3f2db29073225fb70e7613987af14269ac1fe2a19803ccc97f1a
+  languageName: node
+  linkType: hard
+
+"axios@npm:0.18.0":
+  version: 0.18.0
+  resolution: "axios@npm:0.18.0"
+  dependencies:
+    follow-redirects: ^1.3.0
+    is-buffer: ^1.1.5
+  checksum: 94f0ab0f6f554f85611f3bf4f4293eb5fbb7992ed5df19790b8493240a8830be38c67b55932a073e9daad2ee1bc7649b8db307894783f4d380a03ec95dcc5800
   languageName: node
   linkType: hard
 
@@ -5151,6 +5163,16 @@ __metadata:
   version: 0.185.2
   resolution: "flow-parser@npm:0.185.2"
   checksum: 6c8cee6ef2a2f0e5a5dd29698dfc493c8148263ce52b061804c812877ef68b1d0747d8f17256f2ed36e105550eab27a37377be32f1fed4b72c434dda6e0c053c
+  languageName: node
+  linkType: hard
+
+"follow-redirects@npm:^1.3.0":
+  version: 1.15.2
+  resolution: "follow-redirects@npm:1.15.2"
+  peerDependenciesMeta:
+    debug:
+      optional: true
+  checksum: faa66059b66358ba65c234c2f2a37fcec029dc22775f35d9ad6abac56003268baf41e55f9ee645957b32c7d9f62baf1f0b906e68267276f54ec4b4c597c2b190
   languageName: node
   linkType: hard
 
@@ -8790,6 +8812,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 6bd2829be2592dce4b3cd1fb66c568c7f35b61f3331d55b49ad637077ad3f64fee60913307dcefcbc11bda22de9025326cf2d310be9d7f5dd4996f996ed64c5b
+  languageName: node
+  linkType: hard
+
+"react-native-loading-spinner-overlay@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "react-native-loading-spinner-overlay@npm:3.0.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: d9e5e10bc6170084c162e717a94db7bd60a35eb8110614529caa501790ab9ddfb551239d2e9120aaa15048bfd0af03da8bed0d1ea09e7ebb88a4b39d88ed6878
   languageName: node
   linkType: hard
 

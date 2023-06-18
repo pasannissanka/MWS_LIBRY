@@ -11,13 +11,16 @@ import Collapsible from 'react-native-collapsible';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import OTPInput from '../components/OTPInput';
 import OTPModal from '../components/OTPModal';
+import {useDispatch, useSelector} from 'react-redux';
+import {setOtpModalVisible} from '../redux/action/action';
 
 const EnterOTPScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
 
-  const warnings = {
-    IncorrectCode: 'IncorrectCode',
-  };
+  const ModalVisibility = useSelector(
+    (state: any) => state.appAccessReducer.otpModalVisibility,
+  );
 
   const ALERTS = [
     {
@@ -27,7 +30,7 @@ const EnterOTPScreen = () => {
       ),
       button: t('appAccess.enterOTPScreen.alerts.cannotSendCode.button'),
       action: () => {
-        setModalVisible(false);
+        dispatch(setOtpModalVisible('invisible'));
       },
     },
     {
@@ -35,15 +38,29 @@ const EnterOTPScreen = () => {
       description: t('appAccess.enterOTPScreen.alerts.sentCode.description'),
       button: t('appAccess.enterOTPScreen.alerts.sentCode.button'),
       action: () => {
-        setModalVisible(false);
+        dispatch(setOtpModalVisible('invisible'));
       },
+    },
+    {
+      title: '',
+      description: '',
+      button: '',
+      action: () => {},
     },
   ];
 
+  const ModalAlert =
+    ModalVisibility === 'cannotSend'
+      ? ALERTS[0]
+      : ModalVisibility === 'sent'
+      ? ALERTS[1]
+      : ALERTS[2];
+  const warnings = {
+    IncorrectCode: 'IncorrectCode',
+  };
+
   const [OTP, onChangeOTP] = useState('');
-  const [alert, setAlert] = useState(ALERTS[0]);
   const [warning, setWarning] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
 
   const onPressBack = () => {
     RootNavigation.goBack();
@@ -76,7 +93,6 @@ const EnterOTPScreen = () => {
               </Text>
 
               <OTPInput onChangeOTP={onChangeOTP} error={warning !== ''} />
-
               <Collapsible
                 collapsed={warning === ''}
                 style={styles.collapsibleView}
@@ -89,7 +105,7 @@ const EnterOTPScreen = () => {
               <TouchableOpacity
                 style={styles.resendTouchable}
                 onPress={() => {
-                  setModalVisible(true);
+                  dispatch(setOtpModalVisible('sent'));
                 }}>
                 <Text style={styles.resend}>
                   {t('appAccess.enterOTPScreen.resend')}
@@ -108,11 +124,11 @@ const EnterOTPScreen = () => {
         </View>
       </View>
       <OTPModal
-        visible={modalVisible}
-        title={alert.title}
-        description={alert.description}
-        button={alert.button}
-        onPress={alert.action}
+        visible={ModalVisibility !== 'invisible'}
+        title={ModalAlert.title}
+        description={ModalAlert.description}
+        button={ModalAlert.button}
+        onPress={ModalAlert.action}
       />
     </>
   );

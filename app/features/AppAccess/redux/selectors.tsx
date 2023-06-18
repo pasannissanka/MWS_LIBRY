@@ -1,2 +1,2 @@
-export const name = (state: {appAccessReducer: {user: any}}) =>
-  state.appAccessReducer.user;
+export const DeviceId = (state: {appAccessReducer: {deviceId: string}}) =>
+  state.appAccessReducer.deviceId;

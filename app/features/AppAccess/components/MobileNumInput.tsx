@@ -27,9 +27,9 @@ const MobileNumInput = ({
 }: SectionProps) => {
   const [number, setNumber] = useState('');
   const [countryObj, setCountryObj] = useState({
-    name: 'France',
-    dial_code: '+33',
-    code: 'FR',
+    name: 'Sri Lanka',
+    dial_code: '+94',
+    code: 'LK',
   });
   const dropdownRef = useRef<any>();
 

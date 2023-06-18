@@ -1,5 +1,7 @@
 import {takeLatest} from 'redux-saga/effects';
 import * as type from '../redux/action/types';
-import {setUserName} from './appAccessSaga';
+import {renderEnterOtpScreen} from './appAccessSaga';
 
-export const appAccessSagas = [takeLatest(type.GET_USER, setUserName)];
+export const appAccessSagas = [
+  takeLatest(type.GET_SIGN_UP_RESPONSE, renderEnterOtpScreen),
+];

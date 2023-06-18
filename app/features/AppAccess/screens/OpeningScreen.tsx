@@ -7,15 +7,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Sizes, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import * as RootNavigation from '../../../navigation/RootNavigation';
+import {useDispatch} from 'react-redux';
+import {setDeviceId} from '../redux/action/action';
 
 const OpeningScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setDeviceId('7016A1AB-C37A-419B-8305-78D510C309DD'));
+  });
   return (
     <>
       <StatusBar
@@ -100,10 +107,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topSpace: {
-    flex: 3.8, 
+    flex: 3.8,
   },
   bottomSpace: {
-    flex: 1, 
+    flex: 1,
   },
   logo: {
     width: 155,

@@ -1,8 +1,31 @@
 import {call, put, select} from 'redux-saga/effects';
-import {setUser} from '../redux/action/action';
+import {setOtpModalVisible, setSignUpResponse} from '../redux/action/action';
+import {fetchSignUpResponse} from '../../../services/AppAccess/AppAccess';
+import {DeviceId} from '../redux/selectors';
+import {setSpinnerVisible} from '../../../redux/action/action';
 
-export function* setUserName(action: any) {
-  const userName = action.payload;
+//RENDER ENTER OTP SCREEN
+export function* renderEnterOtpScreen(action: any) {
+  let response = {
+    token: '',
+  };
 
-  yield put(setUser(userName));
+  const mobile_number = action.payload;
+  const device_id: string = yield select(DeviceId);
+  console.log(device_id);
+
+  const requestBody = {
+    mobile_number: mobile_number,
+    device_id: device_id,
+  };
+  try {
+    yield put(setSpinnerVisible(true));
+    response = yield call(fetchSignUpResponse, requestBody);
+    yield put(setSignUpResponse(response));
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+    yield put(setSpinnerVisible(false));
+    yield put(setOtpModalVisible('cannotSend'));
+  }
 }

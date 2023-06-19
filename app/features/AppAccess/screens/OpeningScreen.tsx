@@ -7,22 +7,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Sizes, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import {useDispatch} from 'react-redux';
-import {setDeviceId} from '../redux/action/action';
 
 const OpeningScreen = () => {
   const {t} = useTranslation();
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setDeviceId('7016A1AB-C37A-419B-8305-78D510C309DD'));
-  });
   return (
     <>
       <StatusBar
@@ -55,6 +49,7 @@ const OpeningScreen = () => {
                 </Text>
                 <Text>{t('appAccess.openingScreen.descriptionPartSeven')}</Text>
               </Text>
+              <Text style={{color: 'white'}}>{}</Text>
               <View style={styles.buttonContainer}>
                 <PrimaryButton
                   onPress={() => {

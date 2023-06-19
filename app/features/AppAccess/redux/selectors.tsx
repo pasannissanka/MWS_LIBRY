@@ -1,2 +1,2 @@
-export const DeviceId = (state: {appAccessReducer: {deviceId: string}}) =>
-  state.appAccessReducer.deviceId;
+export const DeviceId = (state: {commonReducer: {deviceId: string}}) =>
+  state.commonReducer.deviceId;

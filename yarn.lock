@@ -2956,6 +2956,7 @@ __metadata:
     react-i18next: ^12.3.1
     react-native: 0.71.8
     react-native-collapsible: ^1.6.1
+    react-native-device-info: ^10.6.0
     react-native-gesture-handler: ^2.10.0
     react-native-linear-gradient: ^2.6.2
     react-native-loading-spinner-overlay: ^3.0.1
@@ -8779,6 +8780,15 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: ec28769002dd29290f3a9e49ebb7d8ac93a7dfd759669a06f3c235983548e622269b267753b32c4f41224ca5ea6b71bc497fd8594bba0d1e28566f44318a06b7
+  languageName: node
+  linkType: hard
+
+"react-native-device-info@npm:^10.6.0":
+  version: 10.6.0
+  resolution: "react-native-device-info@npm:10.6.0"
+  peerDependencies:
+    react-native: "*"
+  checksum: 7a7cc438844552aef687b4a5b8efd0cd0a2959e0a3b771febfbe0b6a9ca8ff05a563e2912b30b83523bd3d5143d6616ca8fac0476abf01936a726e1578211ebb
   languageName: node
   linkType: hard
 

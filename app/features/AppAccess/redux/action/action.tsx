@@ -7,19 +7,6 @@ import {
   SET_SIGN_UP_RESPONSE,
 } from './types';
 
-export const setDeviceId = (deviceId: string) => {
-  return {
-    type: SET_DEVICE_ID,
-    payload: deviceId,
-  };
-};
-export const getDeviceId = (deviceId: string) => {
-  return {
-    type: GET_DEVICE_ID,
-    payload: deviceId,
-  };
-};
-
 export const setSignUpResponse = (response: object) => {
   return {
     type: SET_SIGN_UP_RESPONSE,

@@ -6,14 +6,21 @@ import LinearGradient from 'react-native-linear-gradient';
 import {navigationRef} from './navigation/RootNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
+import DeviceInfo from 'react-native-device-info';
 import {Colors} from './theme';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setDeviceId} from './redux/action/action';
 
 const Root = (): React.JSX.Element => {
+  const dispatch = useDispatch();
   const SpinnerVisibility = useSelector(
     (state: any) => state.commonReducer.spinnerVisibility,
   );
   useEffect(() => {
+    DeviceInfo.getUniqueId().then(uniqueId => {
+      dispatch(setDeviceId(uniqueId));
+      console.log('DEVICE_ID::: ', uniqueId);
+    });
     SplashScreen.hide();
   }, []);
   return (

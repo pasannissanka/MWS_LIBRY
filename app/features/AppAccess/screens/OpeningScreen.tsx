@@ -49,7 +49,6 @@ const OpeningScreen = () => {
                 </Text>
                 <Text>{t('appAccess.openingScreen.descriptionPartSeven')}</Text>
               </Text>
-              <Text style={{color: 'white'}}>{}</Text>
               <View style={styles.buttonContainer}>
                 <PrimaryButton
                   onPress={() => {

@@ -23,6 +23,7 @@ const Colors = {
   CHECKBOX_BORDER_COLOR: '#EDEDED',
 
   SPINNER_OVERLAY_COLOR: '#00000060',
+  NO_CONNECTION_NARROW_STRIP_BACKGROUND_COLOR: '#812823',
 
   text: {
     PRIMARY_COLOR: '#FFFFFF',
@@ -42,7 +43,7 @@ const Colors = {
   button: {
     ADD_BUTTON_GREEN: '#06D30F',
     ADDED_BUTTON_GRAY: '#303030',
-  }
+  },
 };
 
 export {Colors};

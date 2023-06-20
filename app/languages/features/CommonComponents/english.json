@@ -1,0 +1,7 @@
+{
+    "commonComponents": {
+        "noNetworkConectionStrip": {
+            "text": "No internet connection"
+        }
+        }
+}

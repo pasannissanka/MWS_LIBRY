@@ -1,4 +1,4 @@
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import NavigationStack from './navigation/NavigationStack';
 import React, {useEffect} from 'react';
@@ -10,6 +10,7 @@ import DeviceInfo from 'react-native-device-info';
 import {Colors} from './theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {setDeviceId} from './redux/action/action';
+import NoNetworkNarrowStrip from './features/AppAccess/components/NoNetworkNarrowStrip';
 
 const Root = (): React.JSX.Element => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const Root = (): React.JSX.Element => {
         <LinearGradient
           colors={['#012674', '#222322']}
           style={styles.linearGradient}>
+          <NoNetworkNarrowStrip />
           <NavigationContainer ref={navigationRef}>
             <NavigationStack />
           </NavigationContainer>

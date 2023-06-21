@@ -2,6 +2,7 @@ import createReducer from '../../helper/createReducer';
 import {
   SET_DEVICE_ID,
   SET_END_POINT_ERROR,
+  SET_MOBILE_NUMBER,
   SET_SPINNER_VISIBLE,
 } from '../action/type';
 
@@ -10,6 +11,8 @@ const initialState = {
   spinnerVisibility: false,
   deviceId: '',
   endPointErrorVisibility: false,
+  mobileNumber: '',
+  userEmail: '',
 };
 
 export const commonReducer = createReducer(initialState, {
@@ -17,6 +20,12 @@ export const commonReducer = createReducer(initialState, {
     return {
       ...state,
       deviceId: action.payload,
+    };
+  },
+  [SET_MOBILE_NUMBER](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      mobileNumber: action.payload,
     };
   },
   [SET_SPINNER_VISIBLE](state: any, action: {payload: object}) {

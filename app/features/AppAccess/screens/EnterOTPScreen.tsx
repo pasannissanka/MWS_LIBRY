@@ -12,7 +12,11 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import OTPInput from '../components/OTPInput';
 import OTPModal from '../components/OTPModal';
 import {useDispatch, useSelector} from 'react-redux';
-import {setOtpModalVisible} from '../redux/action/action';
+import {
+  getSignUpResponse,
+  getSignUpResponseVerify,
+  setOtpModalVisible,
+} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
 const EnterOTPScreen = () => {
@@ -72,8 +76,13 @@ const EnterOTPScreen = () => {
   };
 
   const onPressNext = () => {
-    if (OTP.length === 5) {
+    //OTP LENGTH CHANGE
+    if (
+      //OTP.length === 5
+      OTP.length === 6
+    ) {
       setWarning('');
+      dispatch(getSignUpResponseVerify(OTP));
       RootNavigation.navigate('EnterEmailScreen');
     } else {
       setWarning(warnings.IncorrectCode);
@@ -119,7 +128,7 @@ const EnterOTPScreen = () => {
                   <TouchableOpacity
                     style={styles.resendTouchable}
                     onPress={() => {
-                      dispatch(setOtpModalVisible('sent'));
+                      dispatch(getSignUpResponse('EnterOTPScreen'));
                     }}>
                     <Text style={styles.resend}>
                       {t('appAccess.enterOTPScreen.resend')}

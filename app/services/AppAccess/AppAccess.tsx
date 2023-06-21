@@ -11,3 +11,13 @@ export function fetchSignUpResponse(body: object) {
     body,
   );
 }
+
+export function fetchSignUpVerifyResponse(body: object) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.VERIFY_SIGN_UP_OTP,
+    'POST',
+    null, //token
+    body,
+  );
+}

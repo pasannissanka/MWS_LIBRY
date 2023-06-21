@@ -1,9 +1,11 @@
 import {
   GET_DEVICE_ID,
   GET_END_POINT_ERROR,
+  GET_MOBILE_NUMBER,
   GET_SPINNER_VISIBLE,
   SET_DEVICE_ID,
   SET_END_POINT_ERROR,
+  SET_MOBILE_NUMBER,
   SET_SPINNER_VISIBLE,
 } from './type';
 
@@ -13,10 +15,21 @@ export const setDeviceId = (deviceId: string) => {
     payload: deviceId,
   };
 };
-export const getDeviceId = (deviceId: string) => {
+export const getDeviceId = () => {
   return {
     type: GET_DEVICE_ID,
-    payload: deviceId,
+  };
+};
+
+export const setMobileNumber = (number: string) => {
+  return {
+    type: SET_MOBILE_NUMBER,
+    payload: number,
+  };
+};
+export const getMobileNumber = () => {
+  return {
+    type: GET_MOBILE_NUMBER,
   };
 };
 

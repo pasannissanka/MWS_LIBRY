@@ -1,10 +1,10 @@
 import {
-  GET_DEVICE_ID,
   GET_OTP_MODAL_VISIBLE,
   GET_SIGN_UP_RESPONSE,
-  SET_DEVICE_ID,
+  GET_SIGN_UP_RESPONSE_VERIFY,
   SET_OTP_MODAL_VISIBLE,
   SET_SIGN_UP_RESPONSE,
+  SET_SIGN_UP_RESPONSE_VERIFY,
 } from './types';
 
 export const setSignUpResponse = (response: object) => {
@@ -13,10 +13,12 @@ export const setSignUpResponse = (response: object) => {
     payload: response,
   };
 };
-export const getSignUpResponse = (mobileNumber: string) => {
+export const getSignUpResponse = (
+  screen: 'EnterMobileNumberScreen' | 'EnterOTPScreen',
+) => {
   return {
     type: GET_SIGN_UP_RESPONSE,
-    payload: mobileNumber,
+    payload: screen,
   };
 };
 
@@ -32,5 +34,18 @@ export const setOtpModalVisible = (
 export const getOtpModalVisible = () => {
   return {
     type: GET_OTP_MODAL_VISIBLE,
+  };
+};
+
+export const setSignUpResponseVerify = (response: object) => {
+  return {
+    type: SET_SIGN_UP_RESPONSE_VERIFY,
+    payload: response,
+  };
+};
+export const getSignUpResponseVerify = (otp: string) => {
+  return {
+    type: GET_SIGN_UP_RESPONSE_VERIFY,
+    payload: otp,
   };
 };

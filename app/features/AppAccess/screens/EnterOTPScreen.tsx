@@ -16,6 +16,7 @@ import {
   getSignUpResponse,
   getSignUpResponseVerify,
   setOtpModalVisible,
+  setOtpValidation,
 } from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
@@ -26,6 +27,8 @@ const EnterOTPScreen = () => {
   const ModalVisibility = useSelector(
     (state: any) => state.appAccessReducer.otpModalVisibility,
   );
+
+  const ValidOTP = useSelector((state: any) => state.appAccessReducer.validOtp);
 
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
@@ -64,14 +67,11 @@ const EnterOTPScreen = () => {
       : ModalVisibility === 'sent'
       ? ALERTS[1]
       : ALERTS[2];
-  const warnings = {
-    IncorrectCode: 'IncorrectCode',
-  };
 
   const [OTP, onChangeOTP] = useState('');
-  const [warning, setWarning] = useState('');
 
   const onPressBack = () => {
+    dispatch(setOtpValidation(true));
     RootNavigation.goBack();
   };
 
@@ -81,11 +81,10 @@ const EnterOTPScreen = () => {
       //OTP.length === 5
       OTP.length === 6
     ) {
-      setWarning('');
+      dispatch(setOtpValidation(true));
       dispatch(getSignUpResponseVerify(OTP));
-      RootNavigation.navigate('EnterEmailScreen');
     } else {
-      setWarning(warnings.IncorrectCode);
+      dispatch(setOtpValidation(false));
     }
   };
 
@@ -115,9 +114,9 @@ const EnterOTPScreen = () => {
                     {t('appAccess.enterOTPScreen.title')}
                   </Text>
 
-                  <OTPInput onChangeOTP={onChangeOTP} error={warning !== ''} />
+                  <OTPInput onChangeOTP={onChangeOTP} error={!ValidOTP} />
                   <Collapsible
-                    collapsed={warning === ''}
+                    collapsed={ValidOTP}
                     style={styles.collapsibleView}
                     duration={500}>
                     <Text style={styles.warning}>

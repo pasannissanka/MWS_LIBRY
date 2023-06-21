@@ -1,9 +1,11 @@
 import {
+  GET_EMAIL_VALIDATION,
   GET_OTP_MODAL_VISIBLE,
   GET_OTP_VALIDATION,
   GET_SIGN_UP_EMAIL_RESPONSE,
   GET_SIGN_UP_RESPONSE,
   GET_SIGN_UP_RESPONSE_VERIFY,
+  SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
   SET_SIGN_UP_EMAIL_RESPONSE,
@@ -75,5 +77,18 @@ export const setOtpValidation = (valid: boolean) => {
 export const getOtpValidation = () => {
   return {
     type: GET_OTP_VALIDATION,
+  };
+};
+
+export const setEmailValidation = (valid: boolean) => {
+  return {
+    type: SET_EMAIL_VALIDATION,
+    payload: valid,
+  };
+};
+
+export const getEmailValidation = () => {
+  return {
+    type: GET_EMAIL_VALIDATION,
   };
 };

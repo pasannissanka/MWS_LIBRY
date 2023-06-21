@@ -1,5 +1,6 @@
 import createReducer from '../../../../helper/createReducer';
 import {
+  SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
   SET_SIGN_UP_EMAIL_RESPONSE,
@@ -20,6 +21,7 @@ const initialState = {
     token: '',
   },
   validOtp: true,
+  validEmail: true,
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -51,6 +53,12 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       validOtp: action.payload,
+    };
+  },
+  [SET_EMAIL_VALIDATION](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      validEmail: action.payload,
     };
   },
 });

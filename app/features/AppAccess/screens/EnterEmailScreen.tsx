@@ -13,7 +13,10 @@ import {emailFormatevalidate} from '../../../helper/formatters';
 import AgreementRow from '../components/AgreementRow';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUserEmail} from '../../../redux/action/action';
-import {getSignUpEmailResponse} from '../redux/action/action';
+import {
+  getSignUpEmailResponse,
+  setEmailValidation,
+} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
 const EnterEmailScreen = () => {
@@ -23,31 +26,30 @@ const EnterEmailScreen = () => {
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
+  const ValidEmail = useSelector(
+    (state: any) => state.appAccessReducer.validEmail,
+  );
 
-  const warnings = {
-    IncorrectEmailFormat: 'IncorrectEmailFormat',
-  };
   const ref = useRef<any>();
   const [email, onChangeEmail] = useState('');
   const [checked, setChecked] = useState(false);
-  const [warning, setWarning] = useState('');
 
   const onPressBack = () => {
+    dispatch(setEmailValidation(true));
     RootNavigation.goBack();
   };
 
   const onPressNext = () => {
-    const validEmail = emailFormatevalidate(email);
-    if (validEmail) {
-      setWarning('');
+    const valid = emailFormatevalidate(email);
+    if (valid) {
+      dispatch(setEmailValidation(true));
       if (checked) {
         dispatch(setUserEmail(email));
         dispatch(getSignUpEmailResponse());
-        RootNavigation.navigate('EnterPasswordScreen');
       }
     } else {
       ref.current.focus();
-      setWarning(warnings.IncorrectEmailFormat);
+      dispatch(setEmailValidation(false));
     }
   };
 
@@ -89,7 +91,7 @@ const EnterEmailScreen = () => {
                   />
 
                   <Collapsible
-                    collapsed={warning === ''}
+                    collapsed={ValidEmail}
                     style={styles.collapsibleView}
                     duration={500}>
                     <Text style={styles.warning}>

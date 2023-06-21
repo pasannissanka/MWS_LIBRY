@@ -1,5 +1,6 @@
 import {call, put, select} from 'redux-saga/effects';
 import {
+  setEmailValidation,
   setOtpModalVisible,
   setOtpValidation,
   setSignUpEmailResponse,
@@ -93,6 +94,7 @@ export function* renderEnterEmailScreen(action: any) {
   }
 }
 
+//RENDER ENTER PASSWORD SCREEN
 export function* renderEnterPasswordScreen() {
   let response = {
     token: '',
@@ -113,10 +115,14 @@ export function* renderEnterPasswordScreen() {
 
     yield put(setSignUpEmailResponse(response));
     yield put(setSpinnerVisible(false));
+    yield put(setEmailValidation(true));
 
+    //Navigate Enter Password Screen
+    RootNavigation.navigate('EnterPasswordScreen');
   } catch (error) {
     yield put(setSpinnerVisible(false));
-    yield put(setEndPointErrorVisible(true));
+    yield put(setEmailValidation(false));
+    // yield put(setEndPointErrorVisible(true));
 
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }

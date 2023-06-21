@@ -13,6 +13,7 @@ import OTPInput from '../components/OTPInput';
 import OTPModal from '../components/OTPModal';
 import {useDispatch, useSelector} from 'react-redux';
 import {setOtpModalVisible} from '../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 const EnterOTPScreen = () => {
   const {t} = useTranslation();
@@ -20,6 +21,10 @@ const EnterOTPScreen = () => {
 
   const ModalVisibility = useSelector(
     (state: any) => state.appAccessReducer.otpModalVisibility,
+  );
+
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
   );
 
   const ALERTS = [
@@ -86,41 +91,52 @@ const EnterOTPScreen = () => {
         <ProgressBar completed={2} uncompleted={7} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-          <PrimaryContainer>
-            <View style={styles.otpInputContainer}>
-              <Text style={styles.title}>
-                {t('appAccess.enterOTPScreen.title')}
-              </Text>
 
-              <OTPInput onChangeOTP={onChangeOTP} error={warning !== ''} />
-              <Collapsible
-                collapsed={warning === ''}
-                style={styles.collapsibleView}
-                duration={500}>
-                <Text style={styles.warning}>
-                  {t('appAccess.enterOTPScreen.warnings.incorrectCode')}
-                </Text>
-              </Collapsible>
+          {EndPointErrorVisibility ? (
+            <EndPointError
+              onPressBack={() => {
+                RootNavigation.goBack();
+              }}
+            />
+          ) : (
+            <>
+              <PrimaryContainer>
+                <View style={styles.otpInputContainer}>
+                  <Text style={styles.title}>
+                    {t('appAccess.enterOTPScreen.title')}
+                  </Text>
 
-              <TouchableOpacity
-                style={styles.resendTouchable}
+                  <OTPInput onChangeOTP={onChangeOTP} error={warning !== ''} />
+                  <Collapsible
+                    collapsed={warning === ''}
+                    style={styles.collapsibleView}
+                    duration={500}>
+                    <Text style={styles.warning}>
+                      {t('appAccess.enterOTPScreen.warnings.incorrectCode')}
+                    </Text>
+                  </Collapsible>
+
+                  <TouchableOpacity
+                    style={styles.resendTouchable}
+                    onPress={() => {
+                      dispatch(setOtpModalVisible('sent'));
+                    }}>
+                    <Text style={styles.resend}>
+                      {t('appAccess.enterOTPScreen.resend')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </PrimaryContainer>
+              <PrimaryButton
+                text={t('appAccess.enterOTPScreen.next')}
+                color="green"
+                style={styles.button}
                 onPress={() => {
-                  dispatch(setOtpModalVisible('sent'));
-                }}>
-                <Text style={styles.resend}>
-                  {t('appAccess.enterOTPScreen.resend')}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </PrimaryContainer>
-          <PrimaryButton
-            text={t('appAccess.enterOTPScreen.next')}
-            color="green"
-            style={styles.button}
-            onPress={() => {
-              onPressNext();
-            }}
-          />
+                  onPressNext();
+                }}
+              />
+            </>
+          )}
         </View>
       </View>
       <OTPModal

@@ -1,10 +1,15 @@
 import createReducer from '../../helper/createReducer';
-import {SET_DEVICE_ID, SET_SPINNER_VISIBLE} from '../action/type';
+import {
+  SET_DEVICE_ID,
+  SET_END_POINT_ERROR,
+  SET_SPINNER_VISIBLE,
+} from '../action/type';
 
 // Initial State
 const initialState = {
   spinnerVisibility: false,
   deviceId: '',
+  endPointErrorVisibility: false,
 };
 
 export const commonReducer = createReducer(initialState, {
@@ -18,6 +23,12 @@ export const commonReducer = createReducer(initialState, {
     return {
       ...state,
       spinnerVisibility: action.payload,
+    };
+  },
+  [SET_END_POINT_ERROR](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      endPointErrorVisibility: action.payload,
     };
   },
 });

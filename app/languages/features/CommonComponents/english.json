@@ -2,6 +2,10 @@
     "commonComponents": {
         "noNetworkConectionStrip": {
             "text": "No internet connection"
+        },
+        "endPointErrorView": {
+            "description": "We have encountered\n an error",
+            "button": "BACK"
         }
         }
 }

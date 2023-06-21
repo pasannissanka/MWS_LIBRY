@@ -2,7 +2,10 @@ import {call, put, select} from 'redux-saga/effects';
 import {setOtpModalVisible, setSignUpResponse} from '../redux/action/action';
 import {fetchSignUpResponse} from '../../../services/AppAccess/AppAccess';
 import {DeviceId} from '../redux/selectors';
-import {setSpinnerVisible} from '../../../redux/action/action';
+import {
+  setEndPointErrorVisible,
+  setSpinnerVisible,
+} from '../../../redux/action/action';
 
 //RENDER ENTER OTP SCREEN
 export function* renderEnterOtpScreen(action: any) {
@@ -24,8 +27,11 @@ export function* renderEnterOtpScreen(action: any) {
     yield put(setSignUpResponse(response));
     yield put(setSpinnerVisible(false));
   } catch (error) {
-    console.log('APP_ACCESS_SAGA_ERROR =>', error);
     yield put(setSpinnerVisible(false));
     yield put(setOtpModalVisible('cannotSend'));
+
+    //yield put(setEndPointErrorVisible(true));
+
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
 }

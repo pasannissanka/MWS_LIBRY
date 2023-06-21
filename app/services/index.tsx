@@ -21,8 +21,8 @@ const callService = async (
             console.log(response.data);
           })
           .catch(error => {
-            console.log(`SERVICE_ERROR ${URL} =>`, error);
             reject(error);
+            console.log(`SERVICE_ERROR ${URL} =>`, error);
           });
       }
     });

@@ -10,8 +10,8 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 import MobileNumInput from '../components/MobileNumInput';
 import Collapsible from 'react-native-collapsible';
 import {isValidPhoneNumber} from 'react-phone-number-input';
-import { useDispatch } from 'react-redux';
-import { getSignUpResponse } from '../redux/action/action';
+import {useDispatch} from 'react-redux';
+import {getSignUpResponse} from '../redux/action/action';
 
 const EnterMobileNumberScreen = () => {
   const {t} = useTranslation();
@@ -28,7 +28,6 @@ const EnterMobileNumberScreen = () => {
     if (isValidPhoneNumber(mobileNum)) {
       setValidMobileNumber(true);
       dispatch(getSignUpResponse(mobileNum));
-
       RootNavigation.navigate('EnterOTPScreen');
     } else {
       setValidMobileNumber(false);

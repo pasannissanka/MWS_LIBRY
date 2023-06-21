@@ -1,8 +1,10 @@
 import {
   GET_OTP_MODAL_VISIBLE,
+  GET_SIGN_UP_EMAIL_RESPONSE,
   GET_SIGN_UP_RESPONSE,
   GET_SIGN_UP_RESPONSE_VERIFY,
   SET_OTP_MODAL_VISIBLE,
+  SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
 } from './types';
@@ -47,5 +49,17 @@ export const getSignUpResponseVerify = (otp: string) => {
   return {
     type: GET_SIGN_UP_RESPONSE_VERIFY,
     payload: otp,
+  };
+};
+
+export const setSignUpEmailResponse = (response: object) => {
+  return {
+    type: SET_SIGN_UP_EMAIL_RESPONSE,
+    payload: response,
+  };
+};
+export const getSignUpEmailResponse = () => {
+  return {
+    type: GET_SIGN_UP_EMAIL_RESPONSE,
   };
 };

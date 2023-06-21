@@ -21,3 +21,13 @@ export function fetchSignUpVerifyResponse(body: object) {
     body,
   );
 }
+
+export function fetchSignUpEmailResponse(body: object) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.SIGN_EMAIL,
+    'POST',
+    null, //token
+    body,
+  );
+}

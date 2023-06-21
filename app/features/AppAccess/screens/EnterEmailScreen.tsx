@@ -11,9 +11,18 @@ import Collapsible from 'react-native-collapsible';
 import PrimaryTextInput from '../components/PrimaryTextInput';
 import {emailFormatevalidate} from '../../../helper/formatters';
 import AgreementRow from '../components/AgreementRow';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUserEmail} from '../../../redux/action/action';
+import {getSignUpEmailResponse} from '../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 const EnterEmailScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
+
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
 
   const warnings = {
     IncorrectEmailFormat: 'IncorrectEmailFormat',
@@ -32,6 +41,8 @@ const EnterEmailScreen = () => {
     if (validEmail) {
       setWarning('');
       if (checked) {
+        dispatch(setUserEmail(email));
+        dispatch(getSignUpEmailResponse());
         RootNavigation.navigate('EnterPasswordScreen');
       }
     } else {
@@ -51,52 +62,62 @@ const EnterEmailScreen = () => {
         <ProgressBar completed={3} uncompleted={6} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-          <PrimaryContainer>
-            <View style={styles.emailInputContainer}>
-              <Text style={styles.title}>
-                {t('appAccess.enterEmailScreen.title')}
-              </Text>
+          {EndPointErrorVisibility ? (
+            <EndPointError
+              onPressBack={() => {
+                RootNavigation.goBack();
+              }}
+            />
+          ) : (
+            <>
+              <PrimaryContainer>
+                <View style={styles.emailInputContainer}>
+                  <Text style={styles.title}>
+                    {t('appAccess.enterEmailScreen.title')}
+                  </Text>
 
-              <Text style={styles.description}>
-                {t('appAccess.enterEmailScreen.description')}
-              </Text>
+                  <Text style={styles.description}>
+                    {t('appAccess.enterEmailScreen.description')}
+                  </Text>
 
-              <PrimaryTextInput
-                reference={ref}
-                value={email}
-                inputMode="email"
-                keyboardType="default"
-                onChangeText={onChangeEmail}
-              />
+                  <PrimaryTextInput
+                    reference={ref}
+                    value={email}
+                    inputMode="email"
+                    keyboardType="default"
+                    onChangeText={onChangeEmail}
+                  />
 
-              <Collapsible
-                collapsed={warning === ''}
-                style={styles.collapsibleView}
-                duration={500}>
-                <Text style={styles.warning}>
-                  {t(
-                    'appAccess.enterEmailScreen.warnings.incorrectEmailFormat',
-                  )}
-                </Text>
-              </Collapsible>
-              <AgreementRow
-                checked={checked}
-                style={styles.agreementRow}
-                description={t('appAccess.enterEmailScreen.agreement')}
+                  <Collapsible
+                    collapsed={warning === ''}
+                    style={styles.collapsibleView}
+                    duration={500}>
+                    <Text style={styles.warning}>
+                      {t(
+                        'appAccess.enterEmailScreen.warnings.incorrectEmailFormat',
+                      )}
+                    </Text>
+                  </Collapsible>
+                  <AgreementRow
+                    checked={checked}
+                    style={styles.agreementRow}
+                    description={t('appAccess.enterEmailScreen.agreement')}
+                    onPress={() => {
+                      setChecked(!checked);
+                    }}
+                  />
+                </View>
+              </PrimaryContainer>
+              <PrimaryButton
+                text={t('appAccess.enterEmailScreen.next')}
+                color="green"
+                style={styles.button}
                 onPress={() => {
-                  setChecked(!checked);
+                  onPressNext();
                 }}
               />
-            </View>
-          </PrimaryContainer>
-          <PrimaryButton
-            text={t('appAccess.enterEmailScreen.next')}
-            color="green"
-            style={styles.button}
-            onPress={() => {
-              onPressNext();
-            }}
-          />
+            </>
+          )}
         </View>
       </View>
     </>

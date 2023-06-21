@@ -4,6 +4,7 @@ import {
   SET_END_POINT_ERROR,
   SET_MOBILE_NUMBER,
   SET_SPINNER_VISIBLE,
+  SET_USER_EMAIL,
 } from '../action/type';
 
 // Initial State
@@ -38,6 +39,12 @@ export const commonReducer = createReducer(initialState, {
     return {
       ...state,
       endPointErrorVisibility: action.payload,
+    };
+  },
+  [SET_USER_EMAIL](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      userEmail: action.payload,
     };
   },
 });

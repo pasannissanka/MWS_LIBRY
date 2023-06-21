@@ -1,7 +1,22 @@
 import {call, put, select} from 'redux-saga/effects';
-import {setOtpModalVisible, setSignUpResponse, setSignUpResponseVerify} from '../redux/action/action';
-import {fetchSignUpResponse, fetchSignUpVerifyResponse} from '../../../services/AppAccess/AppAccess';
-import {DeviceId, MobileNumber, SignUpResponse} from '../redux/selectors';
+import {
+  setOtpModalVisible,
+  setSignUpEmailResponse,
+  setSignUpResponse,
+  setSignUpResponseVerify,
+} from '../redux/action/action';
+import {
+  fetchSignUpEmailResponse,
+  fetchSignUpResponse,
+  fetchSignUpVerifyResponse,
+} from '../../../services/AppAccess/AppAccess';
+import {
+  DeviceId,
+  Email,
+  MobileNumber,
+  OtpVerifyResponse,
+  SignUpResponse,
+} from '../redux/selectors';
 import {
   setEndPointErrorVisible,
   setSpinnerVisible,
@@ -25,6 +40,7 @@ export function* renderEnterOtpScreen(action: any) {
     response = yield call(fetchSignUpResponse, requestBody);
     yield put(setSignUpResponse(response));
     yield put(setSpinnerVisible(false));
+
     if (triggeredScreen === 'EnterOTPScreen') {
       yield put(setOtpModalVisible('sent'));
     }
@@ -40,7 +56,7 @@ export function* renderEnterOtpScreen(action: any) {
 
 export function* renderEnterEmailScreen(action: any) {
   let response = {
-    token: 'string',
+    token: '',
   };
   const otp = action.payload;
   const sign_up_response: {token: string} = yield select(SignUpResponse);
@@ -58,8 +74,35 @@ export function* renderEnterEmailScreen(action: any) {
 
     yield put(setSignUpResponseVerify(response));
     yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
 
-    console.log(response);
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+export function* renderEnterPasswordScreen() {
+  let response = {
+    token: '',
+  };
+  const email: string = yield select(Email);
+  const verify_otp_response: {token: string} = yield select(OtpVerifyResponse);
+  const device_id: string = yield select(DeviceId);
+
+  const requestBody = {
+    device_id: device_id,
+    email: email,
+    token: verify_otp_response.token,
+  };
+
+  try {
+    yield put(setSpinnerVisible(true));
+    response = yield call(fetchSignUpEmailResponse, requestBody);
+
+    yield put(setSignUpEmailResponse(response));
+    yield put(setSpinnerVisible(false));
+
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));

@@ -3,10 +3,12 @@ import {
   GET_END_POINT_ERROR,
   GET_MOBILE_NUMBER,
   GET_SPINNER_VISIBLE,
+  GET_USER_EMAIL,
   SET_DEVICE_ID,
   SET_END_POINT_ERROR,
   SET_MOBILE_NUMBER,
   SET_SPINNER_VISIBLE,
+  SET_USER_EMAIL,
 } from './type';
 
 export const setDeviceId = (deviceId: string) => {
@@ -56,5 +58,18 @@ export const setEndPointErrorVisible = (visibility: boolean) => {
 export const getEndPointErrorVisible = () => {
   return {
     type: GET_END_POINT_ERROR,
+  };
+};
+
+export const setUserEmail = (email: string) => {
+  return {
+    type: SET_USER_EMAIL,
+    payload: email,
+  };
+};
+
+export const getUserEmail = () => {
+  return {
+    type: GET_USER_EMAIL,
   };
 };

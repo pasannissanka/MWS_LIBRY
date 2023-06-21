@@ -1,6 +1,7 @@
 import createReducer from '../../../../helper/createReducer';
 import {
   SET_OTP_MODAL_VISIBLE,
+  SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
 } from '../action/types';
@@ -12,6 +13,9 @@ const initialState = {
   },
   otpModalVisibility: 'invisible',
   otpVerifyResponse: {
+    token: '',
+  },
+  signUpEmailResponse: {
     token: '',
   },
 };
@@ -33,6 +37,12 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       otpVerifyResponse: action.payload,
+    };
+  },
+  [SET_SIGN_UP_EMAIL_RESPONSE](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      signUpEmailResponse: action.payload,
     };
   },
 });

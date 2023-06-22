@@ -19,3 +19,11 @@ export const OtpVerifyResponse = (state: {
     };
   };
 }) => state.appAccessReducer.otpVerifyResponse;
+
+export const SignUpEmailResponse = (state: {
+  appAccessReducer: {
+    signUpEmailResponse: {
+      token: string;
+    };
+  };
+}) => state.appAccessReducer.signUpEmailResponse;

@@ -3,11 +3,14 @@ import {
   setEmailValidation,
   setOtpModalVisible,
   setOtpValidation,
+  setPasswordValidation,
+  setRegisterResponse,
   setSignUpEmailResponse,
   setSignUpResponse,
   setSignUpResponseVerify,
 } from '../redux/action/action';
 import {
+  fetchRegisterResponse,
   fetchSignUpEmailResponse,
   fetchSignUpResponse,
   fetchSignUpVerifyResponse,
@@ -17,6 +20,7 @@ import {
   Email,
   MobileNumber,
   OtpVerifyResponse,
+  SignUpEmailResponse,
   SignUpResponse,
 } from '../redux/selectors';
 import {
@@ -116,12 +120,60 @@ export function* renderEnterPasswordScreen() {
     yield put(setSignUpEmailResponse(response));
     yield put(setSpinnerVisible(false));
     yield put(setEmailValidation(true));
-
+    console.log('RES BODY', response);
     //Navigate Enter Password Screen
     RootNavigation.navigate('EnterPasswordScreen');
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEmailValidation(false));
+    // yield put(setEndPointErrorVisible(true));
+
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+//RENDER WELCOME LIBRY SCREEN
+export function* renderWelcomeLibryScreen(action: any) {
+  let response = {
+    user: {
+      id: '',
+      name: '',
+      email: '',
+      email_verified: false,
+      phone_number: '',
+      phone_number_verified: false,
+      userConfirmed: false,
+      birth_date: '',
+      followers: [],
+      following: [],
+    },
+    token: '',
+  };
+  const sign_up_email_response: {token: string} = yield select(
+    SignUpEmailResponse,
+  );
+  const device_id: string = yield select(DeviceId);
+
+  const requestBody = {
+    token: sign_up_email_response.token,
+    password: action.payload,
+    device_id: device_id,
+  };
+
+  console.log('REQ BODY', requestBody);
+  try {
+    yield put(setSpinnerVisible(true));
+    response = yield call(fetchRegisterResponse, requestBody);
+
+    yield put(setRegisterResponse(response));
+    yield put(setSpinnerVisible(false));
+    yield put(setPasswordValidation(true));
+
+    //Navigate Enter Password Screen
+    RootNavigation.navigate('WelcomeLibryScreen');
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setPasswordValidation(false));
     // yield put(setEndPointErrorVisible(true));
 
     console.log('APP_ACCESS_SAGA_ERROR =>', error);

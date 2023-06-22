@@ -3,6 +3,8 @@ import {
   SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
+  SET_PASSWORD_VALIDATION,
+  SET_REGISTER_RESPONSE,
   SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
@@ -22,6 +24,23 @@ const initialState = {
   },
   validOtp: true,
   validEmail: true,
+  registerResponse: {
+    user: {
+      id: '',
+      name: '',
+      email: '',
+      email_verified: false,
+      phone_number: '',
+      phone_number_verified: false,
+      userConfirmed: false,
+      birth_date: '',
+      followers: [],
+      following: [],
+    },
+    token: '',
+  },
+  accessToken: '',
+  validPassword: true,
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -59,6 +78,18 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       validEmail: action.payload,
+    };
+  },
+  [SET_REGISTER_RESPONSE](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      registerResponse: action.payload,
+    };
+  },
+  [SET_PASSWORD_VALIDATION](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      validPassword: action.payload,
     };
   },
 });

@@ -88,6 +88,7 @@ const EnterEmailScreen = () => {
                     inputMode="email"
                     keyboardType="default"
                     onChangeText={onChangeEmail}
+                    error={!ValidEmail}
                   />
 
                   <Collapsible

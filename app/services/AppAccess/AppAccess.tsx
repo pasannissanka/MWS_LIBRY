@@ -31,3 +31,13 @@ export function fetchSignUpEmailResponse(body: object) {
     body,
   );
 }
+
+export function fetchRegisterResponse(body: object) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.REGISTER,
+    'POST',
+    null, //token
+    body,
+  );
+}

@@ -41,3 +41,13 @@ export function fetchRegisterResponse(body: object) {
     body,
   );
 }
+
+export function fetchLoginResponse(body: object) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.LOGIN,
+    'POST',
+    null, //token
+    body,
+  );
+}

@@ -1,9 +1,11 @@
 import createReducer from '../../../../helper/createReducer';
 import {
+  SET_ACCESS_TOKEN,
   SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
   SET_PASSWORD_VALIDATION,
+  SET_REFRESH_TOKEN,
   SET_REGISTER_RESPONSE,
   SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
@@ -39,8 +41,9 @@ const initialState = {
     },
     token: '',
   },
-  accessToken: '',
   validPassword: true,
+  accessToken: '',
+  refreshToken: '',
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -90,6 +93,18 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       validPassword: action.payload,
+    };
+  },
+  [SET_ACCESS_TOKEN](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      accessToken: action.payload,
+    };
+  },
+  [SET_REFRESH_TOKEN](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      refreshToken: action.payload,
     };
   },
 });

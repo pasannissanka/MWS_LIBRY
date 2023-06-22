@@ -1,4 +1,5 @@
 import {
+  GET_ACCESS_TOKEN,
   GET_EMAIL_VALIDATION,
   GET_OTP_MODAL_VISIBLE,
   GET_OTP_VALIDATION,
@@ -7,6 +8,7 @@ import {
   GET_SIGN_UP_EMAIL_RESPONSE,
   GET_SIGN_UP_RESPONSE,
   GET_SIGN_UP_RESPONSE_VERIFY,
+  SET_ACCESS_TOKEN,
   SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
@@ -121,5 +123,32 @@ export const setPasswordValidation = (valid: boolean) => {
 export const getPasswordlValidation = () => {
   return {
     type: GET_PASSWORD_VALIDATION,
+  };
+};
+
+export const setAccessToken = (token: string) => {
+  return {
+    type: SET_ACCESS_TOKEN,
+    payload: token,
+  };
+};
+
+export const getAccessToken = (password: string) => {
+  return {
+    type: GET_ACCESS_TOKEN,
+    payload: password,
+  };
+};
+
+export const setRefreshToken = (token: string) => {
+  return {
+    type: SET_ACCESS_TOKEN,
+    payload: token,
+  };
+};
+
+export const getRefreshToken = () => {
+  return {
+    type: GET_ACCESS_TOKEN,
   };
 };

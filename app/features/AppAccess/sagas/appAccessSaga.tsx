@@ -1,15 +1,18 @@
 import {call, put, select} from 'redux-saga/effects';
 import {
+  setAccessToken,
   setEmailValidation,
   setOtpModalVisible,
   setOtpValidation,
   setPasswordValidation,
+  setRefreshToken,
   setRegisterResponse,
   setSignUpEmailResponse,
   setSignUpResponse,
   setSignUpResponseVerify,
 } from '../redux/action/action';
 import {
+  fetchLoginResponse,
   fetchRegisterResponse,
   fetchSignUpEmailResponse,
   fetchSignUpResponse,
@@ -160,7 +163,6 @@ export function* renderWelcomeLibryScreen(action: any) {
     device_id: device_id,
   };
 
-  console.log('REQ BODY', requestBody);
   try {
     yield put(setSpinnerVisible(true));
     response = yield call(fetchRegisterResponse, requestBody);
@@ -175,6 +177,38 @@ export function* renderWelcomeLibryScreen(action: any) {
     yield put(setSpinnerVisible(false));
     yield put(setPasswordValidation(false));
     // yield put(setEndPointErrorVisible(true));
+
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+//RENDER LOGIN SCREEN
+export function* renderLoginScreen(action: any) {
+  let response = {
+    accessToken: '',
+    refreshToken: '',
+  };
+
+  const email: string = yield select(Email);
+
+  const requestBody = {
+    email: email,
+    password: action.payload,
+  };
+
+  try {
+    yield put(setSpinnerVisible(true));
+    response = yield call(fetchLoginResponse, requestBody);
+
+    yield put(setAccessToken(response.accessToken));
+    yield put(setRefreshToken(response.refreshToken));
+    yield put(setSpinnerVisible(false));
+
+    //Navigate Dashboard Screen
+    RootNavigation.replace('DashboardScreen');
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
 
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }

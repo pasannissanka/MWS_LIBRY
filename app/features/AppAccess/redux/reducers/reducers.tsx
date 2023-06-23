@@ -1,6 +1,7 @@
 import createReducer from '../../../../helper/createReducer';
 import {
   SET_ACCESS_TOKEN,
+  SET_ADD_NAME_BIRTH_DATE_RESPONSE,
   SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
@@ -44,6 +45,18 @@ const initialState = {
   validPassword: true,
   accessToken: '',
   refreshToken: '',
+  addNameBirthDateResponse: {
+    id: '',
+    name: '',
+    email: '',
+    email_verified: false,
+    phone_number: '',
+    phone_number_verified: false,
+    userConfirmed: false,
+    birth_date: '',
+    followers: [],
+    following: [],
+  },
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -105,6 +118,12 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       refreshToken: action.payload,
+    };
+  },
+  [SET_ADD_NAME_BIRTH_DATE_RESPONSE](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      addNameBirthDateResponse: action.payload,
     };
   },
 });

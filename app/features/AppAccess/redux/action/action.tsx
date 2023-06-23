@@ -1,5 +1,6 @@
 import {
   GET_ACCESS_TOKEN,
+  GET_ADD_NAME_BIRTH_DATE_RESPONSE,
   GET_EMAIL_VALIDATION,
   GET_OTP_MODAL_VISIBLE,
   GET_OTP_VALIDATION,
@@ -9,6 +10,7 @@ import {
   GET_SIGN_UP_RESPONSE,
   GET_SIGN_UP_RESPONSE_VERIFY,
   SET_ACCESS_TOKEN,
+  SET_ADD_NAME_BIRTH_DATE_RESPONSE,
   SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
@@ -150,5 +152,18 @@ export const setRefreshToken = (token: string) => {
 export const getRefreshToken = () => {
   return {
     type: GET_ACCESS_TOKEN,
+  };
+};
+
+export const setAddNameBirthDateResponse = (response: object) => {
+  return {
+    type: SET_ADD_NAME_BIRTH_DATE_RESPONSE,
+    payload: response,
+  };
+};
+
+export const getAddNameBirthDateResponse = () => {
+  return {
+    type: GET_ADD_NAME_BIRTH_DATE_RESPONSE,
   };
 };

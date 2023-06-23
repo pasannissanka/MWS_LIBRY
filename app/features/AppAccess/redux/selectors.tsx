@@ -27,3 +27,15 @@ export const SignUpEmailResponse = (state: {
     };
   };
 }) => state.appAccessReducer.signUpEmailResponse;
+
+export const BirthDate = (state: {
+  commonReducer: {userEnteredBirthDate: string};
+}) => state.commonReducer.userEnteredBirthDate;
+
+export const UserEnteredName = (state: {
+  commonReducer: {userEnteredName: string};
+}) => state.commonReducer.userEnteredName;
+
+export const AccessToken = (state: {
+  appAccessReducer: {refreshToken: string};
+}) => state.appAccessReducer.refreshToken;

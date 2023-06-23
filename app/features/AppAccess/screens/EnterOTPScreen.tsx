@@ -76,11 +76,7 @@ const EnterOTPScreen = () => {
   };
 
   const onPressNext = () => {
-    //OTP LENGTH CHANGE
-    if (
-      //OTP.length === 5
-      OTP.length === 6
-    ) {
+    if (OTP.length === 5) {
       dispatch(setOtpValidation(true));
       dispatch(getSignUpResponseVerify(OTP));
     } else {

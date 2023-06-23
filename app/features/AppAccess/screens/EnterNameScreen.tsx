@@ -8,9 +8,12 @@ import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryTextInput from '../components/PrimaryTextInput';
+import {useDispatch} from 'react-redux';
+import {setUserEnteredName} from '../../../redux/action/action';
 
 const EnterNameScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
 
   const ref = useRef<any>();
   const [name, onChangeName] = useState('');
@@ -23,6 +26,7 @@ const EnterNameScreen = () => {
   const onPressNext = () => {
     if (name.trim().length > 0) {
       setWarning(false);
+      dispatch(setUserEnteredName(name.trim()));
       RootNavigation.navigate('EnterBirthdayScreen');
     } else {
       setWarning(true);

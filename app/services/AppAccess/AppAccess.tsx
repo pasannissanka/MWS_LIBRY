@@ -51,3 +51,13 @@ export function fetchLoginResponse(body: object) {
     body,
   );
 }
+
+export function fetchAddNameBirthDateResponse(token: string, body: object) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.ADD_NAME_BIRTH_DATE,
+    'POST',
+    token,
+    body,
+  );
+}

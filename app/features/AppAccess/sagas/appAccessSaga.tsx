@@ -1,6 +1,7 @@
 import {call, put, select} from 'redux-saga/effects';
 import {
   setAccessToken,
+  setAddNameBirthDateResponse,
   setEmailValidation,
   setOtpModalVisible,
   setOtpValidation,
@@ -12,6 +13,7 @@ import {
   setSignUpResponseVerify,
 } from '../redux/action/action';
 import {
+  fetchAddNameBirthDateResponse,
   fetchLoginResponse,
   fetchRegisterResponse,
   fetchSignUpEmailResponse,
@@ -19,12 +21,15 @@ import {
   fetchSignUpVerifyResponse,
 } from '../../../services/AppAccess/AppAccess';
 import {
+  AccessToken,
+  BirthDate,
   DeviceId,
   Email,
   MobileNumber,
   OtpVerifyResponse,
   SignUpEmailResponse,
   SignUpResponse,
+  UserEnteredName,
 } from '../redux/selectors';
 import {
   setEndPointErrorVisible,
@@ -168,6 +173,7 @@ export function* renderWelcomeLibryScreen(action: any) {
     response = yield call(fetchRegisterResponse, requestBody);
 
     yield put(setRegisterResponse(response));
+    yield put(setAccessToken(response.token));
     yield put(setSpinnerVisible(false));
     yield put(setPasswordValidation(true));
 
@@ -206,6 +212,55 @@ export function* renderLoginScreen(action: any) {
 
     //Navigate Dashboard Screen
     RootNavigation.replace('DashboardScreen');
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+//ADD YOUR LIBRY SCREEN
+export function* renderAddYourLibryScreen() {
+  let response = {
+    id: '',
+    name: '',
+    email: '',
+    email_verified: false,
+    phone_number: '',
+    phone_number_verified: false,
+    userConfirmed: false,
+    birth_date: '',
+    followers: [],
+    following: [],
+  };
+
+  const name: string = yield select(UserEnteredName);
+  const birth_date: string = yield select(BirthDate);
+  const access_token: string = yield select(AccessToken);
+
+  const requestBody = {
+    name: name,
+    birth_date: birth_date,
+  };
+
+  console.log('REQ BODY ->', requestBody);
+
+  try {
+    yield put(setSpinnerVisible(true));
+    response = yield call(
+      fetchAddNameBirthDateResponse,
+      access_token,
+      requestBody,
+    );
+
+    yield put(setAddNameBirthDateResponse(response));
+    yield put(setSpinnerVisible(false));
+
+    console.log('RES BODY ->', response);
+
+    //Navigate Add Your Libry Screen
+    RootNavigation.navigate('AddYourLibryScreen');
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));

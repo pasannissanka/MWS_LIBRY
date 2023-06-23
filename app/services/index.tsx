@@ -14,7 +14,11 @@ const callService = async (
     return new Promise(async (resolve, reject) => {
       if (method === 'POST') {
         await axios
-          .post(URL, body)
+          .post(URL, body, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
           .then(response => {
             response_data = response.data.data;
             resolve(response_data);

@@ -4,11 +4,15 @@ import {
   GET_MOBILE_NUMBER,
   GET_SPINNER_VISIBLE,
   GET_USER_EMAIL,
+  GET_USER_ENTERED_BIRTH_DATE,
+  GET_USER_ENTERED_NAME,
   SET_DEVICE_ID,
   SET_END_POINT_ERROR,
   SET_MOBILE_NUMBER,
   SET_SPINNER_VISIBLE,
   SET_USER_EMAIL,
+  SET_USER_ENTERED_BIRTH_DATE,
+  SET_USER_ENTERED_NAME,
 } from './type';
 
 export const setDeviceId = (deviceId: string) => {
@@ -71,5 +75,31 @@ export const setUserEmail = (email: string) => {
 export const getUserEmail = () => {
   return {
     type: GET_USER_EMAIL,
+  };
+};
+
+export const setUserEnteredName = (name: string) => {
+  return {
+    type: SET_USER_ENTERED_NAME,
+    payload: name,
+  };
+};
+
+export const getUserEnteredName = () => {
+  return {
+    type: GET_USER_ENTERED_NAME,
+  };
+};
+
+export const setUserEnteredBirthDate = (date: string) => {
+  return {
+    type: SET_USER_ENTERED_BIRTH_DATE,
+    payload: date,
+  };
+};
+
+export const getUserEnteredBirthDate = () => {
+  return {
+    type: GET_USER_ENTERED_BIRTH_DATE,
   };
 };

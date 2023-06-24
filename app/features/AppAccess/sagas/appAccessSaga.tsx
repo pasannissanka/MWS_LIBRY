@@ -27,6 +27,7 @@ import {
   Email,
   MobileNumber,
   OtpVerifyResponse,
+  RegisteredResponse,
   SignUpEmailResponse,
   SignUpResponse,
   UserEnteredName,
@@ -128,7 +129,6 @@ export function* renderEnterPasswordScreen() {
     yield put(setSignUpEmailResponse(response));
     yield put(setSpinnerVisible(false));
     yield put(setEmailValidation(true));
-    console.log('RES BODY', response);
     //Navigate Enter Password Screen
     RootNavigation.navigate('EnterPasswordScreen');
   } catch (error) {
@@ -155,7 +155,10 @@ export function* renderWelcomeLibryScreen(action: any) {
       followers: [],
       following: [],
     },
-    token: '',
+    tokens: {
+      accessToken: '',
+      refreshToken: '',
+    },
   };
   const sign_up_email_response: {token: string} = yield select(
     SignUpEmailResponse,
@@ -173,10 +176,8 @@ export function* renderWelcomeLibryScreen(action: any) {
     response = yield call(fetchRegisterResponse, requestBody);
 
     yield put(setRegisterResponse(response));
-    yield put(setAccessToken(response.token));
     yield put(setSpinnerVisible(false));
     yield put(setPasswordValidation(true));
-
     //Navigate Enter Password Screen
     RootNavigation.navigate('WelcomeLibryScreen');
   } catch (error) {
@@ -220,7 +221,7 @@ export function* renderLoginScreen(action: any) {
   }
 }
 
-//ADD YOUR LIBRY SCREEN
+//RENDER ADD YOUR LIBRY SCREEN
 export function* renderAddYourLibryScreen() {
   let response = {
     id: '',
@@ -237,27 +238,40 @@ export function* renderAddYourLibryScreen() {
 
   const name: string = yield select(UserEnteredName);
   const birth_date: string = yield select(BirthDate);
-  const access_token: string = yield select(AccessToken);
+  const registered_response: {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      email_verified: boolean;
+      phone_number: string;
+      phone_number_verified: boolean;
+      userConfirmed: boolean;
+      birth_date: string;
+      followers: [];
+      following: [];
+    };
+    tokens: {
+      accessToken: string;
+      refreshToken: string;
+    };
+  } = yield select(RegisteredResponse);
 
   const requestBody = {
     name: name,
     birth_date: birth_date,
   };
 
-  console.log('REQ BODY ->', requestBody);
-
   try {
     yield put(setSpinnerVisible(true));
     response = yield call(
       fetchAddNameBirthDateResponse,
-      access_token,
+      registered_response.tokens.accessToken,
       requestBody,
     );
 
     yield put(setAddNameBirthDateResponse(response));
     yield put(setSpinnerVisible(false));
-
-    console.log('RES BODY ->', response);
 
     //Navigate Add Your Libry Screen
     RootNavigation.navigate('AddYourLibryScreen');

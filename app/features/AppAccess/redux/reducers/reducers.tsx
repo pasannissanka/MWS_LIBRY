@@ -40,7 +40,10 @@ const initialState = {
       followers: [],
       following: [],
     },
-    token: '',
+    tokens: {
+      accessToken: '',
+      refreshToken: '',
+    },
   },
   validPassword: true,
   accessToken: '',

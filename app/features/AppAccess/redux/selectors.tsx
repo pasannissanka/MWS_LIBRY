@@ -39,3 +39,7 @@ export const UserEnteredName = (state: {
 export const AccessToken = (state: {
   appAccessReducer: {refreshToken: string};
 }) => state.appAccessReducer.refreshToken;
+
+export const RegisteredResponse = (state: {
+  appAccessReducer: {registerResponse: object};
+}) => state.appAccessReducer.registerResponse;

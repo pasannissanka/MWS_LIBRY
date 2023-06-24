@@ -11,12 +11,17 @@ import {Colors} from './theme';
 import {useDispatch, useSelector} from 'react-redux';
 import {setDeviceId} from './redux/action/action';
 import NoNetworkNarrowStrip from './features/AppAccess/components/NoNetworkNarrowStrip';
+import AlertBox from './features/AppAccess/components/AlertBox';
 
 const Root = (): React.JSX.Element => {
   const dispatch = useDispatch();
   const SpinnerVisibility = useSelector(
     (state: any) => state.commonReducer.spinnerVisibility,
   );
+  const AlertBoxVisibility = useSelector(
+    (state: any) => state.commonReducer.alertBoxVisibility,
+  );
+
   useEffect(() => {
     DeviceInfo.getUniqueId().then(uniqueId => {
       dispatch(setDeviceId(uniqueId));
@@ -46,6 +51,14 @@ const Root = (): React.JSX.Element => {
           </NavigationContainer>
         </LinearGradient>
       </SafeAreaView>
+
+      <AlertBox
+        visible={AlertBoxVisibility.visible}
+        title={AlertBoxVisibility.title}
+        description={AlertBoxVisibility.description}
+        button={AlertBoxVisibility.button}
+        onPress={AlertBoxVisibility.onPress}
+      />
     </>
   );
 };

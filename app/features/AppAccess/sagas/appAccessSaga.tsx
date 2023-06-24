@@ -33,6 +33,7 @@ import {
   UserEnteredName,
 } from '../redux/selectors';
 import {
+  setAlertBoxVisibility,
   setEndPointErrorVisible,
   setSpinnerVisible,
 } from '../../../redux/action/action';
@@ -213,6 +214,18 @@ export function* renderLoginScreen(action: any) {
 
     //Navigate Dashboard Screen
     RootNavigation.replace('DashboardScreen');
+
+    const alertBoxVisibility = {
+      visible: true,
+      title: 'Verify your email',
+      description:
+        'We have sent an email to your email address to verify your email addrss.',
+      button: 'OK',
+      onPress: () => {},
+    };
+    if (true) {
+      yield put(setAlertBoxVisibility(alertBoxVisibility));
+    }
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
@@ -273,8 +286,20 @@ export function* renderAddYourLibryScreen() {
     yield put(setAddNameBirthDateResponse(response));
     yield put(setSpinnerVisible(false));
 
-    //Navigate Add Your Libry Screen
-    RootNavigation.navigate('AddYourLibryScreen');
+     //Navigate Add Your Libry Screen
+     RootNavigation.navigate('AddYourLibryScreen');
+
+    const alertBoxVisibility = {
+      visible: true,
+      title: 'Verify your email',
+      description:
+        'We have sent an email to your email address to verify your email addrss.',
+      button: 'OK',
+      onPress: () => {},
+    };
+    if (!response.email_verified) {
+      yield put(setAlertBoxVisibility(alertBoxVisibility));
+    }
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));

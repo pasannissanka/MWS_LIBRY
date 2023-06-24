@@ -1,4 +1,5 @@
 import {
+  GET_ALERT_BOX_VISIBILITY,
   GET_DEVICE_ID,
   GET_END_POINT_ERROR,
   GET_MOBILE_NUMBER,
@@ -6,6 +7,7 @@ import {
   GET_USER_EMAIL,
   GET_USER_ENTERED_BIRTH_DATE,
   GET_USER_ENTERED_NAME,
+  SET_ALERT_BOX_VISIBILITY,
   SET_DEVICE_ID,
   SET_END_POINT_ERROR,
   SET_MOBILE_NUMBER,
@@ -101,5 +103,18 @@ export const setUserEnteredBirthDate = (date: string) => {
 export const getUserEnteredBirthDate = () => {
   return {
     type: GET_USER_ENTERED_BIRTH_DATE,
+  };
+};
+
+export const setAlertBoxVisibility = (visibility: object) => {
+  return {
+    type: SET_ALERT_BOX_VISIBILITY,
+    payload: visibility,
+  };
+};
+
+export const getAlertBoxVisibility = () => {
+  return {
+    type: GET_ALERT_BOX_VISIBILITY,
   };
 };

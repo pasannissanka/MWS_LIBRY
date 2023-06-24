@@ -5,6 +5,7 @@ import {
   GET_OTP_MODAL_VISIBLE,
   GET_OTP_VALIDATION,
   GET_PASSWORD_VALIDATION,
+  GET_REFRESH_TOKEN,
   GET_REGISTER_RESPONSE,
   GET_SIGN_UP_EMAIL_RESPONSE,
   GET_SIGN_UP_RESPONSE,
@@ -16,6 +17,7 @@ import {
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
   SET_PASSWORD_VALIDATION,
+  SET_REFRESH_TOKEN,
   SET_REGISTER_RESPONSE,
   SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
@@ -146,14 +148,14 @@ export const getAccessToken = (password: string) => {
 
 export const setRefreshToken = (token: string) => {
   return {
-    type: SET_ACCESS_TOKEN,
+    type: SET_REFRESH_TOKEN,
     payload: token,
   };
 };
 
 export const getRefreshToken = () => {
   return {
-    type: GET_ACCESS_TOKEN,
+    type: GET_REFRESH_TOKEN,
   };
 };
 

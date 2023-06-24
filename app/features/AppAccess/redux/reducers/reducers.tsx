@@ -11,6 +11,7 @@ import {
   SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
+  SET_USER_PROFILE,
 } from '../action/types';
 
 // Initial State
@@ -49,6 +50,18 @@ const initialState = {
   accessToken: '',
   refreshToken: '',
   addNameBirthDateResponse: {
+    id: '',
+    name: '',
+    email: '',
+    email_verified: false,
+    phone_number: '',
+    phone_number_verified: false,
+    userConfirmed: false,
+    birth_date: '',
+    followers: [],
+    following: [],
+  },
+  userProfile: {
     id: '',
     name: '',
     email: '',
@@ -127,6 +140,12 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       addNameBirthDateResponse: action.payload,
+    };
+  },
+  [SET_USER_PROFILE](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      userProfile: action.payload,
     };
   },
 });

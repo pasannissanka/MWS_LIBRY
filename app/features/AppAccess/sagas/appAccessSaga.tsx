@@ -11,6 +11,7 @@ import {
   setSignUpEmailResponse,
   setSignUpResponse,
   setSignUpResponseVerify,
+  setUserProfile,
 } from '../redux/action/action';
 import {
   fetchAddNameBirthDateResponse,
@@ -19,6 +20,7 @@ import {
   fetchSignUpEmailResponse,
   fetchSignUpResponse,
   fetchSignUpVerifyResponse,
+  fetchUserProfile,
 } from '../../../services/AppAccess/AppAccess';
 import {
   AccessToken,
@@ -211,21 +213,8 @@ export function* renderLoginScreen(action: any) {
     yield put(setAccessToken(response.accessToken));
     yield put(setRefreshToken(response.refreshToken));
     yield put(setSpinnerVisible(false));
-
-    //Navigate Dashboard Screen
-    RootNavigation.replace('DashboardScreen');
-
-    const alertBoxVisibility = {
-      visible: true,
-      title: 'Verify your email',
-      description:
-        'We have sent an email to your email address to verify your email addrss.',
-      button: 'OK',
-      onPress: () => {},
-    };
-    if (true) {
-      yield put(setAlertBoxVisibility(alertBoxVisibility));
-    }
+    console.log('RESPONSE', response);
+    yield* renderUserPorfile();
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
@@ -286,8 +275,8 @@ export function* renderAddYourLibryScreen() {
     yield put(setAddNameBirthDateResponse(response));
     yield put(setSpinnerVisible(false));
 
-     //Navigate Add Your Libry Screen
-     RootNavigation.navigate('AddYourLibryScreen');
+    //Navigate Add Your Libry Screen
+    RootNavigation.navigate('AddYourLibryScreen');
 
     const alertBoxVisibility = {
       visible: true,
@@ -304,6 +293,48 @@ export function* renderAddYourLibryScreen() {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
 
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+//Render User Profille
+function* renderUserPorfile() {
+  let response = {
+    id: '',
+    name: '',
+    email: '',
+    email_verified: false,
+    phone_number: '',
+    phone_number_verified: false,
+    userConfirmed: false,
+    birth_date: '',
+    followers: [],
+    following: [],
+  };
+
+  const emailVerifyAlertBoxContent = {
+    visible: true,
+    title: 'Verify your email',
+    description:
+      'We have sent an email to your email address to verify your email addrss.',
+    button: 'OK',
+    onPress: () => {},
+  };
+
+  const access_token: string = yield select(AccessToken);
+  try {
+    console.log('ACCESS TOKEN ->', access_token);
+    response = yield call(fetchUserProfile, access_token);
+    yield put(setUserProfile(response));
+    console.log('RESPONSE', response);
+
+    //Navigate Dashboard Screen
+    RootNavigation.replace('DashboardScreen');
+
+    if (!response.email_verified) {
+      yield put(setAlertBoxVisibility(emailVerifyAlertBoxContent));
+    }
+  } catch (error) {
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
 }

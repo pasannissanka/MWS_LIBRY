@@ -9,6 +9,7 @@ import {
   GET_SIGN_UP_EMAIL_RESPONSE,
   GET_SIGN_UP_RESPONSE,
   GET_SIGN_UP_RESPONSE_VERIFY,
+  GET_USER_PROFILE,
   SET_ACCESS_TOKEN,
   SET_ADD_NAME_BIRTH_DATE_RESPONSE,
   SET_EMAIL_VALIDATION,
@@ -19,6 +20,7 @@ import {
   SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
+  SET_USER_PROFILE,
 } from './types';
 
 export const setSignUpResponse = (response: object) => {
@@ -165,5 +167,18 @@ export const setAddNameBirthDateResponse = (response: object) => {
 export const getAddNameBirthDateResponse = () => {
   return {
     type: GET_ADD_NAME_BIRTH_DATE_RESPONSE,
+  };
+};
+
+export const setUserProfile = (response: object) => {
+  return {
+    type: SET_USER_PROFILE,
+    payload: response,
+  };
+};
+
+export const getUserProfile = () => {
+  return {
+    type: GET_USER_PROFILE,
   };
 };

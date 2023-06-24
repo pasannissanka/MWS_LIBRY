@@ -61,3 +61,13 @@ export function fetchAddNameBirthDateResponse(token: string, body: object) {
     body,
   );
 }
+
+export function fetchUserProfile(token: string) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.USER_PROFILE,
+    'GET',
+    token,
+    null,
+  );
+}

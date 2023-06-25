@@ -16,9 +16,12 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryTextInput from '../components/PrimaryTextInput';
 import Collapsible from 'react-native-collapsible';
 import {emailFormatevalidate} from '../../../helper/formatters';
+import {useDispatch} from 'react-redux';
+import {getPasswordChangeRequest} from '../redux/action/action';
 
 const SendResetPasswordScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
   const warnings = {
     IncorrectEmailFormat: 'IncorrectEmailFormat',
   };
@@ -33,7 +36,7 @@ const SendResetPasswordScreen = () => {
 
     if (validEmail) {
       setWarning('');
-      RootNavigation.navigate('ChangePasswordScreen');
+      dispatch(getPasswordChangeRequest(email));
     } else {
       emailRef.current.focus();
       setWarning(warnings.IncorrectEmailFormat);

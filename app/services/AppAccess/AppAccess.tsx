@@ -81,3 +81,12 @@ export function fetchSuggestUsersProfile(token: string) {
     null,
   );
 }
+export function fetchChangePasswordReqResponse(body: object) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.PASSWORD_CHANGE_REQUEST,
+    'POST',
+    null,
+    body,
+  );
+}

@@ -16,6 +16,7 @@ import {
 } from '../redux/action/action';
 import {
   fetchAddNameBirthDateResponse,
+  fetchChangePasswordReqResponse,
   fetchLoginResponse,
   fetchRegisterResponse,
   fetchSignUpEmailResponse,
@@ -386,6 +387,48 @@ function* fetchSuggestUsers() {
     //Navigate Add Your Libry Screen
     RootNavigation.navigate('AddYourLibryScreen');
   } catch (error) {
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+//RENDER CHANGE PASSWORD SCREEN
+export function* renderChangePasswordScreen(action: any) {
+  let response = {
+    CodeDeliveryDetails: {
+      AttributeName: 'phone_number',
+      DeliveryMedium: 'SMS',
+      Destination: '',
+    },
+  };
+
+  const requestBody = {
+    email: action.payload,
+  };
+
+  try {
+    yield put(setSpinnerVisible(true));
+    response = yield call(fetchChangePasswordReqResponse, requestBody);
+
+    yield put(setSpinnerVisible(false));
+
+    RootNavigation.navigate('ChangePasswordScreen');
+
+    const verificationCodeAlertBoxContent = {
+      visible: true,
+      title: 'Verification Code',
+      description: `We have sent a verification code to your ${response.CodeDeliveryDetails.AttributeName.replace(
+        '_',
+        ' ',
+      )}`,
+      button: 'OK',
+      onPress: () => {},
+    };
+
+    yield put(setAlertBoxVisibility(verificationCodeAlertBoxContent));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
 }

@@ -4,6 +4,7 @@ import {
   GET_EMAIL_VALIDATION,
   GET_OTP_MODAL_VISIBLE,
   GET_OTP_VALIDATION,
+  GET_PASSWORD_CHANGE_REQUEST,
   GET_PASSWORD_VALIDATION,
   GET_REFRESH_TOKEN,
   GET_REGISTER_RESPONSE,
@@ -16,6 +17,7 @@ import {
   SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
+  SET_PASSWORD_CHANGE_REQUEST,
   SET_PASSWORD_VALIDATION,
   SET_REFRESH_TOKEN,
   SET_REGISTER_RESPONSE,
@@ -196,5 +198,18 @@ export const setSuggestUsers = (response: any) => {
 export const getSuggestUsers = () => {
   return {
     type: SET_SUGGEST_USERS,
+  };
+};
+
+export const setPasswordChangeRequest = () => {
+  return {
+    type: SET_PASSWORD_CHANGE_REQUEST,
+  };
+};
+
+export const getPasswordChangeRequest = (email: string) => {
+  return {
+    type: GET_PASSWORD_CHANGE_REQUEST,
+    payload: email,
   };
 };

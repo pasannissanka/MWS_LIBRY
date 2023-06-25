@@ -7,6 +7,7 @@ const AppAccessEndPoints = {
   ADD_NAME_BIRTH_DATE: '/profile/onboarding',
   USER_PROFILE: '/profile',
   SUGGEST_USERS: '/user',
+  PASSWORD_CHANGE_REQUEST: '/auth/reset-password',
 };
 
 export default AppAccessEndPoints;

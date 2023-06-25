@@ -7,11 +7,27 @@ import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
+import {useDispatch, useSelector} from 'react-redux';
+import {setAlertBoxVisibility} from '../../../redux/action/action';
 
 const PublishFirstIdeaScreen = () => {
   const {t} = useTranslation();
-
+  const dispatch = useDispatch();
+  const UserProfile = useSelector(
+    (state: any) => state.appAccessReducer.addNameBirthDateResponse,
+  );
+  const verifyEmailAlertBoxVisibility = {
+    visible: true,
+    title: 'Verify your email',
+    description:
+      'We have sent an email to your email address to verify your email addrss.',
+    button: 'OK',
+    onPress: () => {},
+  };
   const onPressNext = () => {
+    if (!UserProfile.email_verified) {
+      dispatch(setAlertBoxVisibility(verifyEmailAlertBoxVisibility));
+    }
     RootNavigation.replace('DashboardScreen');
   };
 
@@ -19,6 +35,9 @@ const PublishFirstIdeaScreen = () => {
     RootNavigation.goBack();
   };
   const onPressSkip = () => {
+    if (!UserProfile.email_verified) {
+      dispatch(setAlertBoxVisibility(verifyEmailAlertBoxVisibility));
+    }
     RootNavigation.replace('DashboardScreen');
   };
 

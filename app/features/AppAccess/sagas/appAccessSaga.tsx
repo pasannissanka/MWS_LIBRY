@@ -280,18 +280,6 @@ export function* renderAddYourLibryScreen() {
     yield put(setSpinnerVisible(false));
 
     yield* fetchSuggestUsers();
-
-    const alertBoxVisibility = {
-      visible: true,
-      title: 'Verify your email',
-      description:
-        'We have sent an email to your email address to verify your email addrss.',
-      button: 'OK',
-      onPress: () => {},
-    };
-    if (!response.email_verified) {
-      yield put(setAlertBoxVisibility(alertBoxVisibility));
-    }
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));

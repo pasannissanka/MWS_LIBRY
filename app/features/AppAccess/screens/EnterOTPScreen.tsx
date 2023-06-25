@@ -72,7 +72,7 @@ const EnterOTPScreen = () => {
 
   const onPressBack = () => {
     dispatch(setOtpValidation(true));
-    RootNavigation.goBack();
+    RootNavigation.replace('EnterMobileNumberScreen');
   };
 
   const onPressNext = () => {
@@ -99,7 +99,7 @@ const EnterOTPScreen = () => {
           {EndPointErrorVisibility ? (
             <EndPointError
               onPressBack={() => {
-                RootNavigation.goBack();
+                RootNavigation.replace('EnterMobileNumberScreen');
               }}
             />
           ) : (

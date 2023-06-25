@@ -36,7 +36,7 @@ const EnterEmailScreen = () => {
 
   const onPressBack = () => {
     dispatch(setEmailValidation(true));
-    RootNavigation.goBack();
+    RootNavigation.replace('EnterMobileNumberScreen');
   };
 
   const onPressNext = () => {
@@ -67,7 +67,7 @@ const EnterEmailScreen = () => {
           {EndPointErrorVisibility ? (
             <EndPointError
               onPressBack={() => {
-                RootNavigation.goBack();
+                RootNavigation.replace('EnterMobileNumberScreen');
               }}
             />
           ) : (

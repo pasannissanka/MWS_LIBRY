@@ -62,17 +62,27 @@ export function* renderEnterOtpScreen(action: any) {
   try {
     yield put(setSpinnerVisible(true));
     response = yield call(fetchSignUpResponse, requestBody);
-    yield put(setSignUpResponse(response));
-    yield put(setSpinnerVisible(false));
-
-    if (triggeredScreen === 'EnterOTPScreen') {
-      yield put(setOtpModalVisible('sent'));
+    if (true) {
+      yield put(setSignUpResponse(response));
+      if (triggeredScreen === 'EnterOTPScreen') {
+        yield put(setOtpModalVisible('sent'));
+      } else {
+        RootNavigation.replace('EnterOTPScreen');
+      }
+    } else {
+      const cannotSendOtpAlertBoxContent = {
+        visible: true,
+        title: 'Can’t send a new code',
+        description: 'Please wait 1 minute before requesting a new code.',
+        button: 'OK',
+        onPress: () => {},
+      };
+      yield put(setAlertBoxVisibility(cannotSendOtpAlertBoxContent));
     }
+    yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
-    yield put(setOtpModalVisible('cannotSend'));
-
-    //yield put(setEndPointErrorVisible(true));
+    yield put(setEndPointErrorVisible(true));
 
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
@@ -98,18 +108,20 @@ export function* renderEnterEmailScreen(action: any) {
     yield put(setSpinnerVisible(true));
     response = yield call(fetchSignUpVerifyResponse, requestBody);
 
-    yield put(setSignUpResponseVerify(response));
-    yield put(setSpinnerVisible(false));
-    yield put(setOtpValidation(true));
+    if (true) {
+      yield put(setSignUpResponseVerify(response));
+      yield put(setOtpValidation(true));
 
-    //Navigate Enter Email Screen
-    RootNavigation.navigate('EnterEmailScreen');
+      //Navigate Enter Email Screen
+      RootNavigation.navigate('EnterEmailScreen');
+    } else {
+      yield put(setOtpValidation(false));
+    }
+
+    yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
-    yield put(setOtpValidation(false));
-
-    //yield put(setEndPointErrorVisible(true));
-
+    yield put(setEndPointErrorVisible(true));
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
 }
@@ -133,15 +145,18 @@ export function* renderEnterPasswordScreen() {
     yield put(setSpinnerVisible(true));
     response = yield call(fetchSignUpEmailResponse, requestBody);
 
-    yield put(setSignUpEmailResponse(response));
+    if (true) {
+      yield put(setSignUpEmailResponse(response));
+      yield put(setEmailValidation(true));
+      //Navigate Enter Password Screen
+      RootNavigation.navigate('EnterPasswordScreen');
+    } else {
+      yield put(setEmailValidation(false));
+    }
     yield put(setSpinnerVisible(false));
-    yield put(setEmailValidation(true));
-    //Navigate Enter Password Screen
-    RootNavigation.navigate('EnterPasswordScreen');
   } catch (error) {
     yield put(setSpinnerVisible(false));
-    yield put(setEmailValidation(false));
-    // yield put(setEndPointErrorVisible(true));
+    yield put(setEndPointErrorVisible(true));
 
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
@@ -182,16 +197,19 @@ export function* renderWelcomeLibryScreen(action: any) {
     yield put(setSpinnerVisible(true));
     response = yield call(fetchRegisterResponse, requestBody);
 
-    yield put(setRegisterResponse(response));
+    if (true) {
+      yield put(setRegisterResponse(response));
+      yield put(setPasswordValidation(true));
+
+      //Navigate Enter Password Screen
+      RootNavigation.navigate('WelcomeLibryScreen');
+    } else {
+      yield put(setPasswordValidation(false));
+    }
     yield put(setSpinnerVisible(false));
-    yield put(setPasswordValidation(true));
-    //Navigate Enter Password Screen
-    RootNavigation.navigate('WelcomeLibryScreen');
   } catch (error) {
     yield put(setSpinnerVisible(false));
-    yield put(setPasswordValidation(false));
-    // yield put(setEndPointErrorVisible(true));
-
+    yield put(setEndPointErrorVisible(true));
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
 }
@@ -214,11 +232,14 @@ export function* renderLoginScreen(action: any) {
     yield put(setSpinnerVisible(true));
     response = yield call(fetchLoginResponse, requestBody);
 
-    yield put(setAccessToken(response.accessToken));
-    yield put(setRefreshToken(response.refreshToken));
+    if (true) {
+      yield put(setAccessToken(response.accessToken));
+      yield put(setRefreshToken(response.refreshToken));
+      yield* renderUserPorfile();
+    } else {
+    }
+
     yield put(setSpinnerVisible(false));
-    console.log('RESPONSE', response);
-    yield* renderUserPorfile();
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
@@ -276,10 +297,13 @@ export function* renderAddYourLibryScreen() {
       requestBody,
     );
 
-    yield put(setAddNameBirthDateResponse(response));
-    yield put(setSpinnerVisible(false));
+    if (true) {
+      yield put(setAddNameBirthDateResponse(response));
+      yield* fetchSuggestUsers();
+    } else {
+    }
 
-    yield* fetchSuggestUsers();
+    yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
@@ -315,13 +339,17 @@ function* renderUserPorfile() {
   const access_token: string = yield select(AccessToken);
   try {
     response = yield call(fetchUserProfile, access_token);
-    yield put(setUserProfile(response));
 
-    //Navigate Dashboard Screen
-    RootNavigation.replace('DashboardScreen');
+    if (true) {
+      yield put(setUserProfile(response));
 
-    if (!response.email_verified) {
-      yield put(setAlertBoxVisibility(emailVerifyAlertBoxContent));
+      //Navigate Dashboard Screen
+      RootNavigation.replace('DashboardScreen');
+
+      if (!response.email_verified) {
+        yield put(setAlertBoxVisibility(emailVerifyAlertBoxContent));
+      }
+    } else {
     }
   } catch (error) {
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
@@ -399,23 +427,25 @@ export function* renderChangePasswordScreen() {
   try {
     yield put(setSpinnerVisible(true));
     response = yield call(fetchChangePasswordReqResponse, requestBody);
+    if (true) {
+      yield put(setSpinnerVisible(false));
 
-    yield put(setSpinnerVisible(false));
+      RootNavigation.navigate('ChangePasswordScreen');
 
-    RootNavigation.navigate('ChangePasswordScreen');
+      const verificationCodeAlertBoxContent = {
+        visible: true,
+        title: 'Verification Code',
+        description: `We have sent a verification code to your ${response.CodeDeliveryDetails.AttributeName.replace(
+          '_',
+          ' ',
+        )}`,
+        button: 'OK',
+        onPress: () => {},
+      };
 
-    const verificationCodeAlertBoxContent = {
-      visible: true,
-      title: 'Verification Code',
-      description: `We have sent a verification code to your ${response.CodeDeliveryDetails.AttributeName.replace(
-        '_',
-        ' ',
-      )}`,
-      button: 'OK',
-      onPress: () => {},
-    };
-
-    yield put(setAlertBoxVisibility(verificationCodeAlertBoxContent));
+      yield put(setAlertBoxVisibility(verificationCodeAlertBoxContent));
+    } else {
+    }
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
@@ -433,9 +463,11 @@ export function* changePassword(action: any) {
     response = yield call(fetchChangePasswordResponse, action.payload);
 
     yield put(setSpinnerVisible(false));
-
-    if (response === 'SUCCESS') {
-      RootNavigation.replace('LoginScreen');
+    if (true) {
+      if (response === 'SUCCESS') {
+        RootNavigation.replace('LoginScreen');
+      }
+    } else {
     }
   } catch (error) {
     yield put(setSpinnerVisible(false));

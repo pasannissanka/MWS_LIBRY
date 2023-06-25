@@ -99,6 +99,7 @@ const LoginScreen = () => {
                     inputMode="email"
                     keyboardType="default"
                     onChangeText={onChangeEmail}
+                    error={!ValidEmail}
                   />
                   <PrimaryTextInput
                     reference={passwordRef}

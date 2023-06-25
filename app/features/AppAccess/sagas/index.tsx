@@ -1,6 +1,7 @@
 import {takeLatest} from 'redux-saga/effects';
 import * as type from '../redux/action/types';
 import {
+  changePassword,
   renderAddYourLibryScreen,
   renderChangePasswordScreen,
   renderEnterEmailScreen,
@@ -18,4 +19,5 @@ export const appAccessSagas = [
   takeLatest(type.GET_ACCESS_TOKEN, renderLoginScreen),
   takeLatest(type.GET_ADD_NAME_BIRTH_DATE_RESPONSE, renderAddYourLibryScreen),
   takeLatest(type.GET_PASSWORD_CHANGE_REQUEST, renderChangePasswordScreen),
+  takeLatest(type.GET_CHANGE_PASSWORD_RESPONSE, changePassword),
 ];

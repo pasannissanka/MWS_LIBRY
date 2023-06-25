@@ -8,6 +8,7 @@ const AppAccessEndPoints = {
   USER_PROFILE: '/profile',
   SUGGEST_USERS: '/user',
   PASSWORD_CHANGE_REQUEST: '/auth/reset-password',
+  CHANGE_PASSWORD: '/auth/new-password',
 };
 
 export default AppAccessEndPoints;

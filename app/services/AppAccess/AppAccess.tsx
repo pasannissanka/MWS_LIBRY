@@ -90,3 +90,13 @@ export function fetchChangePasswordReqResponse(body: object) {
     body,
   );
 }
+
+export function fetchChangePasswordResponse(body: object) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.CHANGE_PASSWORD,
+    'POST',
+    null,
+    body,
+  );
+}

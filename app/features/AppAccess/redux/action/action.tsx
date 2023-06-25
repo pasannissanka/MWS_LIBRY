@@ -1,6 +1,7 @@
 import {
   GET_ACCESS_TOKEN,
   GET_ADD_NAME_BIRTH_DATE_RESPONSE,
+  GET_CHANGE_PASSWORD_RESPONSE,
   GET_EMAIL_VALIDATION,
   GET_OTP_MODAL_VISIBLE,
   GET_OTP_VALIDATION,
@@ -14,6 +15,7 @@ import {
   GET_USER_PROFILE,
   SET_ACCESS_TOKEN,
   SET_ADD_NAME_BIRTH_DATE_RESPONSE,
+  SET_CHANGE_PASSWORD_RESPONSE,
   SET_EMAIL_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
@@ -207,9 +209,21 @@ export const setPasswordChangeRequest = () => {
   };
 };
 
-export const getPasswordChangeRequest = (email: string) => {
+export const getPasswordChangeRequest = () => {
   return {
     type: GET_PASSWORD_CHANGE_REQUEST,
-    payload: email,
+  };
+};
+
+export const setChangePasswordResponse = () => {
+  return {
+    type: SET_CHANGE_PASSWORD_RESPONSE,
+  };
+};
+
+export const getChangePasswordResponse = (reqBody: object) => {
+  return {
+    type: GET_CHANGE_PASSWORD_RESPONSE,
+    payload: reqBody,
   };
 };

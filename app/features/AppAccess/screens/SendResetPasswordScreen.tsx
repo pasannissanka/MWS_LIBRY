@@ -18,6 +18,7 @@ import Collapsible from 'react-native-collapsible';
 import {emailFormatevalidate} from '../../../helper/formatters';
 import {useDispatch} from 'react-redux';
 import {getPasswordChangeRequest} from '../redux/action/action';
+import {setUserEmail} from '../../../redux/action/action';
 
 const SendResetPasswordScreen = () => {
   const {t} = useTranslation();
@@ -36,7 +37,8 @@ const SendResetPasswordScreen = () => {
 
     if (validEmail) {
       setWarning('');
-      dispatch(getPasswordChangeRequest(email));
+      dispatch(setUserEmail(email));
+      dispatch(getPasswordChangeRequest());
     } else {
       emailRef.current.focus();
       setWarning(warnings.IncorrectEmailFormat);

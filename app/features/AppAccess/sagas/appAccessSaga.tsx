@@ -17,6 +17,7 @@ import {
 import {
   fetchAddNameBirthDateResponse,
   fetchChangePasswordReqResponse,
+  fetchChangePasswordResponse,
   fetchLoginResponse,
   fetchRegisterResponse,
   fetchSignUpEmailResponse,
@@ -392,7 +393,7 @@ function* fetchSuggestUsers() {
 }
 
 //RENDER CHANGE PASSWORD SCREEN
-export function* renderChangePasswordScreen(action: any) {
+export function* renderChangePasswordScreen() {
   let response = {
     CodeDeliveryDetails: {
       AttributeName: 'phone_number',
@@ -401,8 +402,10 @@ export function* renderChangePasswordScreen(action: any) {
     },
   };
 
+  const email: string = yield select(Email);
+
   const requestBody = {
-    email: action.payload,
+    email: email,
   };
 
   try {
@@ -425,6 +428,27 @@ export function* renderChangePasswordScreen(action: any) {
     };
 
     yield put(setAlertBoxVisibility(verificationCodeAlertBoxContent));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+//FETCH CONFIRM PASSWORD CHANGE RESPONSE
+export function* changePassword(action: any) {
+  let response = '';
+
+  try {
+    yield put(setSpinnerVisible(true));
+    response = yield call(fetchChangePasswordResponse, action.payload);
+
+    yield put(setSpinnerVisible(false));
+
+    if (response === 'SUCCESS') {
+      RootNavigation.replace('LoginScreen');
+    }
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));

@@ -10,31 +10,36 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 import Collapsible from 'react-native-collapsible';
 import PrimaryTextInput from '../components/PrimaryTextInput';
 import {validatePassword} from '../../../helper/formatters';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  getRegisterResponse,
+  setPasswordValidation,
+} from '../redux/action/action';
 
 const EnterPasswordScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
 
-  const warnings = {
-    IncorrectPasswordFormat: 'IncorrectPasswordFormat',
-  };
+  const ValidPassword = useSelector(
+    (state: any) => state.appAccessReducer.validPassword,
+  );
   const ref = useRef<any>();
   const [password, onChangePassword] = useState('');
-  const [warning, setWarning] = useState('');
 
   const onPressBack = () => {
+    dispatch(setPasswordValidation(true));
     RootNavigation.goBack();
   };
 
   const onPressNext = () => {
-    const validPassword = validatePassword(password);
+    const valid = validatePassword(password);
 
-    if (validPassword) {
-      setWarning('');
-
-      RootNavigation.replace('WelcomeLibryScreen');
+    if (valid) {
+      dispatch(setPasswordValidation(true));
+      dispatch(getRegisterResponse(password));
     } else {
       ref.current.focus();
-      setWarning(warnings.IncorrectPasswordFormat);
+      dispatch(setPasswordValidation(false));
     }
   };
 
@@ -66,11 +71,11 @@ const EnterPasswordScreen = () => {
                 keyboardType="default"
                 onChangeText={onChangePassword}
                 secureTextEntry={true}
-                error={warning !== ''}
+                error={!ValidPassword}
               />
 
               <Collapsible
-                collapsed={warning === ''}
+                collapsed={ValidPassword}
                 style={styles.collapsibleView}
                 duration={500}>
                 <Text style={styles.warning}>

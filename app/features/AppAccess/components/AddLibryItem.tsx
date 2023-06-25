@@ -10,9 +10,24 @@ import React, {useState} from 'react';
 import {Colors, Images, Sizes} from '../../../theme';
 import {useTranslation} from 'react-i18next';
 import {AddLibryItemInterface} from '../interfaces';
+import {useSelector} from 'react-redux';
 
 const AddLibryItem = ({item, onAction}: AddLibryItemInterface) => {
-  const [buttonStatus, setButtonStatus] = useState(item.added);
+  const PROFILE = useSelector(
+    (state: any) => state.appAccessReducer.addNameBirthDateResponse,
+  );
+
+  const FOLLOWERS = PROFILE.followers;
+
+  let added = false;
+
+  FOLLOWERS.map((itm: {id: string}) => {
+    if (itm.id === item.id) {
+      added = true;
+    }
+  });
+
+  const [buttonStatus, setButtonStatus] = useState(added);
 
   const {t} = useTranslation();
 
@@ -23,11 +38,17 @@ const AddLibryItem = ({item, onAction}: AddLibryItemInterface) => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <Image source={item.image} resizeMode="contain" style={styles.image} />
+        <Image
+          source={Images.logos.app_logo}
+          resizeMode="contain"
+          style={styles.image}
+        />
         <View style={styles.textContent}>
           <Text style={styles.title}>{item.name}</Text>
           <Text style={styles.bio} numberOfLines={3} ellipsizeMode="tail">
-            {item.bio}
+            {
+              'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd'
+            }
           </Text>
         </View>
       </View>

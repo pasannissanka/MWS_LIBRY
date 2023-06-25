@@ -1,4 +1,4 @@
-import {SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import NavigationStack from './navigation/NavigationStack';
 import React, {useEffect} from 'react';
@@ -6,14 +6,27 @@ import LinearGradient from 'react-native-linear-gradient';
 import {navigationRef} from './navigation/RootNavigation';
 import SplashScreen from 'react-native-splash-screen';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
+import DeviceInfo from 'react-native-device-info';
 import {Colors} from './theme';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setDeviceId} from './redux/action/action';
+import NoNetworkNarrowStrip from './features/AppAccess/components/NoNetworkNarrowStrip';
+import AlertBox from './features/AppAccess/components/AlertBox';
 
 const Root = (): React.JSX.Element => {
+  const dispatch = useDispatch();
   const SpinnerVisibility = useSelector(
     (state: any) => state.commonReducer.spinnerVisibility,
   );
+  const AlertBoxVisibility = useSelector(
+    (state: any) => state.commonReducer.alertBoxVisibility,
+  );
+
   useEffect(() => {
+    DeviceInfo.getUniqueId().then(uniqueId => {
+      dispatch(setDeviceId(uniqueId));
+      console.log('DEVICE_ID::: ', uniqueId);
+    });
     SplashScreen.hide();
   }, []);
   return (
@@ -32,11 +45,20 @@ const Root = (): React.JSX.Element => {
         <LinearGradient
           colors={['#012674', '#222322']}
           style={styles.linearGradient}>
+          <NoNetworkNarrowStrip />
           <NavigationContainer ref={navigationRef}>
             <NavigationStack />
           </NavigationContainer>
         </LinearGradient>
       </SafeAreaView>
+
+      <AlertBox
+        visible={AlertBoxVisibility.visible}
+        title={AlertBoxVisibility.title}
+        description={AlertBoxVisibility.description}
+        button={AlertBoxVisibility.button}
+        onPress={AlertBoxVisibility.onPress}
+      />
     </>
   );
 };

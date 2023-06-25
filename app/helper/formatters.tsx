@@ -5,6 +5,10 @@ const emailFormatevalidate = (email: string): boolean => {
 };
 
 function validatePassword(password: string): boolean {
+  //Check if the password contains more or equal 8 characters
+  if (password.length < 8) {
+    return false;
+  }
   // Check if the password contains at least 1 uppercase letter
   if (!/[A-Z]/.test(password)) {
     return false;

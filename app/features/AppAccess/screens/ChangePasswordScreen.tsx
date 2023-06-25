@@ -4,18 +4,20 @@ import {useTranslation} from 'react-i18next';
 import {Colors, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
-import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryTextInput from '../components/PrimaryTextInput';
-import {
-  emailFormatevalidate,
-  validatePassword,
-} from '../../../helper/formatters';
+import {validatePassword} from '../../../helper/formatters';
 import Collapsible from 'react-native-collapsible';
+import {useDispatch, useSelector} from 'react-redux';
+import {getChangePasswordResponse} from '../redux/action/action';
 
 const ChangePasswordScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
+
+  const Email = useSelector((state: any) => state.commonReducer.userEmail);
 
   const [password, onChangePassword] = useState('');
+  const [otp, onChangeOtp] = useState('');
   const [confirmPassword, onChangeConfirmPassword] = useState('');
   const [warning, setWarning] = useState('');
 
@@ -24,6 +26,12 @@ const ChangePasswordScreen = () => {
 
   const warnings = {
     IncorrectPasswordFormat: 'IncorrectPasswordFormat',
+  };
+
+  let requestBody = {
+    password: '',
+    email: '',
+    code: '',
   };
 
   const onPressChangePassword = () => {
@@ -39,7 +47,13 @@ const ChangePasswordScreen = () => {
       confirmPasswordRef.current.focus();
     } else {
       setWarning('');
-      RootNavigation.replace('LoginScreen');
+      requestBody = {
+        password: password,
+        email: Email,
+        code: otp.trim(),
+      };
+
+      dispatch(getChangePasswordResponse(requestBody));
     }
   };
 
@@ -62,6 +76,17 @@ const ChangePasswordScreen = () => {
                 style={styles.logo}
               />
               <View style={styles.textInputContainer}>
+                <PrimaryTextInput
+                  //reference={passwordRef}
+                  value={otp}
+                  style={styles.textInput}
+                  placeholder={'Verification Code'}
+                  inputMode="numeric"
+                  keyboardType="phone-pad"
+                  onChangeText={onChangeOtp}
+                  secureTextEntry={false}
+                  error={warning !== ''}
+                />
                 <PrimaryTextInput
                   reference={passwordRef}
                   value={password}

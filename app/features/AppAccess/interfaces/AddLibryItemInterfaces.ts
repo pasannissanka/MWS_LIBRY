@@ -1,10 +1,16 @@
-import {ImageSourcePropType} from 'react-native/types';
+//import {ImageSourcePropType} from 'react-native/types';
 
 export type LibryItemInterface = {
+  id: string;
+  email: string;
+  phone_number: string;
   name: string;
-  bio: string;
-  image: ImageSourcePropType;
-  added: boolean;
+  birth_date: string;
+  userConfirmed: boolean;
+  email_verified: boolean;
+  phone_number_verified: boolean;
+  followers: [];
+  following: [];
 };
 
 export type AddLibryItemInterface = {

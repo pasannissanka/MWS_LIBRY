@@ -11,32 +11,45 @@ import Collapsible from 'react-native-collapsible';
 import PrimaryTextInput from '../components/PrimaryTextInput';
 import {emailFormatevalidate} from '../../../helper/formatters';
 import AgreementRow from '../components/AgreementRow';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUserEmail} from '../../../redux/action/action';
+import {
+  getSignUpEmailResponse,
+  setEmailValidation,
+} from '../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 const EnterEmailScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
 
-  const warnings = {
-    IncorrectEmailFormat: 'IncorrectEmailFormat',
-  };
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
+  const ValidEmail = useSelector(
+    (state: any) => state.appAccessReducer.validEmail,
+  );
+
   const ref = useRef<any>();
   const [email, onChangeEmail] = useState('');
   const [checked, setChecked] = useState(false);
-  const [warning, setWarning] = useState('');
 
   const onPressBack = () => {
-    RootNavigation.goBack();
+    dispatch(setEmailValidation(true));
+    RootNavigation.replace('EnterMobileNumberScreen');
   };
 
   const onPressNext = () => {
-    const validEmail = emailFormatevalidate(email);
-    if (validEmail) {
-      setWarning('');
+    const valid = emailFormatevalidate(email);
+    if (valid) {
+      dispatch(setEmailValidation(true));
       if (checked) {
-        RootNavigation.navigate('EnterPasswordScreen');
+        dispatch(setUserEmail(email));
+        dispatch(getSignUpEmailResponse());
       }
     } else {
       ref.current.focus();
-      setWarning(warnings.IncorrectEmailFormat);
+      dispatch(setEmailValidation(false));
     }
   };
 
@@ -51,52 +64,63 @@ const EnterEmailScreen = () => {
         <ProgressBar completed={3} uncompleted={6} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-          <PrimaryContainer>
-            <View style={styles.emailInputContainer}>
-              <Text style={styles.title}>
-                {t('appAccess.enterEmailScreen.title')}
-              </Text>
+          {EndPointErrorVisibility ? (
+            <EndPointError
+              onPressBack={() => {
+                RootNavigation.replace('EnterMobileNumberScreen');
+              }}
+            />
+          ) : (
+            <>
+              <PrimaryContainer>
+                <View style={styles.emailInputContainer}>
+                  <Text style={styles.title}>
+                    {t('appAccess.enterEmailScreen.title')}
+                  </Text>
 
-              <Text style={styles.description}>
-                {t('appAccess.enterEmailScreen.description')}
-              </Text>
+                  <Text style={styles.description}>
+                    {t('appAccess.enterEmailScreen.description')}
+                  </Text>
 
-              <PrimaryTextInput
-                reference={ref}
-                value={email}
-                inputMode="email"
-                keyboardType="default"
-                onChangeText={onChangeEmail}
-              />
+                  <PrimaryTextInput
+                    reference={ref}
+                    value={email}
+                    inputMode="email"
+                    keyboardType="default"
+                    onChangeText={onChangeEmail}
+                    error={!ValidEmail}
+                  />
 
-              <Collapsible
-                collapsed={warning === ''}
-                style={styles.collapsibleView}
-                duration={500}>
-                <Text style={styles.warning}>
-                  {t(
-                    'appAccess.enterEmailScreen.warnings.incorrectEmailFormat',
-                  )}
-                </Text>
-              </Collapsible>
-              <AgreementRow
-                checked={checked}
-                style={styles.agreementRow}
-                description={t('appAccess.enterEmailScreen.agreement')}
+                  <Collapsible
+                    collapsed={ValidEmail}
+                    style={styles.collapsibleView}
+                    duration={500}>
+                    <Text style={styles.warning}>
+                      {t(
+                        'appAccess.enterEmailScreen.warnings.incorrectEmailFormat',
+                      )}
+                    </Text>
+                  </Collapsible>
+                  <AgreementRow
+                    checked={checked}
+                    style={styles.agreementRow}
+                    description={t('appAccess.enterEmailScreen.agreement')}
+                    onPress={() => {
+                      setChecked(!checked);
+                    }}
+                  />
+                </View>
+              </PrimaryContainer>
+              <PrimaryButton
+                text={t('appAccess.enterEmailScreen.next')}
+                color="green"
+                style={styles.button}
                 onPress={() => {
-                  setChecked(!checked);
+                  onPressNext();
                 }}
               />
-            </View>
-          </PrimaryContainer>
-          <PrimaryButton
-            text={t('appAccess.enterEmailScreen.next')}
-            color="green"
-            style={styles.button}
-            onPress={() => {
-              onPressNext();
-            }}
-          />
+            </>
+          )}
         </View>
       </View>
     </>

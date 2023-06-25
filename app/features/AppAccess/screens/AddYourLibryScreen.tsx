@@ -14,10 +14,9 @@ import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import AddLibryItem from '../components/AddLibryItem';
-import {LibryItemInterface} from '../interfaces';
+import {useSelector} from 'react-redux';
 
 const AddYourLibryScreen = () => {
-
   const {t} = useTranslation();
   const onPressBack = () => {
     RootNavigation.goBack();
@@ -31,46 +30,9 @@ const AddYourLibryScreen = () => {
   const onSelectionChange = (count: number) => {
     setSelectedCount(selectedCount + count);
   };
-
-  const DATA: LibryItemInterface[] = [
-    {
-      name: 'Bilal Pervez 1',
-      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
-      image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: false,
-    },
-    {
-      name: 'Bilal Pervez 2',
-      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
-      image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: false,
-    },
-    {
-      name: 'Bilal Pervez 3',
-      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
-      image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: false,
-    },
-    {
-      name: 'Bilal Pervez 4',
-      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
-      image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: false,
-    },
-    {
-      name: 'Bilal Pervez 5',
-      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
-      image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: false,
-    },
-    {
-      name: 'Bilal Pervez 6',
-      bio: 'Their bio goes in heredsksd d ddsd sd sds dsd ds dsd ds ds ddssd dsf ff f df f fd f fd ',
-      image: require('../../../assets/dummyImages/content-6/content.png'),
-      added: false,
-    },
-  ];
-
+  const DATA = useSelector(
+    (state: any) => state.appAccessReducer.suggestUserProfils,
+  );
   return (
     <>
       <StatusBar

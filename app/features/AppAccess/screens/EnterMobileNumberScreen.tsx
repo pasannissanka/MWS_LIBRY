@@ -10,12 +10,17 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 import MobileNumInput from '../components/MobileNumInput';
 import Collapsible from 'react-native-collapsible';
 import {isValidPhoneNumber} from 'react-phone-number-input';
-import { useDispatch } from 'react-redux';
-import { getSignUpResponse } from '../redux/action/action';
+import {useDispatch, useSelector} from 'react-redux';
+import {getSignUpResponse} from '../redux/action/action';
+import {setMobileNumber} from '../../../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 const EnterMobileNumberScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
 
   const [mobileNum, onChangeMobileNum] = useState('');
   const [validMobileNumber, setValidMobileNumber] = useState(true);
@@ -27,9 +32,8 @@ const EnterMobileNumberScreen = () => {
   const onPressNext = () => {
     if (isValidPhoneNumber(mobileNum)) {
       setValidMobileNumber(true);
-      dispatch(getSignUpResponse(mobileNum));
-
-      RootNavigation.navigate('EnterOTPScreen');
+      dispatch(setMobileNumber(mobileNum));
+      dispatch(getSignUpResponse('EnterMobileNumberScreen'));
     } else {
       setValidMobileNumber(false);
     }
@@ -46,40 +50,51 @@ const EnterMobileNumberScreen = () => {
         <ProgressBar completed={1} uncompleted={8} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-          <PrimaryContainer>
-            <View style={styles.mobileInputContainer}>
-              <Text style={styles.title}>
-                {t('appAccess.enterMobileNumberScreen.title')}
-              </Text>
 
-              <MobileNumInput
-                onChangeMobileNum={onChangeMobileNum}
-                error={!validMobileNumber}
+          {EndPointErrorVisibility ? (
+            <EndPointError
+              onPressBack={() => {
+                RootNavigation.goBack();
+              }}
+            />
+          ) : (
+            <>
+              <PrimaryContainer>
+                <View style={styles.mobileInputContainer}>
+                  <Text style={styles.title}>
+                    {t('appAccess.enterMobileNumberScreen.title')}
+                  </Text>
+
+                  <MobileNumInput
+                    onChangeMobileNum={onChangeMobileNum}
+                    error={!validMobileNumber}
+                  />
+                  <Collapsible
+                    collapsed={validMobileNumber}
+                    style={styles.collapsibleView}
+                    duration={500}>
+                    <Text style={styles.warning}>
+                      {t(
+                        'appAccess.enterMobileNumberScreen.warnings.notRealPhoneNumber',
+                      )}
+                    </Text>
+                  </Collapsible>
+
+                  <Text style={styles.description}>
+                    {t('appAccess.enterMobileNumberScreen.description')}
+                  </Text>
+                </View>
+              </PrimaryContainer>
+              <PrimaryButton
+                text={t('appAccess.enterMobileNumberScreen.next')}
+                color="green"
+                style={styles.button}
+                onPress={() => {
+                  onPressNext();
+                }}
               />
-              <Collapsible
-                collapsed={validMobileNumber}
-                style={styles.collapsibleView}
-                duration={500}>
-                <Text style={styles.warning}>
-                  {t(
-                    'appAccess.enterMobileNumberScreen.warnings.notRealPhoneNumber',
-                  )}
-                </Text>
-              </Collapsible>
-
-              <Text style={styles.description}>
-                {t('appAccess.enterMobileNumberScreen.description')}
-              </Text>
-            </View>
-          </PrimaryContainer>
-          <PrimaryButton
-            text={t('appAccess.enterMobileNumberScreen.next')}
-            color="green"
-            style={styles.button}
-            onPress={() => {
-              onPressNext();
-            }}
-          />
+            </>
+          )}
         </View>
       </View>
     </>

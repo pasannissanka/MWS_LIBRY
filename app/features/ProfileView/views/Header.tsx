@@ -5,13 +5,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import * as RootNavigation from '../../../navigation/RootNavigation';
 import React, {useState} from 'react';
 
 const Header = (): React.JSX.Element => {
   const [text, setText] = useState<string>('skysports');
   return (
     <View style={styles.parentView}>
-      <TouchableOpacity style={styles.backButton}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => {
+          RootNavigation.navigate('OpeningScreen');
+        }}>
         <Image
           style={styles.backArrow}
           resizeMode="contain"

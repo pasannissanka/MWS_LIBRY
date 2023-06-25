@@ -8,9 +8,17 @@ import ProgressBar from '../components/ProgressBar';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryTextInput from '../components/PrimaryTextInput';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUserEnteredBirthDate} from '../../../redux/action/action';
+import {getAddNameBirthDateResponse} from '../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 const EnterBirthdayScreen = () => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
 
   const ref = useRef<any>();
   const [birthday, setBirthday] = useState('');
@@ -35,7 +43,8 @@ const EnterBirthdayScreen = () => {
   const onPressNext = () => {
     if (birthday.trim().length > 0) {
       setWarning(false);
-      RootNavigation.navigate('AddYourLibryScreen');
+      dispatch(setUserEnteredBirthDate(birthday.trim()));
+      dispatch(getAddNameBirthDateResponse());
     } else {
       setWarning(true);
       ref.current.focus();
@@ -53,40 +62,53 @@ const EnterBirthdayScreen = () => {
         <ProgressBar completed={7} uncompleted={2} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
-          <PrimaryContainer>
-            <View style={styles.birthdayInputContainer}>
-              <>
-                <Text style={styles.title}>
-                  {t('appAccess.enterBirthdayScreen.title')}
-                </Text>
-                <PrimaryTextInput
-                  reference={ref}
-                  placeholder={t('appAccess.enterBirthdayScreen.placeholder')}
-                  value={birthday}
-                  inputMode="numeric"
-                  keyboardType="phone-pad"
-                  onChangeText={(text: string) => {
-                    onChangeBirthday(text);
-                  }}
-                  error={warning}
-                  maxLength={8}
-                />
 
-                <Text style={styles.description}>
-                  {t('appAccess.enterBirthdayScreen.description')}
-                </Text>
-              </>
-              <View style={styles.bottomSpace} />
-            </View>
-          </PrimaryContainer>
-          <PrimaryButton
-            text={t('appAccess.enterBirthdayScreen.next')}
-            color="green"
-            style={styles.button}
-            onPress={() => {
-              onPressNext();
-            }}
-          />
+          {EndPointErrorVisibility ? (
+            <EndPointError
+              onPressBack={() => {
+                RootNavigation.goBack();
+              }}
+            />
+          ) : (
+            <>
+              <PrimaryContainer>
+                <View style={styles.birthdayInputContainer}>
+                  <>
+                    <Text style={styles.title}>
+                      {t('appAccess.enterBirthdayScreen.title')}
+                    </Text>
+                    <PrimaryTextInput
+                      reference={ref}
+                      placeholder={t(
+                        'appAccess.enterBirthdayScreen.placeholder',
+                      )}
+                      value={birthday}
+                      inputMode="numeric"
+                      keyboardType="phone-pad"
+                      onChangeText={(text: string) => {
+                        onChangeBirthday(text);
+                      }}
+                      error={warning}
+                      maxLength={8}
+                    />
+
+                    <Text style={styles.description}>
+                      {t('appAccess.enterBirthdayScreen.description')}
+                    </Text>
+                  </>
+                  <View style={styles.bottomSpace} />
+                </View>
+              </PrimaryContainer>
+              <PrimaryButton
+                text={t('appAccess.enterBirthdayScreen.next')}
+                color="green"
+                style={styles.button}
+                onPress={() => {
+                  onPressNext();
+                }}
+              />
+            </>
+          )}
         </View>
       </View>
     </>

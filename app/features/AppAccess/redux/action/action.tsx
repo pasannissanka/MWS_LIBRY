@@ -22,6 +22,7 @@ import {
   SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
+  SET_SUGGEST_USERS,
   SET_USER_PROFILE,
 } from './types';
 
@@ -182,5 +183,18 @@ export const setUserProfile = (response: object) => {
 export const getUserProfile = () => {
   return {
     type: GET_USER_PROFILE,
+  };
+};
+
+export const setSuggestUsers = (response: any) => {
+  return {
+    type: SET_SUGGEST_USERS,
+    payload: response,
+  };
+};
+
+export const getSuggestUsers = () => {
+  return {
+    type: SET_SUGGEST_USERS,
   };
 };

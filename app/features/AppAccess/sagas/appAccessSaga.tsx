@@ -11,6 +11,7 @@ import {
   setSignUpEmailResponse,
   setSignUpResponse,
   setSignUpResponseVerify,
+  setSuggestUsers,
   setUserProfile,
 } from '../redux/action/action';
 import {
@@ -20,6 +21,7 @@ import {
   fetchSignUpEmailResponse,
   fetchSignUpResponse,
   fetchSignUpVerifyResponse,
+  fetchSuggestUsersProfile,
   fetchUserProfile,
 } from '../../../services/AppAccess/AppAccess';
 import {
@@ -275,8 +277,7 @@ export function* renderAddYourLibryScreen() {
     yield put(setAddNameBirthDateResponse(response));
     yield put(setSpinnerVisible(false));
 
-    //Navigate Add Your Libry Screen
-    RootNavigation.navigate('AddYourLibryScreen');
+    yield* fetchSuggestUsers();
 
     const alertBoxVisibility = {
       visible: true,
@@ -297,7 +298,7 @@ export function* renderAddYourLibryScreen() {
   }
 }
 
-//Render User Profille
+//RENDER USER PROFILE
 function* renderUserPorfile() {
   let response = {
     id: '',
@@ -323,10 +324,8 @@ function* renderUserPorfile() {
 
   const access_token: string = yield select(AccessToken);
   try {
-    console.log('ACCESS TOKEN ->', access_token);
     response = yield call(fetchUserProfile, access_token);
     yield put(setUserProfile(response));
-    console.log('RESPONSE', response);
 
     //Navigate Dashboard Screen
     RootNavigation.replace('DashboardScreen');
@@ -334,6 +333,58 @@ function* renderUserPorfile() {
     if (!response.email_verified) {
       yield put(setAlertBoxVisibility(emailVerifyAlertBoxContent));
     }
+  } catch (error) {
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+//FETCH USERS FOR SUGGESTION
+function* fetchSuggestUsers() {
+  let response = [
+    {
+      id: '',
+      email: '',
+      phone_number: '',
+      name: '',
+      birth_date: '',
+      userConfirmed: false,
+      email_verified: false,
+      phone_number_verified: false,
+      followers: [],
+      following: [],
+    },
+  ];
+
+  const registered_response: {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      email_verified: boolean;
+      phone_number: string;
+      phone_number_verified: boolean;
+      userConfirmed: boolean;
+      birth_date: string;
+      followers: [];
+      following: [];
+    };
+    tokens: {
+      accessToken: string;
+      refreshToken: string;
+    };
+  } = yield select(RegisteredResponse);
+
+  try {
+    console.log('ACCESS TOKEN ->', registered_response.tokens.accessToken);
+    response = yield call(
+      fetchSuggestUsersProfile,
+      registered_response.tokens.accessToken,
+    );
+    yield put(setSuggestUsers(response));
+    console.log('RESPONSE', response);
+
+    //Navigate Add Your Libry Screen
+    RootNavigation.navigate('AddYourLibryScreen');
   } catch (error) {
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }

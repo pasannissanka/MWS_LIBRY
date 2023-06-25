@@ -6,6 +6,7 @@ const AppAccessEndPoints = {
   LOGIN: '/auth/login',
   ADD_NAME_BIRTH_DATE: '/profile/onboarding',
   USER_PROFILE: '/profile',
+  SUGGEST_USERS: '/user',
 };
 
 export default AppAccessEndPoints;

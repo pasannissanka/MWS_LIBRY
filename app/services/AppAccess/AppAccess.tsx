@@ -71,3 +71,13 @@ export function fetchUserProfile(token: string) {
     null,
   );
 }
+
+export function fetchSuggestUsersProfile(token: string) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.SUGGEST_USERS,
+    'GET',
+    token,
+    null,
+  );
+}

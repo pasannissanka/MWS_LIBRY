@@ -11,6 +11,7 @@ import {
   SET_SIGN_UP_EMAIL_RESPONSE,
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
+  SET_SUGGEST_USERS,
   SET_USER_PROFILE,
 } from '../action/types';
 
@@ -73,6 +74,20 @@ const initialState = {
     followers: [],
     following: [],
   },
+  suggestUserProfils: [
+    {
+      id: '',
+      email: '',
+      phone_number: '',
+      name: '',
+      birth_date: '',
+      userConfirmed: false,
+      email_verified: false,
+      phone_number_verified: false,
+      followers: [],
+      following: [],
+    },
+  ],
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -146,6 +161,12 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       userProfile: action.payload,
+    };
+  },
+  [SET_SUGGEST_USERS](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      suggestUserProfils: action.payload,
     };
   },
 });

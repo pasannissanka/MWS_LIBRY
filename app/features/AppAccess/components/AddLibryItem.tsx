@@ -10,28 +10,19 @@ import React, {useState} from 'react';
 import {Colors, Images, Sizes} from '../../../theme';
 import {useTranslation} from 'react-i18next';
 import {AddLibryItemInterface} from '../interfaces';
-import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {followUserResponse, unfollowUserResponse} from '../redux/action/action';
 
 const AddLibryItem = ({item, onAction}: AddLibryItemInterface) => {
-  const PROFILE = useSelector(
-    (state: any) => state.appAccessReducer.addNameBirthDateResponse,
-  );
-
-  const FOLLOWERS = PROFILE.followers;
-
-  let added = false;
-
-  FOLLOWERS.map((itm: {id: string}) => {
-    if (itm.id === item.id) {
-      added = true;
-    }
-  });
-
-  const [buttonStatus, setButtonStatus] = useState(added);
+  const [buttonStatus, setButtonStatus] = useState(item.isFollowed);
 
   const {t} = useTranslation();
+  const dispatch = useDispatch();
 
-  const onClickAdd = () => {
+  const onClickAdd = (id: string) => {
+    buttonStatus
+      ? dispatch(unfollowUserResponse(id))
+      : dispatch(followUserResponse(id));
     setButtonStatus(!buttonStatus);
     buttonStatus ? onAction(1) : onAction(-1);
   };
@@ -54,7 +45,7 @@ const AddLibryItem = ({item, onAction}: AddLibryItemInterface) => {
       </View>
       <TouchableOpacity
         onPress={() => {
-          onClickAdd();
+          onClickAdd(item.id);
         }}
         style={buttonStatus ? styles.addedButton : styles.addButton}>
         {buttonStatus ? (

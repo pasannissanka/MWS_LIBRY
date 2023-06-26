@@ -102,9 +102,9 @@ export function fetchChangePasswordResponse(body: object) {
 }
 
 export function followUser(id: string, token: string) {
-  return callService(Env.BASE_URL, `user/${id}/follow`, 'POST', token, null);
+  return callService(Env.BASE_URL, `/user/${id}/follow`, 'POST', token, null);
 }
 
 export function unFollowUser(id: string, token: string) {
-  return callService(Env.BASE_URL, `user/${id}/unfollow`, 'POST', token, null);
+  return callService(Env.BASE_URL, `/user/${id}/unfollow`, 'POST', token, null);
 }

@@ -372,6 +372,7 @@ function* fetchSuggestUsers() {
       phone_number_verified: false,
       followers: [],
       following: [],
+      isFollowed: false,
     },
   ];
 
@@ -480,7 +481,7 @@ export function* changePassword(action: any) {
 }
 
 // FOLLOW USER
-export function* followUserSaga(id: string) {
+export function* followUserSaga(action: any) {
   const registered_response: {
     user: {
       id: string;
@@ -499,9 +500,9 @@ export function* followUserSaga(id: string) {
       refreshToken: string;
     };
   } = yield select(RegisteredResponse);
-
+  const id = action.payload;
   try {
-    yield put(setSpinnerVisible(true));
+    //yield put(setSpinnerVisible(true));
     yield call(followUser, id, registered_response.tokens.accessToken);
     yield put(setSpinnerVisible(false));
   } catch (error) {
@@ -510,7 +511,7 @@ export function* followUserSaga(id: string) {
 }
 
 //UNFOLLOW USER
-export function* unfollowUserSaga(id: string) {
+export function* unfollowUserSaga(action: any) {
   const registered_response: {
     user: {
       id: string;
@@ -529,9 +530,9 @@ export function* unfollowUserSaga(id: string) {
       refreshToken: string;
     };
   } = yield select(RegisteredResponse);
-
+  const id = action.payload;
   try {
-    yield put(setSpinnerVisible(true));
+    //yield put(setSpinnerVisible(true));
     yield call(unFollowUser, id, registered_response.tokens.accessToken);
     yield put(setSpinnerVisible(false));
   } catch (error) {

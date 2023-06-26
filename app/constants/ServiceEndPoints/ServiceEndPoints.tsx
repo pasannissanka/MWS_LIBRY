@@ -6,7 +6,7 @@ const AppAccessEndPoints = {
   LOGIN: '/auth/login',
   ADD_NAME_BIRTH_DATE: '/profile/onboarding',
   USER_PROFILE: '/profile',
-  SUGGEST_USERS: '/user',
+  SUGGEST_USERS: '/user/popular',
   PASSWORD_CHANGE_REQUEST: '/auth/reset-password',
   CHANGE_PASSWORD: '/auth/new-password',
 };

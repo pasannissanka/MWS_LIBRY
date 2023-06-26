@@ -25,6 +25,8 @@ import {
   fetchSignUpVerifyResponse,
   fetchSuggestUsersProfile,
   fetchUserProfile,
+  followUser,
+  unFollowUser,
 } from '../../../services/AppAccess/AppAccess';
 import {
   AccessToken,
@@ -370,6 +372,7 @@ function* fetchSuggestUsers() {
       phone_number_verified: false,
       followers: [],
       following: [],
+      isFollowed: false,
     },
   ];
 
@@ -474,5 +477,65 @@ export function* changePassword(action: any) {
     yield put(setEndPointErrorVisible(true));
 
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
+// FOLLOW USER
+export function* followUserSaga(action: any) {
+  const registered_response: {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      email_verified: boolean;
+      phone_number: string;
+      phone_number_verified: boolean;
+      userConfirmed: boolean;
+      birth_date: string;
+      followers: [];
+      following: [];
+    };
+    tokens: {
+      accessToken: string;
+      refreshToken: string;
+    };
+  } = yield select(RegisteredResponse);
+  const id = action.payload;
+  try {
+    //yield put(setSpinnerVisible(true));
+    yield call(followUser, id, registered_response.tokens.accessToken);
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+  }
+}
+
+//UNFOLLOW USER
+export function* unfollowUserSaga(action: any) {
+  const registered_response: {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      email_verified: boolean;
+      phone_number: string;
+      phone_number_verified: boolean;
+      userConfirmed: boolean;
+      birth_date: string;
+      followers: [];
+      following: [];
+    };
+    tokens: {
+      accessToken: string;
+      refreshToken: string;
+    };
+  } = yield select(RegisteredResponse);
+  const id = action.payload;
+  try {
+    //yield put(setSpinnerVisible(true));
+    yield call(unFollowUser, id, registered_response.tokens.accessToken);
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
   }
 }

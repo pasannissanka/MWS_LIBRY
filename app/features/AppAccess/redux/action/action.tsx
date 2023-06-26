@@ -1,4 +1,5 @@
 import {
+  FOLLOW_USER_REQUEST,
   GET_ACCESS_TOKEN,
   GET_ADD_NAME_BIRTH_DATE_RESPONSE,
   GET_CHANGE_PASSWORD_RESPONSE,
@@ -28,6 +29,7 @@ import {
   SET_SIGN_UP_RESPONSE_VERIFY,
   SET_SUGGEST_USERS,
   SET_USER_PROFILE,
+  UNFOLLOW_USER_REQUEST,
 } from './types';
 
 export const setSignUpResponse = (response: object) => {
@@ -225,5 +227,19 @@ export const getChangePasswordResponse = (reqBody: object) => {
   return {
     type: GET_CHANGE_PASSWORD_RESPONSE,
     payload: reqBody,
+  };
+};
+
+export const followUserResponse = (id: string) => {
+  return {
+    type: FOLLOW_USER_REQUEST,
+    payload: id,
+  };
+};
+
+export const unfollowUserResponse = (id: string) => {
+  return {
+    type: UNFOLLOW_USER_REQUEST,
+    payload: id,
   };
 };

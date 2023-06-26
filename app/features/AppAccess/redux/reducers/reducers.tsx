@@ -86,6 +86,7 @@ const initialState = {
       phone_number_verified: false,
       followers: [],
       following: [],
+      isFollowed: false,
     },
   ],
 };

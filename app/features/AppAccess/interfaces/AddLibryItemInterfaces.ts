@@ -11,6 +11,7 @@ export type LibryItemInterface = {
   phone_number_verified: boolean;
   followers: [];
   following: [];
+  isFollowed: boolean;
 };
 
 export type AddLibryItemInterface = {

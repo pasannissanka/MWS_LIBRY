@@ -1,6 +1,6 @@
 import {Image, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Colors, Sizes} from '../../../theme';
+import {Colors, Images, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
@@ -83,6 +83,7 @@ const PublishFirstIdeaScreen = () => {
             text={t('appAccess.publishFirstIdeaScreen.next')}
             color="green"
             style={styles.button}
+            icon={Images.icons.right_arrow}
             onPress={() => {
               onPressNext();
             }}

@@ -7,7 +7,8 @@ const Images = {
     dropdown_icon: require('../assets/images/dropdown-icon/dropdown-icon.png'),
     agreement_tick_icon: require('../assets/images/agreement-tick/agreement-tick.png'),
     green_tick_icon: require('../assets/images/tick-icon/tick.png'),
-    warning: require('../assets/images/warning/warning.png')
+    warning: require('../assets/images/warning/warning.png'),
+    right_arrow: require('../assets/images/right-arrow/right-arrow.png'),
   },
 };
 

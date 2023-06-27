@@ -61,7 +61,7 @@ const AddYourLibryScreen = () => {
               renderItem={({item}) => (
                 <AddLibryItem item={item} onAction={onSelectionChange} />
               )}
-              showsVerticalScrollIndicator
+              showsVerticalScrollIndicator={false}
               scrollIndicatorInsets={{right: 0, left: 1, top: 1, bottom: 1}}
               extraData={DATA}
               style={styles.flatList}

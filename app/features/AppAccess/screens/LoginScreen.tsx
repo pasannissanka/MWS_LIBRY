@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
@@ -18,12 +18,22 @@ import Collapsible from 'react-native-collapsible';
 import {emailFormatevalidate} from '../../../helper/formatters';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUserEmail} from '../../../redux/action/action';
-import {getAccessToken, setEmailValidation} from '../redux/action/action';
+import {
+  getAccessToken,
+  setChangePasswordResponse,
+  setEmailValidation,
+} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
 const LoginScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setChangePasswordResponse('UNDEFINED'));
+    }, 5000);
+  }, []);
 
   const ValidEmail = useSelector(
     (state: any) => state.appAccessReducer.validEmail,
@@ -31,7 +41,12 @@ const LoginScreen = () => {
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
-
+  const LoginStatus = useSelector(
+    (state: any) => state.appAccessReducer.loginStatus,
+  );
+  const ChangePasswordStatus = useSelector(
+    (state: any) => state.appAccessReducer.confirmChangePasswordStatus,
+  );
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
 
@@ -75,84 +90,103 @@ const LoginScreen = () => {
             <>
               <View style={styles.topSpace} />
 
-              <View style={styles.contentContainer}>
-                <Image
-                  source={Images.logos.app_logo}
-                  resizeMode="contain"
-                  style={styles.logo}
-                />
-                <Collapsible
-                  collapsed={true}
-                  style={styles.collapsibleView}
-                  duration={500}>
-                  <Text style={styles.alert}>
-                    {t('appAccess.loginScreen.alert.passwordResetSuccess')}
-                  </Text>
-                </Collapsible>
-
-                <View style={styles.textInputContainer}>
-                  <PrimaryTextInput
-                    reference={emailRef}
-                    value={email}
-                    style={styles.textInput}
-                    placeholder={t('appAccess.loginScreen.emailPlaceholder')}
-                    inputMode="email"
-                    keyboardType="default"
-                    onChangeText={onChangeEmail}
-                    error={!ValidEmail}
-                  />
-                  <PrimaryTextInput
-                    reference={passwordRef}
-                    value={password}
-                    style={styles.textInput}
-                    placeholder={t('appAccess.loginScreen.passwordPlaceholder')}
-                    inputMode="text"
-                    keyboardType="default"
-                    onChangeText={onChangePassword}
-                    secureTextEntry={true}
-                  />
-                  <Collapsible
-                    collapsed={ValidEmail}
-                    style={styles.collapsibleView}
-                    duration={500}>
-                    {!ValidEmail && (
-                      <Text style={styles.warning}>
-                        {t(
-                          'appAccess.loginScreen.warnings.incorrectEmailFormat',
-                        )}
-                      </Text>
-                    )}
-                  </Collapsible>
-                </View>
-                <PrimaryButton
-                  text={t('appAccess.loginScreen.logIn')}
-                  color="green"
-                  style={styles.button}
-                  onPress={() => {
-                    onPressLogin();
+              {EndPointErrorVisibility ? (
+                <EndPointError
+                  onPressBack={() => {
+                    RootNavigation.goBack();
                   }}
                 />
+              ) : (
+                <View style={styles.contentContainer}>
+                  <Image
+                    source={Images.logos.app_logo}
+                    resizeMode="contain"
+                    style={styles.logo}
+                  />
+                  <Collapsible
+                    collapsed={ChangePasswordStatus !== 'SUCCESS'}
+                    style={styles.collapsibleView}
+                    duration={500}>
+                    <Text style={styles.alert}>
+                      {t('appAccess.loginScreen.alert.passwordResetSuccess')}
+                    </Text>
+                  </Collapsible>
 
-                <TouchableOpacity
-                  onPress={() => {
-                    RootNavigation.navigate('SendResetPasswordScreen');
-                  }}>
-                  <Text style={styles.troubleSignInText}>
-                    {t('appAccess.loginScreen.troubleSigningIn')}
-                  </Text>
-                </TouchableOpacity>
+                  <View style={styles.textInputContainer}>
+                    <PrimaryTextInput
+                      reference={emailRef}
+                      value={email}
+                      style={styles.textInput}
+                      placeholder={t('appAccess.loginScreen.emailPlaceholder')}
+                      inputMode="email"
+                      keyboardType="default"
+                      onChangeText={onChangeEmail}
+                      error={!ValidEmail || LoginStatus === 'USER_NOT_FOUND'}
+                    />
+                    <PrimaryTextInput
+                      reference={passwordRef}
+                      value={password}
+                      style={styles.textInput}
+                      placeholder={t(
+                        'appAccess.loginScreen.passwordPlaceholder',
+                      )}
+                      inputMode="text"
+                      keyboardType="default"
+                      onChangeText={onChangePassword}
+                      secureTextEntry={true}
+                      error={LoginStatus === 'PASSWORD_INVALID'}
+                    />
+                    <Collapsible
+                      collapsed={ValidEmail && LoginStatus === 'LOGIN_SUCCESS'}
+                      style={styles.collapsibleView}
+                      duration={500}>
+                      <Text style={styles.warning}>
+                        {!ValidEmail
+                          ? t(
+                              'appAccess.loginScreen.warnings.incorrectEmailFormat',
+                            )
+                          : LoginStatus === 'USER_NOT_FOUND'
+                          ? t(
+                              'appAccess.loginScreen.warnings.emailNotRegistered',
+                            )
+                          : LoginStatus === 'PASSWORD_INVALID'
+                          ? t(
+                              'appAccess.loginScreen.warnings.incorrectPassword',
+                            )
+                          : ''}
+                      </Text>
+                    </Collapsible>
+                  </View>
+                  <PrimaryButton
+                    text={t('appAccess.loginScreen.logIn')}
+                    color="green"
+                    style={styles.button}
+                    onPress={() => {
+                      onPressLogin();
+                    }}
+                  />
 
-                <TouchableOpacity
-                  style={styles.backButton}
-                  onPress={() => {
-                    dispatch(setEmailValidation(true));
-                    RootNavigation.goBack();
-                  }}>
-                  <Text style={styles.backText}>
-                    {t('appAccess.loginScreen.back')}
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      RootNavigation.navigate('SendResetPasswordScreen');
+                    }}>
+                    <Text style={styles.troubleSignInText}>
+                      {t('appAccess.loginScreen.troubleSigningIn')}
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    style={styles.backButton}
+                    onPress={() => {
+                      dispatch(setEmailValidation(true));
+                      RootNavigation.goBack();
+                    }}>
+                    <Text style={styles.backText}>
+                      {t('appAccess.loginScreen.back')}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
               <View style={styles.bottomSpace} />
             </>
           )}

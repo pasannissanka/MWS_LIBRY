@@ -16,13 +16,17 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryTextInput from '../components/PrimaryTextInput';
 import Collapsible from 'react-native-collapsible';
 import {emailFormatevalidate} from '../../../helper/formatters';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getPasswordChangeRequest} from '../redux/action/action';
 import {setUserEmail} from '../../../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 const SendResetPasswordScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
   const warnings = {
     IncorrectEmailFormat: 'IncorrectEmailFormat',
   };
@@ -55,58 +59,66 @@ const SendResetPasswordScreen = () => {
       <View style={styles.parentView}>
         <PrimaryContainer style={styles.primaryContainer}>
           <View style={styles.topSpace} />
-          <View style={styles.contentContainer}>
-            <Image
-              source={Images.logos.app_logo}
-              resizeMode="contain"
-              style={styles.logo}
-            />
-
-            <View style={styles.textInputContainer}>
-              <PrimaryTextInput
-                reference={emailRef}
-                value={email}
-                style={styles.textInput}
-                placeholder={t(
-                  'appAccess.sendResetPasswordScreen.emailPlaceholder',
-                )}
-                inputMode="email"
-                keyboardType="default"
-                onChangeText={onChangeEmail}
-              />
-
-              <Collapsible
-                collapsed={warning === ''}
-                style={styles.collapsibleView}
-                duration={500}>
-                {warning === warnings.IncorrectEmailFormat && (
-                  <Text style={styles.warning}>
-                    {t(
-                      'appAccess.sendResetPasswordScreen.warnings.incorrectEmailFormat',
-                    )}
-                  </Text>
-                )}
-              </Collapsible>
-            </View>
-            <PrimaryButton
-              text={t('appAccess.sendResetPasswordScreen.sendPasswordReset')}
-              color="green"
-              style={styles.button}
-              onPress={() => {
-                onPressResetPassword();
+          {EndPointErrorVisibility ? (
+            <EndPointError
+              onPressBack={() => {
+                RootNavigation.goBack();
               }}
             />
+          ) : (
+            <View style={styles.contentContainer}>
+              <Image
+                source={Images.logos.app_logo}
+                resizeMode="contain"
+                style={styles.logo}
+              />
 
-            <TouchableOpacity
-              style={styles.backButton}
-              onPress={() => {
-                RootNavigation.goBack();
-              }}>
-              <Text style={styles.backText}>
-                {t('appAccess.sendResetPasswordScreen.back')}
-              </Text>
-            </TouchableOpacity>
-          </View>
+              <View style={styles.textInputContainer}>
+                <PrimaryTextInput
+                  reference={emailRef}
+                  value={email}
+                  style={styles.textInput}
+                  placeholder={t(
+                    'appAccess.sendResetPasswordScreen.emailPlaceholder',
+                  )}
+                  inputMode="email"
+                  keyboardType="default"
+                  onChangeText={onChangeEmail}
+                />
+
+                <Collapsible
+                  collapsed={warning === ''}
+                  style={styles.collapsibleView}
+                  duration={500}>
+                  {warning === warnings.IncorrectEmailFormat && (
+                    <Text style={styles.warning}>
+                      {t(
+                        'appAccess.sendResetPasswordScreen.warnings.incorrectEmailFormat',
+                      )}
+                    </Text>
+                  )}
+                </Collapsible>
+              </View>
+              <PrimaryButton
+                text={t('appAccess.sendResetPasswordScreen.sendPasswordReset')}
+                color="green"
+                style={styles.button}
+                onPress={() => {
+                  onPressResetPassword();
+                }}
+              />
+
+              <TouchableOpacity
+                style={styles.backButton}
+                onPress={() => {
+                  RootNavigation.goBack();
+                }}>
+                <Text style={styles.backText}>
+                  {t('appAccess.sendResetPasswordScreen.back')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
           <View style={styles.bottomSpace} />
         </PrimaryContainer>
       </View>

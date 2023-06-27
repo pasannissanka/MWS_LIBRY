@@ -9,12 +9,17 @@ import {validatePassword} from '../../../helper/formatters';
 import Collapsible from 'react-native-collapsible';
 import {useDispatch, useSelector} from 'react-redux';
 import {getChangePasswordResponse} from '../redux/action/action';
+import * as RootNavigation from '../../../navigation/RootNavigation';
+import EndPointError from '../../../components/views/EndPointError';
 
 const ChangePasswordScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const Email = useSelector((state: any) => state.commonReducer.userEmail);
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
 
   const [password, onChangePassword] = useState('');
   const [otp, onChangeOtp] = useState('');
@@ -66,76 +71,84 @@ const ChangePasswordScreen = () => {
       />
       <View style={styles.parentView}>
         <PrimaryContainer style={styles.primaryContainer}>
-          <View style={styles.contentContainer}>
-            <View style={styles.topSpace} />
+          {EndPointErrorVisibility ? (
+            <EndPointError
+              onPressBack={() => {
+                RootNavigation.goBack();
+              }}
+            />
+          ) : (
+            <View style={styles.contentContainer}>
+              <View style={styles.topSpace} />
 
-            <>
-              <Image
-                source={Images.logos.app_logo}
-                resizeMode="contain"
-                style={styles.logo}
-              />
-              <View style={styles.textInputContainer}>
-                <PrimaryTextInput
-                  //reference={passwordRef}
-                  value={otp}
-                  style={styles.textInput}
-                  placeholder={'Verification Code'}
-                  inputMode="numeric"
-                  keyboardType="phone-pad"
-                  onChangeText={onChangeOtp}
-                  secureTextEntry={false}
-                  error={warning !== ''}
+              <>
+                <Image
+                  source={Images.logos.app_logo}
+                  resizeMode="contain"
+                  style={styles.logo}
                 />
-                <PrimaryTextInput
-                  reference={passwordRef}
-                  value={password}
-                  style={styles.textInput}
-                  placeholder={t(
-                    'appAccess.changePasswordScreen.passwordPlaceholder',
-                  )}
-                  inputMode="text"
-                  keyboardType="default"
-                  onChangeText={onChangePassword}
-                  secureTextEntry={true}
-                  error={warning !== ''}
-                />
-                <PrimaryTextInput
-                  reference={confirmPasswordRef}
-                  value={confirmPassword}
-                  style={styles.textInput}
-                  placeholder={t(
-                    'appAccess.changePasswordScreen.confirmPasswordPlaceholder',
-                  )}
-                  inputMode="text"
-                  keyboardType="default"
-                  onChangeText={onChangeConfirmPassword}
-                  secureTextEntry={true}
-                />
-
-                <Collapsible
-                  collapsed={warning === ''}
-                  style={styles.collapsibleView}
-                  duration={500}>
-                  <Text style={styles.warning}>
-                    {t(
-                      'appAccess.enterPasswordScreen.warnings.incorrectPasswordFormat',
+                <View style={styles.textInputContainer}>
+                  <PrimaryTextInput
+                    //reference={passwordRef}
+                    value={otp}
+                    style={styles.textInput}
+                    placeholder={'Verification Code'}
+                    inputMode="numeric"
+                    keyboardType="phone-pad"
+                    onChangeText={onChangeOtp}
+                    secureTextEntry={false}
+                    error={warning !== ''}
+                  />
+                  <PrimaryTextInput
+                    reference={passwordRef}
+                    value={password}
+                    style={styles.textInput}
+                    placeholder={t(
+                      'appAccess.changePasswordScreen.passwordPlaceholder',
                     )}
-                  </Text>
-                </Collapsible>
-              </View>
+                    inputMode="text"
+                    keyboardType="default"
+                    onChangeText={onChangePassword}
+                    secureTextEntry={true}
+                    error={warning !== ''}
+                  />
+                  <PrimaryTextInput
+                    reference={confirmPasswordRef}
+                    value={confirmPassword}
+                    style={styles.textInput}
+                    placeholder={t(
+                      'appAccess.changePasswordScreen.confirmPasswordPlaceholder',
+                    )}
+                    inputMode="text"
+                    keyboardType="default"
+                    onChangeText={onChangeConfirmPassword}
+                    secureTextEntry={true}
+                  />
 
-              <PrimaryButton
-                text={t('appAccess.changePasswordScreen.changePassword')}
-                color="green"
-                style={styles.button}
-                onPress={() => {
-                  onPressChangePassword();
-                }}
-              />
-            </>
-            <View style={styles.bottomSpace} />
-          </View>
+                  <Collapsible
+                    collapsed={warning === ''}
+                    style={styles.collapsibleView}
+                    duration={500}>
+                    <Text style={styles.warning}>
+                      {t(
+                        'appAccess.enterPasswordScreen.warnings.incorrectPasswordFormat',
+                      )}
+                    </Text>
+                  </Collapsible>
+                </View>
+
+                <PrimaryButton
+                  text={t('appAccess.changePasswordScreen.changePassword')}
+                  color="green"
+                  style={styles.button}
+                  onPress={() => {
+                    onPressChangePassword();
+                  }}
+                />
+              </>
+              <View style={styles.bottomSpace} />
+            </View>
+          )}
         </PrimaryContainer>
       </View>
     </>

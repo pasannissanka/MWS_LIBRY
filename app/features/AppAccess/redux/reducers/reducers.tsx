@@ -2,7 +2,9 @@ import createReducer from '../../../../helper/createReducer';
 import {
   SET_ACCESS_TOKEN,
   SET_ADD_NAME_BIRTH_DATE_RESPONSE,
+  SET_CHANGE_PASSWORD_RESPONSE,
   SET_EMAIL_VALIDATION,
+  SET_LOGIN_STATUS,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
   SET_PASSWORD_VALIDATION,
@@ -89,6 +91,8 @@ const initialState = {
       isFollowed: false,
     },
   ],
+  loginStatus: 'LOGIN_SUCCESS',
+  confirmChangePasswordStatus: 'UNDEFINED',
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -168,6 +172,18 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       suggestUserProfils: action.payload,
+    };
+  },
+  [SET_LOGIN_STATUS](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      loginStatus: action.payload,
+    };
+  },
+  [SET_CHANGE_PASSWORD_RESPONSE](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      confirmChangePasswordStatus: action.payload,
     };
   },
 });

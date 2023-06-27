@@ -7,6 +7,7 @@ import {
   setLoginStatus,
   setOtpModalVisible,
   setOtpValidation,
+  setPasswordChangeRequest,
   setPasswordValidation,
   setRefreshToken,
   setRegisterResponse,
@@ -561,7 +562,7 @@ export function* renderChangePasswordScreen() {
     } = yield call(fetchChangePasswordReqResponse, requestBody);
     if (raw_response.status === 'SUCCESS') {
       response = raw_response.data;
-
+      yield put(setPasswordChangeRequest('OTP_SENT'));
       RootNavigation.navigate('ChangePasswordScreen');
 
       const verificationCodeAlertBoxContent = {
@@ -577,6 +578,7 @@ export function* renderChangePasswordScreen() {
 
       yield put(setAlertBoxVisibility(verificationCodeAlertBoxContent));
     } else {
+      yield put(setPasswordChangeRequest('USER_NOT_FOUND'));
     }
     yield put(setSpinnerVisible(false));
   } catch (error) {

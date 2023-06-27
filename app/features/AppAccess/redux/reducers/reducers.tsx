@@ -7,6 +7,7 @@ import {
   SET_LOGIN_STATUS,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
+  SET_PASSWORD_CHANGE_REQUEST,
   SET_PASSWORD_VALIDATION,
   SET_REFRESH_TOKEN,
   SET_REGISTER_RESPONSE,
@@ -93,6 +94,7 @@ const initialState = {
   ],
   loginStatus: 'LOGIN_SUCCESS',
   confirmChangePasswordStatus: 'UNDEFINED',
+  changePasswordReqResponse: 'UNDEFINED',
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -184,6 +186,12 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       confirmChangePasswordStatus: action.payload,
+    };
+  },
+  [SET_PASSWORD_CHANGE_REQUEST](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      changePasswordReqResponse: action.payload,
     };
   },
 });

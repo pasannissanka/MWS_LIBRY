@@ -32,7 +32,7 @@ const EnterEmailScreen = () => {
 
   const ref = useRef<any>();
   const [email, onChangeEmail] = useState('');
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
 
   const onPressBack = () => {
     dispatch(setEmailValidation(true));

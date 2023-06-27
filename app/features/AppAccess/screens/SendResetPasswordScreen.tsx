@@ -18,7 +18,7 @@ import PrimaryTextInput from '../components/PrimaryTextInput';
 import Collapsible from 'react-native-collapsible';
 import {emailFormatevalidate} from '../../../helper/formatters';
 import {useDispatch, useSelector} from 'react-redux';
-import {getPasswordChangeRequest} from '../redux/action/action';
+import {getPasswordChangeRequest, setPasswordChangeRequest} from '../redux/action/action';
 import {setUserEmail} from '../../../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
@@ -31,7 +31,9 @@ const SendResetPasswordScreen = () => {
   const warnings = {
     IncorrectEmailFormat: 'IncorrectEmailFormat',
   };
-
+  const ChangePasswordRequestStatus = useSelector(
+    (state: any) => state.appAccessReducer.changePasswordReqResponse,
+  );
   const [email, onChangeEmail] = useState('');
   const [warning, setWarning] = useState('');
 
@@ -91,16 +93,46 @@ const SendResetPasswordScreen = () => {
                 />
 
                 <Collapsible
-                  collapsed={warning === ''}
+                  collapsed={
+                    warning === '' &&
+                    ChangePasswordRequestStatus !== 'USER_NOT_FOUND'
+                  }
                   style={styles.collapsibleView}
                   duration={500}>
-                  {warning === warnings.IncorrectEmailFormat && (
-                    <Text style={styles.warning}>
-                      {t(
-                        'appAccess.sendResetPasswordScreen.warnings.incorrectEmailFormat',
-                      )}
-                    </Text>
-                  )}
+                  <Text style={styles.warning}>
+                    {warning === warnings.IncorrectEmailFormat ? (
+                      <Text style={styles.warningRed}>
+                        {t(
+                          'appAccess.sendResetPasswordScreen.warnings.incorrectEmailFormat',
+                        )}
+                      </Text>
+                    ) : ChangePasswordRequestStatus === 'USER_NOT_FOUND' ? (
+                      <Text>
+                        <Text style={styles.warningRed}>
+                          {t(
+                            'appAccess.loginScreen.warnings.emailNotRegisteredPartOne',
+                          )}
+                        </Text>
+                        <Text
+                          style={styles.warningLinkText}
+                          onPress={() => {
+                            dispatch(setPasswordChangeRequest('UNDEFINED'));
+                            RootNavigation.navigate('OpeningScreen');
+                          }}>
+                          {t(
+                            'appAccess.loginScreen.warnings.emailNotRegisteredPartTwo',
+                          )}
+                        </Text>
+                        <Text style={styles.warningRed}>
+                          {t(
+                            'appAccess.loginScreen.warnings.emailNotRegisteredPartThree',
+                          )}
+                        </Text>
+                      </Text>
+                    ) : (
+                      <Text />
+                    )}
+                  </Text>
                 </Collapsible>
               </View>
               <PrimaryButton
@@ -183,8 +215,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 16,
     fontWeight: '400',
-    color: Colors.text.WARNING_RED_COLOR,
     marginTop: 18,
+  },
+  warningRed: {
+    color: Colors.text.WARNING_RED_COLOR,
+  },
+  warningLinkText: {
+    color: Colors.text.LINK_TEXT_COLOR,
   },
   collapsibleView: {
     width: '100%',

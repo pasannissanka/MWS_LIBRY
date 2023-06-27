@@ -206,9 +206,12 @@ export const getSuggestUsers = () => {
   };
 };
 
-export const setPasswordChangeRequest = () => {
+export const setPasswordChangeRequest = (
+  response: 'OTP_SENT' | 'USER_NOT_FOUND' | 'UNDEFINED',
+) => {
   return {
     type: SET_PASSWORD_CHANGE_REQUEST,
+    payload: response,
   };
 };
 
@@ -249,7 +252,7 @@ export const unfollowUserResponse = (id: string) => {
 };
 
 export const setLoginStatus = (
-  status: 'LOGIN_SUCCESS' | 'USER_NOT_FOUND' | 'PASSWORD_INVALID',
+  status: 'LOGIN_SUCCESS' | 'USER_NOT_FOUND' | 'PASSWORD_INVALID' | 'UNDEFINED',
 ) => {
   return {
     type: SET_LOGIN_STATUS,

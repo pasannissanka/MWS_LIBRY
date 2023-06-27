@@ -23,6 +23,7 @@ import {
   getAccessToken,
   setChangePasswordResponse,
   setEmailValidation,
+  setLoginStatus,
 } from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
@@ -141,23 +142,52 @@ const LoginScreen = () => {
                       error={LoginStatus === 'PASSWORD_INVALID'}
                     />
                     <Collapsible
-                      collapsed={ValidEmail && LoginStatus === 'LOGIN_SUCCESS'}
+                      collapsed={
+                        ValidEmail &&
+                        (LoginStatus === 'LOGIN_SUCCESS' ||
+                          LoginStatus === 'UNDEFINED')
+                      }
                       style={styles.collapsibleView}
                       duration={500}>
                       <Text style={styles.warning}>
-                        {!ValidEmail
-                          ? t(
+                        {!ValidEmail ? (
+                          <Text style={styles.warningRed}>
+                            {t(
                               'appAccess.loginScreen.warnings.incorrectEmailFormat',
-                            )
-                          : LoginStatus === 'USER_NOT_FOUND'
-                          ? t(
-                              'appAccess.loginScreen.warnings.emailNotRegistered',
-                            )
-                          : LoginStatus === 'PASSWORD_INVALID'
-                          ? t(
+                            )}
+                          </Text>
+                        ) : LoginStatus === 'USER_NOT_FOUND' ? (
+                          <Text>
+                            <Text style={styles.warningRed}>
+                              {t(
+                                'appAccess.loginScreen.warnings.emailNotRegisteredPartOne',
+                              )}
+                            </Text>
+                            <Text
+                              style={styles.warningLinkText}
+                              onPress={() => {
+                                dispatch(setLoginStatus('UNDEFINED'));
+                                RootNavigation.navigate('OpeningScreen');
+                              }}>
+                              {t(
+                                'appAccess.loginScreen.warnings.emailNotRegisteredPartTwo',
+                              )}
+                            </Text>
+                            <Text style={styles.warningRed}>
+                              {t(
+                                'appAccess.loginScreen.warnings.emailNotRegisteredPartThree',
+                              )}
+                            </Text>
+                          </Text>
+                        ) : LoginStatus === 'PASSWORD_INVALID' ? (
+                          <Text style={styles.warningRed}>
+                            {t(
                               'appAccess.loginScreen.warnings.incorrectPassword',
-                            )
-                          : ''}
+                            )}
+                          </Text>
+                        ) : (
+                          <Text />
+                        )}
                       </Text>
                     </Collapsible>
                   </View>
@@ -272,8 +302,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 16,
     fontWeight: '400',
-    color: Colors.text.WARNING_RED_COLOR,
     marginTop: 18,
+  },
+  warningRed: {
+    color: Colors.text.WARNING_RED_COLOR,
+  },
+  warningLinkText: {
+    color: Colors.text.LINK_TEXT_COLOR,
   },
   collapsibleView: {
     width: '100%',

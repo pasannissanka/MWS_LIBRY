@@ -20,7 +20,9 @@
             "back": "back",
             "warnings": {
                 "incorrectEmailFormat": "Please enter an email in the correct format.",
-                "emailNotRegistered": "This email is not registered. Please Sign Up or try again.",
+                "emailNotRegisteredPartOne": "This email is not registered. Please ",
+                "emailNotRegisteredPartTwo": "Sign Up",
+                "emailNotRegisteredPartThree": " or try again.",
                 "incorrectPassword": "This password is incorrect. Please try again."
             },
             "alert": {
@@ -33,7 +35,9 @@
             "back": "back",
             "warnings": {
                 "incorrectEmailFormat": "Please enter an email in the correct format.",
-                "emailNotRegistered": "This email is not registered. Please Sign Up or try again.",
+                "emailNotRegisteredPartOne": "This email is not registered. Please ",
+                "emailNotRegisteredPartTwo": "Sign Up",
+                "emailNotRegisteredPartThree": " or try again."
             }
         },
         "changePasswordScreen": {

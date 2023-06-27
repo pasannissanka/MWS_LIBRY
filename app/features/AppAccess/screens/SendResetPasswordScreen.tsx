@@ -1,5 +1,6 @@
 import {
   Image,
+  KeyboardAvoidingView,
   Platform,
   StatusBar,
   StyleSheet,
@@ -50,7 +51,10 @@ const SendResetPasswordScreen = () => {
   };
 
   return (
-    <>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={16}
+      style={styles.parentView}>
       <StatusBar
         translucent={false}
         backgroundColor={Colors.SCREEN_PRIMARY_BACKGROUND_COLOR}
@@ -122,7 +126,7 @@ const SendResetPasswordScreen = () => {
           <View style={styles.bottomSpace} />
         </PrimaryContainer>
       </View>
-    </>
+    </KeyboardAvoidingView>
   );
 };
 

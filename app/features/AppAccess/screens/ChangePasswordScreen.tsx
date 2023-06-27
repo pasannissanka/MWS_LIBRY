@@ -1,4 +1,4 @@
-import {Image, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {Image, KeyboardAvoidingView, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Images} from '../../../theme';
@@ -63,7 +63,10 @@ const ChangePasswordScreen = () => {
   };
 
   return (
-    <>
+    <KeyboardAvoidingView
+    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    keyboardVerticalOffset={16}
+    style={styles.parentView}>
       <StatusBar
         translucent={false}
         backgroundColor={Colors.SCREEN_PRIMARY_BACKGROUND_COLOR}
@@ -151,7 +154,7 @@ const ChangePasswordScreen = () => {
           )}
         </PrimaryContainer>
       </View>
-    </>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -46,7 +46,11 @@ const YourLibryReadyScreen = () => {
           <Header style={styles.header} onPressBack={onPressBack} />
           <PrimaryContainer>
             <View style={styles.middleContainer}>
-              <Image style={styles.titleImage} resizeMode="contain" />
+              <Image
+                source={require('./../../../assets/dummyImages/orange-placeholder/orange-placeholder.png')}
+                style={styles.titleImage}
+                resizeMode="contain"
+              />
               <Text style={styles.title}>
                 {t('appAccess.yourLibryReadyScreen.title')}
               </Text>
@@ -54,7 +58,11 @@ const YourLibryReadyScreen = () => {
               <View style={styles.featureContainer}>
                 {FEATURES.map((item, index) => (
                   <View style={styles.featureRow} key={index}>
-                    <Image style={styles.featureImage} />
+                    <Image
+                      source={require('./../../../assets/dummyImages/orange-placeholder/orange-placeholder.png')}
+                      style={styles.featureImage}
+                      resizeMode="contain"
+                    />
                     <View style={styles.featureTextContainer}>
                       <Text style={styles.featureTitle}>{item.title}</Text>
                       <Text style={styles.featureDescription}>

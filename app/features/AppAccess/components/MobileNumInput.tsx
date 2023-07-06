@@ -27,9 +27,9 @@ const MobileNumInput = ({
 }: SectionProps) => {
   const [number, setNumber] = useState('');
   const [countryObj, setCountryObj] = useState({
-    name: 'Sri Lanka',
-    dial_code: '+94',
-    code: 'LK',
+    name: 'France',
+    dial_code: '+33',
+    code: 'FR',
   });
   const dropdownRef = useRef<any>();
 
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   countryCode: {
+    height: 40,
     flexDirection: 'row',
     alignItems: 'center',
     marginRight: 10,
@@ -118,7 +119,6 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     paddingVertical: 12,
-    height: 40,
   },
   downIcon: {
     width: 12,

@@ -72,7 +72,11 @@ const PublishFirstIdeaScreen = () => {
                 {t('appAccess.publishFirstIdeaScreen.descriptionMiddle')}
               </Text>
 
-              <Image style={styles.image} resizeMode="contain" />
+              <Image
+                source={require('./../../../assets/dummyImages/orange-placeholder/orange-placeholder.png')}
+                style={styles.image}
+                resizeMode="contain"
+              />
 
               <Text style={styles.description}>
                 {t('appAccess.publishFirstIdeaScreen.descriptionBottom')}

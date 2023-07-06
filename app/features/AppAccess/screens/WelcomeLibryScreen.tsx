@@ -29,7 +29,11 @@ const WelcomeLibryScreen = () => {
                 {t('appAccess.welcomeLibryScreen.title')}
               </Text>
 
-              <Image style={styles.imagePlaceholder} resizeMode="contain" />
+              <Image
+                source={require('./../../../assets/dummyImages/orange-placeholder/orange-placeholder.png')}
+                style={styles.imagePlaceholder}
+                resizeMode="contain"
+              />
 
               <Text style={styles.description}>
                 {t('appAccess.welcomeLibryScreen.description')}

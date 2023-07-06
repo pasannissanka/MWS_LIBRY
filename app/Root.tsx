@@ -1,5 +1,5 @@
 import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import NavigationStack from './navigation/NavigationStack';
 import React, {useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setDeviceId} from './redux/action/action';
 import NoNetworkNarrowStrip from './features/AppAccess/components/NoNetworkNarrowStrip';
 import AlertBox from './features/AppAccess/components/AlertBox';
+import {Animated} from 'react-native';
 
 const Root = (): React.JSX.Element => {
   const dispatch = useDispatch();
@@ -22,6 +23,11 @@ const Root = (): React.JSX.Element => {
     (state: any) => state.commonReducer.alertBoxVisibility,
   );
 
+  const av = new Animated.Value(0);
+  av.addListener(() => {
+    return;
+  });
+
   useEffect(() => {
     DeviceInfo.getUniqueId().then(uniqueId => {
       dispatch(setDeviceId(uniqueId));
@@ -29,6 +35,14 @@ const Root = (): React.JSX.Element => {
     });
     SplashScreen.hide();
   }, []);
+
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
+    },
+  };
   return (
     <>
       <StatusBar
@@ -46,7 +60,7 @@ const Root = (): React.JSX.Element => {
           colors={['#012674', '#222322']}
           style={styles.linearGradient}>
           <NoNetworkNarrowStrip />
-          <NavigationContainer ref={navigationRef}>
+          <NavigationContainer ref={navigationRef} theme={MyTheme}>
             <NavigationStack />
           </NavigationContainer>
         </LinearGradient>

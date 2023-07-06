@@ -2,9 +2,12 @@ import {call, put, select} from 'redux-saga/effects';
 import {
   setAccessToken,
   setAddNameBirthDateResponse,
+  setChangePasswordResponse,
   setEmailValidation,
+  setLoginStatus,
   setOtpModalVisible,
   setOtpValidation,
+  setPasswordChangeRequest,
   setPasswordValidation,
   setRefreshToken,
   setRegisterResponse,
@@ -49,10 +52,6 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 
 //RENDER ENTER OTP SCREEN
 export function* renderEnterOtpScreen(action: any) {
-  let response = {
-    token: '',
-  };
-
   const triggeredScreen = action.payload;
   const mobile_number: string = yield select(MobileNumber);
   const device_id: string = yield select(DeviceId);
@@ -61,11 +60,24 @@ export function* renderEnterOtpScreen(action: any) {
     mobile_number: mobile_number,
     device_id: device_id,
   };
+
   try {
     yield put(setSpinnerVisible(true));
-    response = yield call(fetchSignUpResponse, requestBody);
-    if (true) {
+    const raw_response: {
+      //status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: {
+        token: string;
+      };
+      //error: null;
+    } = yield call(fetchSignUpResponse, requestBody);
+    if (
+      raw_response.message === 'OTP_SENT'
+      //raw_response.status === 'SUCCESS'
+    ) {
+      const response = raw_response.data;
       yield put(setSignUpResponse(response));
+
       if (triggeredScreen === 'EnterOTPScreen') {
         yield put(setOtpModalVisible('sent'));
       } else {
@@ -79,8 +91,10 @@ export function* renderEnterOtpScreen(action: any) {
         button: 'OK',
         onPress: () => {},
       };
+
       yield put(setAlertBoxVisibility(cannotSendOtpAlertBoxContent));
     }
+
     yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
@@ -108,9 +122,19 @@ export function* renderEnterEmailScreen(action: any) {
 
   try {
     yield put(setSpinnerVisible(true));
-    response = yield call(fetchSignUpVerifyResponse, requestBody);
 
-    if (true) {
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: {
+        token: string;
+      };
+      error: null;
+    } = yield call(fetchSignUpVerifyResponse, requestBody);
+
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
+
       yield put(setSignUpResponseVerify(response));
       yield put(setOtpValidation(true));
 
@@ -145,11 +169,21 @@ export function* renderEnterPasswordScreen() {
 
   try {
     yield put(setSpinnerVisible(true));
-    response = yield call(fetchSignUpEmailResponse, requestBody);
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: {
+        token: string;
+      };
+      error: null;
+    } = yield call(fetchSignUpEmailResponse, requestBody);
 
-    if (true) {
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
+
       yield put(setSignUpEmailResponse(response));
       yield put(setEmailValidation(true));
+
       //Navigate Enter Password Screen
       RootNavigation.navigate('EnterPasswordScreen');
     } else {
@@ -170,14 +204,17 @@ export function* renderWelcomeLibryScreen(action: any) {
     user: {
       id: '',
       name: '',
+      description: '',
+      birth_date: '',
       email: '',
       email_verified: false,
       phone_number: '',
       phone_number_verified: false,
+      cognitoSub: '',
       userConfirmed: false,
-      birth_date: '',
-      followers: [],
-      following: [],
+      followingCount: null,
+      followersCount: null,
+      isFollowed: false,
     },
     tokens: {
       accessToken: '',
@@ -197,9 +234,36 @@ export function* renderWelcomeLibryScreen(action: any) {
 
   try {
     yield put(setSpinnerVisible(true));
-    response = yield call(fetchRegisterResponse, requestBody);
 
-    if (true) {
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: {
+        user: {
+          id: string;
+          name: string;
+          description: string;
+          birth_date: string;
+          email: string;
+          email_verified: boolean;
+          phone_number: string;
+          phone_number_verified: boolean;
+          cognitoSub: string;
+          userConfirmed: boolean;
+          followingCount: null;
+          followersCount: null;
+          isFollowed: boolean;
+        };
+        tokens: {
+          accessToken: string;
+          refreshToken: string;
+        };
+      };
+    } = yield call(fetchRegisterResponse, requestBody);
+
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
+
       yield put(setRegisterResponse(response));
       yield put(setPasswordValidation(true));
 
@@ -232,13 +296,27 @@ export function* renderLoginScreen(action: any) {
 
   try {
     yield put(setSpinnerVisible(true));
-    response = yield call(fetchLoginResponse, requestBody);
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: 'LOGIN_SUCCESS' | 'USER_NOT_FOUND' | 'PASSWORD_INVALID';
+      data: {
+        accessToken: string;
+        refreshToken: string;
+      };
+    } = yield call(fetchLoginResponse, requestBody);
 
-    if (true) {
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
       yield put(setAccessToken(response.accessToken));
       yield put(setRefreshToken(response.refreshToken));
+      yield put(setLoginStatus('LOGIN_SUCCESS'));
       yield* renderUserPorfile();
     } else {
+      if (raw_response.message === 'PASSWORD_INVALID') {
+        yield put(setLoginStatus('PASSWORD_INVALID'));
+      } else {
+        yield put(setLoginStatus('USER_NOT_FOUND'));
+      }
     }
 
     yield put(setSpinnerVisible(false));
@@ -271,14 +349,17 @@ export function* renderAddYourLibryScreen() {
     user: {
       id: string;
       name: string;
+      description: string;
+      birth_date: string;
       email: string;
       email_verified: boolean;
       phone_number: string;
       phone_number_verified: boolean;
+      cognitoSub: string;
       userConfirmed: boolean;
-      birth_date: string;
-      followers: [];
-      following: [];
+      followingCount: null;
+      followersCount: null;
+      isFollowed: boolean;
     };
     tokens: {
       accessToken: string;
@@ -293,13 +374,31 @@ export function* renderAddYourLibryScreen() {
 
   try {
     yield put(setSpinnerVisible(true));
-    response = yield call(
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: '';
+      data: {
+        id: string;
+        email: string;
+        phone_number: string;
+        description: string;
+        name: string;
+        birth_date: string;
+        userConfirmed: boolean;
+        email_verified: boolean;
+        phone_number_verified: boolean;
+        followers: [];
+        following: [];
+        isFollowed: boolean;
+      };
+    } = yield call(
       fetchAddNameBirthDateResponse,
       registered_response.tokens.accessToken,
       requestBody,
     );
 
-    if (true) {
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
       yield put(setAddNameBirthDateResponse(response));
       yield* fetchSuggestUsers();
     } else {
@@ -340,9 +439,26 @@ function* renderUserPorfile() {
 
   const access_token: string = yield select(AccessToken);
   try {
-    response = yield call(fetchUserProfile, access_token);
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: {
+        id: string;
+        email: string;
+        phone_number: string;
+        description: string;
+        name: string;
+        birth_date: string;
+        userConfirmed: boolean;
+        email_verified: boolean;
+        phone_number_verified: boolean;
+        followers: [];
+        following: [];
+      };
+    } = yield call(fetchUserProfile, access_token);
 
-    if (true) {
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
       yield put(setUserProfile(response));
 
       //Navigate Dashboard Screen
@@ -351,7 +467,6 @@ function* renderUserPorfile() {
       if (!response.email_verified) {
         yield put(setAlertBoxVisibility(emailVerifyAlertBoxContent));
       }
-    } else {
     }
   } catch (error) {
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
@@ -396,16 +511,21 @@ function* fetchSuggestUsers() {
   } = yield select(RegisteredResponse);
 
   try {
-    console.log('ACCESS TOKEN ->', registered_response.tokens.accessToken);
-    response = yield call(
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: '';
+      data: [];
+    } = yield call(
       fetchSuggestUsersProfile,
       registered_response.tokens.accessToken,
     );
-    yield put(setSuggestUsers(response));
-    console.log('RESPONSE', response);
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
+      yield put(setSuggestUsers(response));
 
-    //Navigate Add Your Libry Screen
-    RootNavigation.navigate('AddYourLibryScreen');
+      //Navigate Add Your Libry Screen
+      RootNavigation.navigate('AddYourLibryScreen');
+    }
   } catch (error) {
     console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
@@ -429,10 +549,20 @@ export function* renderChangePasswordScreen() {
 
   try {
     yield put(setSpinnerVisible(true));
-    response = yield call(fetchChangePasswordReqResponse, requestBody);
-    if (true) {
-      yield put(setSpinnerVisible(false));
-
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: '';
+      data: {
+        CodeDeliveryDetails: {
+          AttributeName: 'phone_number';
+          DeliveryMedium: 'SMS';
+          Destination: '+*******6828';
+        };
+      };
+    } = yield call(fetchChangePasswordReqResponse, requestBody);
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
+      yield put(setPasswordChangeRequest('OTP_SENT'));
       RootNavigation.navigate('ChangePasswordScreen');
 
       const verificationCodeAlertBoxContent = {
@@ -448,7 +578,9 @@ export function* renderChangePasswordScreen() {
 
       yield put(setAlertBoxVisibility(verificationCodeAlertBoxContent));
     } else {
+      yield put(setPasswordChangeRequest('USER_NOT_FOUND'));
     }
+    yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
@@ -463,15 +595,21 @@ export function* changePassword(action: any) {
 
   try {
     yield put(setSpinnerVisible(true));
-    response = yield call(fetchChangePasswordResponse, action.payload);
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: string;
+    } = yield call(fetchChangePasswordResponse, action.payload);
 
-    yield put(setSpinnerVisible(false));
-    if (true) {
+    if (raw_response.status === 'SUCCESS') {
+      response = raw_response.data;
       if (response === 'SUCCESS') {
         RootNavigation.replace('LoginScreen');
+        yield put(setChangePasswordResponse('SUCCESS'));
       }
     } else {
     }
+    yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));

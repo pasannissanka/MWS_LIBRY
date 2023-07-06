@@ -18,6 +18,7 @@ import {
   SET_ADD_NAME_BIRTH_DATE_RESPONSE,
   SET_CHANGE_PASSWORD_RESPONSE,
   SET_EMAIL_VALIDATION,
+  SET_LOGIN_STATUS,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
   SET_PASSWORD_CHANGE_REQUEST,
@@ -205,9 +206,12 @@ export const getSuggestUsers = () => {
   };
 };
 
-export const setPasswordChangeRequest = () => {
+export const setPasswordChangeRequest = (
+  response: 'OTP_SENT' | 'USER_NOT_FOUND' | 'UNDEFINED',
+) => {
   return {
     type: SET_PASSWORD_CHANGE_REQUEST,
+    payload: response,
   };
 };
 
@@ -217,9 +221,12 @@ export const getPasswordChangeRequest = () => {
   };
 };
 
-export const setChangePasswordResponse = () => {
+export const setChangePasswordResponse = (
+  response: 'SUCCESS' | 'FAILURE' | 'UNDEFINED',
+) => {
   return {
     type: SET_CHANGE_PASSWORD_RESPONSE,
+    payload: response,
   };
 };
 
@@ -241,5 +248,14 @@ export const unfollowUserResponse = (id: string) => {
   return {
     type: UNFOLLOW_USER_REQUEST,
     payload: id,
+  };
+};
+
+export const setLoginStatus = (
+  status: 'LOGIN_SUCCESS' | 'USER_NOT_FOUND' | 'PASSWORD_INVALID' | 'UNDEFINED',
+) => {
+  return {
+    type: SET_LOGIN_STATUS,
+    payload: status,
   };
 };

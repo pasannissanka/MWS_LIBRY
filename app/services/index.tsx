@@ -20,7 +20,7 @@ const callService = async (
             },
           })
           .then(response => {
-            response_data = response.data.data;
+            response_data = response.data;
             resolve(response_data);
             console.log(response.data);
           })
@@ -36,7 +36,7 @@ const callService = async (
             },
           })
           .then(response => {
-            response_data = response.data.data;
+            response_data = response.data;
             resolve(response_data);
             console.log(response.data);
           })

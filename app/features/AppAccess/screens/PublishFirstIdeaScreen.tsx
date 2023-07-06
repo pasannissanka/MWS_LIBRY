@@ -1,6 +1,6 @@
 import {Image, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {Colors, Sizes} from '../../../theme';
+import {Colors, Images, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
@@ -72,7 +72,11 @@ const PublishFirstIdeaScreen = () => {
                 {t('appAccess.publishFirstIdeaScreen.descriptionMiddle')}
               </Text>
 
-              <Image style={styles.image} resizeMode="contain" />
+              <Image
+                source={require('./../../../assets/dummyImages/orange-placeholder/orange-placeholder.png')}
+                style={styles.image}
+                resizeMode="contain"
+              />
 
               <Text style={styles.description}>
                 {t('appAccess.publishFirstIdeaScreen.descriptionBottom')}
@@ -83,6 +87,7 @@ const PublishFirstIdeaScreen = () => {
             text={t('appAccess.publishFirstIdeaScreen.next')}
             color="green"
             style={styles.button}
+            icon={Images.icons.right_arrow}
             onPress={() => {
               onPressNext();
             }}

@@ -20,7 +20,9 @@
             "back": "back",
             "warnings": {
                 "incorrectEmailFormat": "Please enter an email in the correct format.",
-                "emailNotRegistered": "This email is not registered. Please Sign Up or try again.",
+                "emailNotRegisteredPartOne": "This email is not registered. Please ",
+                "emailNotRegisteredPartTwo": "Sign Up",
+                "emailNotRegisteredPartThree": " or try again.",
                 "incorrectPassword": "This password is incorrect. Please try again."
             },
             "alert": {
@@ -33,7 +35,9 @@
             "back": "back",
             "warnings": {
                 "incorrectEmailFormat": "Please enter an email in the correct format.",
-                "emailNotRegistered": "This email is not registered. Please Sign Up or try again.",
+                "emailNotRegisteredPartOne": "This email is not registered. Please ",
+                "emailNotRegisteredPartTwo": "Sign Up",
+                "emailNotRegisteredPartThree": " or try again."
             }
         },
         "changePasswordScreen": {
@@ -122,7 +126,7 @@
             "descriptionTop": "Ideas are like emails you send out to the world.",
             "descriptionMiddle": "We’ve created an “Announcements” collection on\n your profile to help you post your first Idea.\n Tap next to edit and post it:",
             "descriptionBottom": "You can always edit or delete things later.",
-            "next": "NEXT →"
+            "next": "NEXT"
         }
     }
 }

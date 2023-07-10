@@ -1,5 +1,5 @@
 import {Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Colors, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
@@ -9,7 +9,7 @@ import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import Collapsible from 'react-native-collapsible';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import OTPInput from '../components/OTPInput';
+import OtpInputs from 'react-native-otp-inputs';
 import OTPModal from '../components/OTPModal';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -84,6 +84,10 @@ const EnterOTPScreen = () => {
     }
   };
 
+  useEffect(() => {
+    onChangeOTP(OTP);
+  }, [OTP]);
+
   return (
     <>
       <StatusBar
@@ -109,8 +113,16 @@ const EnterOTPScreen = () => {
                   <Text style={styles.title}>
                     {t('appAccess.enterOTPScreen.title')}
                   </Text>
-
-                  <OTPInput onChangeOTP={onChangeOTP} error={!ValidOTP} />
+                  <OtpInputs
+                    handleChange={code => onChangeOTP(code)}
+                    numberOfInputs={5}
+                    autofillFromClipboard={false}
+                    keyboardType="phone-pad"
+                    inputStyles={
+                      ValidOTP ? styles.otpInput : styles.otpInputError
+                    }
+                    style={styles.otpInputComponentContainer}
+                  />
                   <Collapsible
                     collapsed={ValidOTP}
                     style={styles.collapsibleView}
@@ -182,6 +194,42 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
     marginBottom: 10,
+  },
+  otpInputComponentContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingTop: 10,
+    paddingBottom: 24,
+  },
+  otpInput: {
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontSize: 18,
+    lineHeight: 21,
+    textAlign: 'center',
+    fontWeight: '400',
+    color: Colors.text.SECONDARY_COLOR,
+    width: 28,
+    height: 40,
+    marginRight: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.PRIMARY_TEXT_INPUT_BACKGROUND_COLOR,
+    borderColor: Colors.PRIMARY_TEXT_INPUT_BORDER_COLOR,
+  },
+  otpInputError: {
+    width: 28,
+    height: 40,
+    marginRight: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+    backgroundColor: Colors.PRIMARY_TEXT_INPUT_BACKGROUND_COLOR,
+    borderColor: Colors.PRIMARY_TEXT_INPUT_ERROR_BORDER_COLOR,
   },
   resendTouchable: {
     marginTop: 16,

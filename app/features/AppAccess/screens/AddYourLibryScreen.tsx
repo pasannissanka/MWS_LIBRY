@@ -26,6 +26,8 @@ const AddYourLibryScreen = () => {
   const [contentOffset, setContentOffset] = useState({x: 0, y: 0});
   const [contentSize, setContentSize] = useState(0);
   const [scrollViewHeight, setScrollViewHeight] = useState(0);
+  const [scrollIndicatorVisibility, setScrollIndicatorVisibility] =
+    useState(false);
 
   const [selectedCount, setSelectedCount] = useState(0);
   const onPressPrimaryButton = () => {
@@ -69,13 +71,15 @@ const AddYourLibryScreen = () => {
               </Text>
             </View>
             <View style={styles.flatListContainer}>
-              <View
-                style={{
-                  ...styles.scrollIndicator,
-                  top: `${scrollIndicatorTopSpacePerc}%`,
-                  height: `${scrollElementHeightPercent}%`,
-                }}
-              />
+              {scrollIndicatorVisibility && (
+                <View
+                  style={{
+                    ...styles.scrollIndicator,
+                    top: `${scrollIndicatorTopSpacePerc}%`,
+                    height: `${scrollElementHeightPercent}%`,
+                  }}
+                />
+              )}
 
               <FlatList
                 data={DATA}
@@ -94,6 +98,12 @@ const AddYourLibryScreen = () => {
                 }}
                 onLayout={e => {
                   setScrollViewHeight(e.nativeEvent.layout.height);
+                }}
+                onScrollBeginDrag={() => {
+                  setScrollIndicatorVisibility(true);
+                }}
+                onScrollEndDrag={() => {
+                  setScrollIndicatorVisibility(false);
                 }}
               />
             </View>

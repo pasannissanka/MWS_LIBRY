@@ -18,9 +18,14 @@ import {useSelector} from 'react-redux';
 
 const AddYourLibryScreen = () => {
   const {t} = useTranslation();
+  const scrollElementHeightPercent = 10;
   const onPressBack = () => {
     RootNavigation.goBack();
   };
+
+  const [contentOffset, setContentOffset] = useState({x: 0, y: 0});
+  const [contentSize, setContentSize] = useState(0);
+  const [scrollViewHeight, setScrollViewHeight] = useState(0);
 
   const [selectedCount, setSelectedCount] = useState(0);
   const onPressPrimaryButton = () => {
@@ -33,6 +38,14 @@ const AddYourLibryScreen = () => {
   const DATA = useSelector(
     (state: any) => state.appAccessReducer.suggestUserProfils,
   );
+
+  const scrollPerc =
+    (contentOffset.y / (contentSize - scrollViewHeight)) *
+    (100 - scrollElementHeightPercent);
+
+  const scrollIndicatorTopSpacePerc = Number(
+    scrollPerc > 90 ? 90 : scrollPerc < 0 ? 0 : scrollPerc,
+  ).toFixed(0);
   return (
     <>
       <StatusBar
@@ -55,17 +68,35 @@ const AddYourLibryScreen = () => {
                 {t('appAccess.addYourLibryScreen.description')}
               </Text>
             </View>
-            <FlatList
-              data={DATA}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({item}) => (
-                <AddLibryItem item={item} onAction={onSelectionChange} />
-              )}
-              showsVerticalScrollIndicator={false}
-              scrollIndicatorInsets={{right: 0, left: 1, top: 1, bottom: 1}}
-              extraData={DATA}
-              style={styles.flatList}
-            />
+            <View style={styles.flatListContainer}>
+              <View
+                style={{
+                  ...styles.scrollIndicator,
+                  top: `${scrollIndicatorTopSpacePerc}%`,
+                  height: `${scrollElementHeightPercent}%`,
+                }}
+              />
+
+              <FlatList
+                data={DATA}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => (
+                  <AddLibryItem item={item} onAction={onSelectionChange} />
+                )}
+                showsVerticalScrollIndicator={false}
+                extraData={DATA}
+                style={styles.flatList}
+                onScroll={e => {
+                  setContentOffset(e.nativeEvent.contentOffset);
+                }}
+                onContentSizeChange={(_, height) => {
+                  setContentSize(height);
+                }}
+                onLayout={e => {
+                  setScrollViewHeight(e.nativeEvent.layout.height);
+                }}
+              />
+            </View>
           </View>
 
           <PrimaryButton
@@ -97,7 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     alignItems: 'center',
-    paddingHorizontal: 28,
+    paddingHorizontal: 16,
   },
   header: {
     marginTop: 10,
@@ -129,10 +160,23 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: Colors.text.PRIMARY_BUTTON_WHITE_COLOR,
   },
-  flatList: {
+  flatListContainer: {
     flex: 1,
     width: '100%',
     marginTop: 16,
+  },
+  flatList: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: 12,
+  },
+  scrollIndicator: {
+    position: 'absolute',
+    right: 0,
+    width: 5,
+    borderRadius: 5,
+    backgroundColor: Colors.SCROLL_IDICATOR_COLOR,
+    zIndex: 1,
   },
   button: {
     marginBottom: 20,

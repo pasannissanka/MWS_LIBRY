@@ -2128,6 +2128,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-clipboard/clipboard@npm:^1.11.2":
+  version: 1.11.2
+  resolution: "@react-native-clipboard/clipboard@npm:1.11.2"
+  peerDependencies:
+    react: ">=16.0"
+    react-native: ">=0.57.0"
+  checksum: a797ae8156451f58e75fd495e36396444e28b9859e35dd657720e4eb8859330ffe73341135db95ce2144c1ffb82de74587e494203217cbf255ff16f91b95db1e
+  languageName: node
+  linkType: hard
+
 "@react-native-community/cli-clean@npm:^10.1.1":
   version: 10.1.1
   resolution: "@react-native-community/cli-clean@npm:10.1.1"
@@ -2945,6 +2955,7 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@react-native-clipboard/clipboard": ^1.11.2
     "@react-native-community/eslint-config": ^3.2.0
     "@react-native-community/netinfo": ^9.3.10
     "@react-navigation/bottom-tabs": ^6.5.7
@@ -2970,6 +2981,7 @@ __metadata:
     react-native-gesture-handler: ^2.10.0
     react-native-linear-gradient: ^2.6.2
     react-native-loading-spinner-overlay: ^3.0.1
+    react-native-otp-inputs: ^7.4.0
     react-native-raw-bottom-sheet: ^2.2.0
     react-native-safe-area-context: ^4.5.2
     react-native-screens: ^3.20.0
@@ -8842,6 +8854,17 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: d9e5e10bc6170084c162e717a94db7bd60a35eb8110614529caa501790ab9ddfb551239d2e9120aaa15048bfd0af03da8bed0d1ea09e7ebb88a4b39d88ed6878
+  languageName: node
+  linkType: hard
+
+"react-native-otp-inputs@npm:^7.4.0":
+  version: 7.4.0
+  resolution: "react-native-otp-inputs@npm:7.4.0"
+  peerDependencies:
+    "@react-native-clipboard/clipboard": "*"
+    react: "*"
+    react-native: "*"
+  checksum: 4c1398e4ee0969fd55edb58ff89f7fd23fe8b22aab6e0b96ed07e2a7744c9fa98f3e5f1ffdf019af2a2cbc5505eab1f15c13f020ce278400dc11cddbd6e9b7aa
   languageName: node
   linkType: hard
 

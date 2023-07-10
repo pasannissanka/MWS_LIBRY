@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   Image,
   Platform,
   StyleSheet,
@@ -7,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {PropsWithChildren, useState} from 'react';
+import React, {PropsWithChildren, useEffect, useState} from 'react';
 import {Colors, Images} from '../../theme';
 
 type SectionProps = PropsWithChildren<{
@@ -26,6 +27,20 @@ const Header = ({
   onPressSkip,
 }: SectionProps): React.JSX.Element => {
   const [text, setText] = useState<string>('skysports');
+
+  useEffect(() => {
+    const backAction = () => {
+      onPressBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View style={{...styles.parentView, ...style}}>
@@ -47,10 +62,9 @@ const Header = ({
       {skipButton && (
         <>
           <View style={styles.flexOne} />
-          <TouchableOpacity onPress={onPressSkip} >
-          <Text style={styles.skipButton}>SKIP</Text>
+          <TouchableOpacity onPress={onPressSkip}>
+            <Text style={styles.skipButton}>SKIP</Text>
           </TouchableOpacity>
-         
         </>
       )}
 

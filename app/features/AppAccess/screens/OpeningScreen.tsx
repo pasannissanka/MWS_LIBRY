@@ -26,8 +26,21 @@ const OpeningScreen = () => {
       />
       <View style={styles.parentView}>
         <PrimaryContainer style={styles.primaryContainer}>
+          <TouchableOpacity style={styles.languageSelection}>
+            <Text style={styles.languageSelectionText}>English</Text>
+            <Image
+              source={Images.icons.expand_icon}
+              style={styles.expandIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
           <View style={styles.contentContainer}>
-            <View style={styles.topSpace} />
+            <View style={styles.topSpace}>
+              <Image
+                style={styles.openingPlaceholder}
+                source={Images.image.opening_placeholder}
+              />
+            </View>
             <>
               <Image
                 source={Images.logos.app_logo}
@@ -101,7 +114,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topSpace: {
+    width: '100%',
     flex: 3.8,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  openingPlaceholder: {
+    width: 290,
+    height: 250,
+    marginBottom: 10,
   },
   bottomSpace: {
     flex: 1,
@@ -138,5 +159,32 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '400',
     color: Colors.text.PRIMARY_COLOR,
+  },
+  languageSelection: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    top: 24,
+    right: 28,
+    height: 20,
+    paddingHorizontal: 5,
+    borderRadius: 10,
+    zIndex: 1,
+  },
+  languageSelectionText: {
+    fontFamily:
+      Platform.OS === 'ios' ? 'Myriad Pro Bold' : 'Myriad Pro Regular',
+    fontSize: 15,
+    lineHeight: 18,
+    textAlign: 'right',
+    fontWeight: '400',
+    color: Colors.text.PRIMARY_COLOR,
+  },
+  expandIcon: {
+    width: 5,
+    height: 10,
+    marginLeft: 5,
+    transform: [{rotate: '180deg'}],
   },
 });

@@ -26,7 +26,7 @@ const EnterMobileNumberScreen = () => {
   const [validMobileNumber, setValidMobileNumber] = useState(true);
 
   const onPressBack = () => {
-    RootNavigation.goBack();
+    RootNavigation.navigate('OpeningScreen');
   };
 
   const onPressNext = () => {

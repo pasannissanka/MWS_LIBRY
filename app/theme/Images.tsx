@@ -9,6 +9,10 @@ const Images = {
     green_tick_icon: require('../assets/images/tick-icon/tick.png'),
     warning: require('../assets/images/warning/warning.png'),
     right_arrow: require('../assets/images/right-arrow/right-arrow.png'),
+    expand_icon: require('../assets/images/expand-icon/expand-icon.png'),
+  },
+  image: {
+    opening_placeholder: require('../assets/images/opening-placeholder/opening-placeholder.png'),
   },
 };
 

@@ -1,5 +1,5 @@
-import {BackHandler, Image, Platform, StyleSheet, Text, View} from 'react-native';
-import React, {PropsWithChildren, useEffect} from 'react';
+import {Image, Platform, StyleSheet, Text, View} from 'react-native';
+import React, {PropsWithChildren} from 'react';
 import {Colors, Images} from '../../theme';
 import {useTranslation} from 'react-i18next';
 import PrimaryButton from '../buttons/PrimaryButton';
@@ -14,23 +14,9 @@ const EndPointError = ({onPressBack}: SectionProps) => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const backAction = () => {
-      onPress();
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction,
-    );
-
-    return () => backHandler.remove();
-  }, []);
-
   const onPress = () => {
-    dispatch(setEndPointErrorVisible(false));
     onPressBack();
+    dispatch(setEndPointErrorVisible(false));
   };
   return (
     <View style={styles.container}>

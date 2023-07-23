@@ -64,11 +64,7 @@ const EnterBirthdayScreen = () => {
           <Header style={styles.header} onPressBack={onPressBack} />
 
           {EndPointErrorVisibility ? (
-            <EndPointError
-              onPressBack={() => {
-                RootNavigation.goBack();
-              }}
-            />
+            <EndPointError onPressBack={onPressBack} />
           ) : (
             <>
               <PrimaryContainer>

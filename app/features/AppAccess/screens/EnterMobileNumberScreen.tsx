@@ -31,7 +31,7 @@ const EnterMobileNumberScreen = () => {
   const [mobileNum, onChangeMobileNum] = useState('');
   const onPressBack = () => {
     dispatch(setMobileNumberValidation('VALID'));
-    RootNavigation.navigate('OpeningScreen');
+    RootNavigation.replace('OpeningScreen');
   };
 
   const onPressNext = () => {
@@ -57,11 +57,7 @@ const EnterMobileNumberScreen = () => {
           <Header style={styles.header} onPressBack={onPressBack} />
 
           {EndPointErrorVisibility ? (
-            <EndPointError
-              onPressBack={() => {
-                RootNavigation.goBack();
-              }}
-            />
+            <EndPointError onPressBack={onPressBack} />
           ) : (
             <>
               <PrimaryContainer>

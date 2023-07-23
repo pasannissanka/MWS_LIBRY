@@ -24,10 +24,7 @@ import {
   setEmailValidation,
   setPasswordChangeRequest,
 } from '../redux/action/action';
-import {
-  setEndPointErrorVisible,
-  setUserEmail,
-} from '../../../redux/action/action';
+import {setUserEmail} from '../../../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
 const SendResetPasswordScreen = () => {
@@ -78,7 +75,6 @@ const SendResetPasswordScreen = () => {
     dispatch(setEmailValidation('VALID'));
     dispatch(setPasswordChangeRequest('UNDEFINED'));
     RootNavigation.goBack();
-    dispatch(setEndPointErrorVisible(false));
   };
 
   return (
@@ -95,11 +91,7 @@ const SendResetPasswordScreen = () => {
         <PrimaryContainer style={styles.primaryContainer}>
           <View style={styles.topSpace} />
           {EndPointErrorVisibility ? (
-            <EndPointError
-              onPressBack={() => {
-                RootNavigation.goBack();
-              }}
-            />
+            <EndPointError onPressBack={onPressBack} />
           ) : (
             <View style={styles.contentContainer}>
               <Image

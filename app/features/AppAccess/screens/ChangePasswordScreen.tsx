@@ -23,7 +23,6 @@ import {
 } from '../redux/action/action';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import EndPointError from '../../../components/views/EndPointError';
-import {setEndPointErrorVisible} from '../../../redux/action/action';
 
 const ChangePasswordScreen = () => {
   const {t} = useTranslation();
@@ -89,8 +88,7 @@ const ChangePasswordScreen = () => {
 
   const onPressBack = () => {
     dispatch(setPasswordValidation('VALID'));
-    RootNavigation.replace('OpeningScreen');
-    dispatch(setEndPointErrorVisible(false));
+    RootNavigation.replace('SendResetPasswordScreen');
   };
 
   return (
@@ -106,11 +104,7 @@ const ChangePasswordScreen = () => {
       <View style={styles.parentView}>
         <PrimaryContainer style={styles.primaryContainer}>
           {EndPointErrorVisibility ? (
-            <EndPointError
-              onPressBack={() => {
-                RootNavigation.goBack();
-              }}
-            />
+            <EndPointError onPressBack={onPressBack} />
           ) : (
             <View style={styles.contentContainer}>
               <View style={styles.topSpace} />

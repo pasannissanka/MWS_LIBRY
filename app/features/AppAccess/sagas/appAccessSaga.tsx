@@ -51,7 +51,7 @@ import {
 } from '../../../redux/action/action';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 
-//RENDER ENTER OTP SCREEN
+//NAVIGATE ENTER OTP SCREEN
 export function* renderEnterOtpScreen(action: any) {
   const triggeredScreen = action.payload;
   const mobile_number: string = yield select(MobileNumber);
@@ -104,7 +104,7 @@ export function* renderEnterOtpScreen(action: any) {
   }
 }
 
-//RENDER ENTER EMAIL SCREEN
+//NAVIGATE ENTER EMAIL SCREEN
 export function* renderEnterEmailScreen(action: any) {
   let response = {
     token: '',
@@ -139,7 +139,7 @@ export function* renderEnterEmailScreen(action: any) {
       yield put(setOtpValidation(true));
 
       //Navigate Enter Email Screen
-      RootNavigation.navigate('EnterEmailScreen');
+      RootNavigation.replace('EnterEmailScreen');
     } else {
       yield put(setOtpValidation(false));
     }
@@ -152,7 +152,7 @@ export function* renderEnterEmailScreen(action: any) {
   }
 }
 
-//RENDER ENTER PASSWORD SCREEN
+//NAVIGATE ENTER PASSWORD SCREEN
 export function* renderEnterPasswordScreen() {
   let response = {
     token: '',
@@ -185,7 +185,7 @@ export function* renderEnterPasswordScreen() {
       yield put(setEmailValidation('VALID'));
 
       //Navigate Enter Password Screen
-      RootNavigation.navigate('EnterPasswordScreen');
+      RootNavigation.replace('EnterPasswordScreen');
     } else if (raw_response.message === 'EMAIL_TAKEN') {
       yield put(setEmailValidation('REGISTERED'));
     }
@@ -198,7 +198,7 @@ export function* renderEnterPasswordScreen() {
   }
 }
 
-//RENDER WELCOME LIBRY SCREEN
+//NAVIGATE WELCOME LIBRY SCREEN
 export function* renderWelcomeLibryScreen(action: any) {
   let response = {
     user: {
@@ -268,7 +268,7 @@ export function* renderWelcomeLibryScreen(action: any) {
       yield put(setPasswordValidation('VALID'));
 
       //Navigate Enter Password Screen
-      RootNavigation.navigate('WelcomeLibryScreen');
+      RootNavigation.replace('WelcomeLibryScreen');
     } else {
       yield put(setPasswordValidation('INVALID'));
     }
@@ -328,7 +328,7 @@ export function* renderLoginScreen(action: any) {
   }
 }
 
-//RENDER ADD YOUR LIBRY SCREEN
+//ADD NAME & BIRTHDAY
 export function* renderAddYourLibryScreen() {
   let response = {
     id: '',
@@ -473,7 +473,7 @@ function* renderUserPorfile() {
   }
 }
 
-//FETCH USERS FOR SUGGESTION
+//NAVIGATE ADD YOUR LIBRY SCREEN
 function* fetchSuggestUsers() {
   let response = [
     {
@@ -531,7 +531,7 @@ function* fetchSuggestUsers() {
   }
 }
 
-//RENDER CHANGE PASSWORD SCREEN
+//NAVIGATE CHANGE PASSWORD SCREEN
 export function* renderChangePasswordScreen() {
   let response = {
     CodeDeliveryDetails: {
@@ -563,7 +563,7 @@ export function* renderChangePasswordScreen() {
     if (raw_response.status === 'SUCCESS') {
       response = raw_response.data;
       yield put(setPasswordChangeRequest('OTP_SENT'));
-      RootNavigation.navigate('ChangePasswordScreen');
+      RootNavigation.replace('ChangePasswordScreen');
 
       const verificationCodeAlertBoxContent = {
         visible: true,
@@ -645,6 +645,9 @@ export function* followUserSaga(action: any) {
     yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
 }
 
@@ -675,5 +678,8 @@ export function* unfollowUserSaga(action: any) {
     yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
   }
 }

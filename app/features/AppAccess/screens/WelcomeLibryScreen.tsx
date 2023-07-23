@@ -1,5 +1,13 @@
-import {Image, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {
+  BackHandler,
+  Image,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect} from 'react';
 import {Colors, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
@@ -10,8 +18,25 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 const WelcomeLibryScreen = () => {
   const {t} = useTranslation();
 
+  useEffect(() => {
+    const backAction = () => {
+      onPressBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+  }, []);
+
   const onPressContinue = () => {
     RootNavigation.navigate('EnterNameScreen');
+  };
+
+  const onPressBack = () => {
+    RootNavigation.replace('OpeningScreen');
   };
   return (
     <>

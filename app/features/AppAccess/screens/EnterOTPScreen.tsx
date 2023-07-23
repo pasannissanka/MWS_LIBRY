@@ -101,11 +101,7 @@ const EnterOTPScreen = () => {
           <Header style={styles.header} onPressBack={onPressBack} />
 
           {EndPointErrorVisibility ? (
-            <EndPointError
-              onPressBack={() => {
-                RootNavigation.replace('EnterMobileNumberScreen');
-              }}
-            />
+            <EndPointError onPressBack={onPressBack} />
           ) : (
             <>
               <PrimaryContainer>

@@ -15,13 +15,15 @@ import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import AddLibryItem from '../components/AddLibryItem';
 import {useSelector} from 'react-redux';
+import EndPointError from '../../../components/views/EndPointError';
 
 const AddYourLibryScreen = () => {
   const {t} = useTranslation();
   const scrollElementHeightPercent = 10;
-  const onPressBack = () => {
-    RootNavigation.goBack();
-  };
+
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
 
   const [contentOffset, setContentOffset] = useState({x: 0, y: 0});
   const [contentSize, setContentSize] = useState(0);
@@ -34,9 +36,14 @@ const AddYourLibryScreen = () => {
     RootNavigation.navigate('YourLibryReadyScreen');
   };
 
+  const onPressBack = () => {
+    RootNavigation.goBack();
+  };
+
   const onSelectionChange = (count: number) => {
     setSelectedCount(selectedCount + count);
   };
+
   const DATA = useSelector(
     (state: any) => state.appAccessReducer.suggestUserProfils,
   );
@@ -60,67 +67,73 @@ const AddYourLibryScreen = () => {
         <View style={styles.primaryContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 
-          <View style={styles.addLibryContainer}>
-            <View style={styles.addLibryTopContainer}>
-              <Text style={styles.title}>
-                {t('appAccess.addYourLibryScreen.title')}
-              </Text>
+          {EndPointErrorVisibility ? (
+            <EndPointError onPressBack={onPressBack} />
+          ) : (
+            <>
+              <View style={styles.addLibryContainer}>
+                <View style={styles.addLibryTopContainer}>
+                  <Text style={styles.title}>
+                    {t('appAccess.addYourLibryScreen.title')}
+                  </Text>
 
-              <Text style={styles.description}>
-                {t('appAccess.addYourLibryScreen.description')}
-              </Text>
-            </View>
-            <View style={styles.flatListContainer}>
-              {scrollIndicatorVisibility && (
-                <View
-                  style={{
-                    ...styles.scrollIndicator,
-                    top: `${scrollIndicatorTopSpacePerc}%`,
-                    height: `${scrollElementHeightPercent}%`,
-                  }}
-                />
-              )}
+                  <Text style={styles.description}>
+                    {t('appAccess.addYourLibryScreen.description')}
+                  </Text>
+                </View>
+                <View style={styles.flatListContainer}>
+                  {scrollIndicatorVisibility && (
+                    <View
+                      style={{
+                        ...styles.scrollIndicator,
+                        top: `${scrollIndicatorTopSpacePerc}%`,
+                        height: `${scrollElementHeightPercent}%`,
+                      }}
+                    />
+                  )}
 
-              <FlatList
-                data={DATA}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({item}) => (
-                  <AddLibryItem item={item} onAction={onSelectionChange} />
-                )}
-                showsVerticalScrollIndicator={false}
-                extraData={DATA}
-                style={styles.flatList}
-                onScroll={e => {
-                  setContentOffset(e.nativeEvent.contentOffset);
-                }}
-                onContentSizeChange={(_, height) => {
-                  setContentSize(height);
-                }}
-                onLayout={e => {
-                  setScrollViewHeight(e.nativeEvent.layout.height);
-                }}
-                onScrollBeginDrag={() => {
-                  setScrollIndicatorVisibility(true);
-                }}
-                onScrollEndDrag={() => {
-                  setScrollIndicatorVisibility(false);
+                  <FlatList
+                    data={DATA}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({item}) => (
+                      <AddLibryItem item={item} onAction={onSelectionChange} />
+                    )}
+                    showsVerticalScrollIndicator={false}
+                    extraData={DATA}
+                    style={styles.flatList}
+                    onScroll={e => {
+                      setContentOffset(e.nativeEvent.contentOffset);
+                    }}
+                    onContentSizeChange={(_, height) => {
+                      setContentSize(height);
+                    }}
+                    onLayout={e => {
+                      setScrollViewHeight(e.nativeEvent.layout.height);
+                    }}
+                    onScrollBeginDrag={() => {
+                      setScrollIndicatorVisibility(true);
+                    }}
+                    onScrollEndDrag={() => {
+                      setScrollIndicatorVisibility(false);
+                    }}
+                  />
+                </View>
+              </View>
+
+              <PrimaryButton
+                text={
+                  selectedCount === 0
+                    ? t('appAccess.addYourLibryScreen.skip')
+                    : t('appAccess.addYourLibryScreen.next')
+                }
+                color="green"
+                style={styles.button}
+                onPress={() => {
+                  onPressPrimaryButton();
                 }}
               />
-            </View>
-          </View>
-
-          <PrimaryButton
-            text={
-              selectedCount === 0
-                ? t('appAccess.addYourLibryScreen.skip')
-                : t('appAccess.addYourLibryScreen.next')
-            }
-            color="green"
-            style={styles.button}
-            onPress={() => {
-              onPressPrimaryButton();
-            }}
-          />
+            </>
+          )}
         </View>
       </View>
     </>

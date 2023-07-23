@@ -65,11 +65,7 @@ const EnterEmailScreen = () => {
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
           {EndPointErrorVisibility ? (
-            <EndPointError
-              onPressBack={() => {
-                RootNavigation.replace('EnterMobileNumberScreen');
-              }}
-            />
+            <EndPointError onPressBack={onPressBack} />
           ) : (
             <>
               <PrimaryContainer>

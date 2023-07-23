@@ -1,6 +1,7 @@
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import type {PropsWithChildren} from 'react';
+import {Sizes} from '../../theme';
 
 type SectionProps = PropsWithChildren<{
   children?: any;
@@ -13,13 +14,29 @@ const PrimaryContainer = ({
   style,
   containerStyle,
 }: SectionProps): React.JSX.Element => {
+  const [scrollViewHeight, setScrollViewHeight] = useState(0);
+  const [contentViewHeight, setContentViewHeight] = useState(0);
+
   return (
     <View style={{...styles.parentView, ...containerStyle}}>
       <SafeAreaView style={styles.PrimaryContainer}>
         <ScrollView
+          scrollEnabled={contentViewHeight > scrollViewHeight}
           contentContainerStyle={styles.PrimaryContainer}
-          showsVerticalScrollIndicator={false}>
-          <View style={{...styles.ContentContainer, ...style}}>{children}</View>
+          showsVerticalScrollIndicator={false}
+          onLayout={e => {
+            setScrollViewHeight(e.nativeEvent.layout.height);
+          }}>
+          <View
+            style={{
+              ...styles.ContentContainer,
+              ...style,
+            }}
+            onLayout={e => {
+              setContentViewHeight(e.nativeEvent.layout.height);
+            }}>
+            {children}
+          </View>
         </ScrollView>
       </SafeAreaView>
     </View>

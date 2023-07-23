@@ -5,6 +5,7 @@ import {
   SET_CHANGE_PASSWORD_RESPONSE,
   SET_EMAIL_VALIDATION,
   SET_LOGIN_STATUS,
+  SET_MOBILE_NUMBER_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
   SET_PASSWORD_CHANGE_REQUEST,
@@ -31,7 +32,7 @@ const initialState = {
     token: '',
   },
   validOtp: true,
-  validEmail: true,
+  emailValidation: 'VALID',
   registerResponse: {
     user: {
       id: '',
@@ -50,7 +51,7 @@ const initialState = {
       refreshToken: '',
     },
   },
-  validPassword: true,
+  passwordValidation: 'VALID',
   accessToken: '',
   refreshToken: '',
   addNameBirthDateResponse: {
@@ -95,6 +96,7 @@ const initialState = {
   loginStatus: 'LOGIN_SUCCESS',
   confirmChangePasswordStatus: 'UNDEFINED',
   changePasswordReqResponse: 'UNDEFINED',
+  mobileNumberValidation: 'VALID',
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -131,7 +133,7 @@ export const appAccessReducer = createReducer(initialState, {
   [SET_EMAIL_VALIDATION](state: any, action: {payload: object}) {
     return {
       ...state,
-      validEmail: action.payload,
+      emailValidation: action.payload,
     };
   },
   [SET_REGISTER_RESPONSE](state: any, action: {payload: object}) {
@@ -143,7 +145,7 @@ export const appAccessReducer = createReducer(initialState, {
   [SET_PASSWORD_VALIDATION](state: any, action: {payload: object}) {
     return {
       ...state,
-      validPassword: action.payload,
+      passwordValidation: action.payload,
     };
   },
   [SET_ACCESS_TOKEN](state: any, action: {payload: object}) {
@@ -192,6 +194,12 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       changePasswordReqResponse: action.payload,
+    };
+  },
+  [SET_MOBILE_NUMBER_VALIDATION](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      mobileNumberValidation: action.payload,
     };
   },
 });

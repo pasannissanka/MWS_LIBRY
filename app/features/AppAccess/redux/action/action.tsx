@@ -19,6 +19,7 @@ import {
   SET_CHANGE_PASSWORD_RESPONSE,
   SET_EMAIL_VALIDATION,
   SET_LOGIN_STATUS,
+  SET_MOBILE_NUMBER_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
   SET_OTP_VALIDATION,
   SET_PASSWORD_CHANGE_REQUEST,
@@ -100,10 +101,12 @@ export const getOtpValidation = () => {
   };
 };
 
-export const setEmailValidation = (valid: boolean) => {
+export const setEmailValidation = (
+  status: 'VALID' | 'REGISTERED' | 'INVALID',
+) => {
   return {
     type: SET_EMAIL_VALIDATION,
-    payload: valid,
+    payload: status,
   };
 };
 
@@ -127,10 +130,10 @@ export const getRegisterResponse = (password: string) => {
   };
 };
 
-export const setPasswordValidation = (valid: boolean) => {
+export const setPasswordValidation = (status: 'VALID' | 'INVALID') => {
   return {
     type: SET_PASSWORD_VALIDATION,
-    payload: valid,
+    payload: status,
   };
 };
 
@@ -256,6 +259,15 @@ export const setLoginStatus = (
 ) => {
   return {
     type: SET_LOGIN_STATUS,
+    payload: status,
+  };
+};
+
+export const setMobileNumberValidation = (
+  status: 'VALID' | 'REGISTERED' | 'INVALID',
+) => {
+  return {
+    type: SET_MOBILE_NUMBER_VALIDATION,
     payload: status,
   };
 };

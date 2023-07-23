@@ -20,14 +20,14 @@ const EnterPasswordScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
-  const ValidPassword = useSelector(
-    (state: any) => state.appAccessReducer.validPassword,
+  const PasswordValidation = useSelector(
+    (state: any) => state.appAccessReducer.passwordValidation,
   );
   const ref = useRef<any>();
   const [password, onChangePassword] = useState('');
 
   const onPressBack = () => {
-    dispatch(setPasswordValidation(true));
+    dispatch(setPasswordValidation('VALID'));
     RootNavigation.goBack();
   };
 
@@ -35,11 +35,11 @@ const EnterPasswordScreen = () => {
     const valid = validatePassword(password);
 
     if (valid) {
-      dispatch(setPasswordValidation(true));
+      dispatch(setPasswordValidation('VALID'));
       dispatch(getRegisterResponse(password));
     } else {
       ref.current.focus();
-      dispatch(setPasswordValidation(false));
+      dispatch(setPasswordValidation('INVALID'));
     }
   };
 
@@ -71,11 +71,11 @@ const EnterPasswordScreen = () => {
                 keyboardType="default"
                 onChangeText={onChangePassword}
                 secureTextEntry={true}
-                error={!ValidPassword}
+                error={PasswordValidation === 'INVALID'}
               />
 
               <Collapsible
-                collapsed={ValidPassword}
+                collapsed={PasswordValidation === 'VALID'}
                 style={styles.collapsibleView}
                 duration={500}>
                 <Text style={styles.warning}>

@@ -54,6 +54,7 @@
             },
             "warnings": {
                 "notRealPhoneNumber": "Not a real phone number.",
+                "registeredPhoneNumber": "Already registered phone number."
             }
         },
         "enterOTPScreen": {
@@ -82,7 +83,8 @@
             "next": "NEXT",
             "agreement": "I want to receive mail with offers, news, and content creator opportunities.",
             "warnings": {
-                "incorrectEmailFormat": "Please use a correct email format."
+                "incorrectEmailFormat": "Please use a correct email format.",
+                "registeredEmail": "Already registered email."
             }
         },
         "enterPasswordScreen": {

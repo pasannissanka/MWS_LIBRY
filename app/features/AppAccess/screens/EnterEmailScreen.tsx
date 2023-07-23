@@ -26,8 +26,8 @@ const EnterEmailScreen = () => {
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
-  const ValidEmail = useSelector(
-    (state: any) => state.appAccessReducer.validEmail,
+  const EmailValidation = useSelector(
+    (state: any) => state.appAccessReducer.emailValidation,
   );
 
   const ref = useRef<any>();
@@ -35,21 +35,21 @@ const EnterEmailScreen = () => {
   const [checked, setChecked] = useState(true);
 
   const onPressBack = () => {
-    dispatch(setEmailValidation(true));
+    dispatch(setEmailValidation('VALID'));
     RootNavigation.replace('EnterMobileNumberScreen');
   };
 
   const onPressNext = () => {
     const valid = emailFormatevalidate(email);
     if (valid) {
-      dispatch(setEmailValidation(true));
+      dispatch(setEmailValidation('VALID'));
       if (checked) {
         dispatch(setUserEmail(email));
         dispatch(getSignUpEmailResponse());
       }
     } else {
       ref.current.focus();
-      dispatch(setEmailValidation(false));
+      dispatch(setEmailValidation('INVALID'));
     }
   };
 
@@ -88,17 +88,23 @@ const EnterEmailScreen = () => {
                     inputMode="email"
                     keyboardType="default"
                     onChangeText={onChangeEmail}
-                    error={!ValidEmail}
+                    error={EmailValidation !== 'VALID'}
                   />
 
                   <Collapsible
-                    collapsed={ValidEmail}
+                    collapsed={EmailValidation === 'VALID'}
                     style={styles.collapsibleView}
                     duration={500}>
                     <Text style={styles.warning}>
-                      {t(
-                        'appAccess.enterEmailScreen.warnings.incorrectEmailFormat',
-                      )}
+                      {EmailValidation === 'INVALID' &&
+                        t(
+                          'appAccess.enterEmailScreen.warnings.incorrectEmailFormat',
+                        )}
+
+                      {EmailValidation === 'REGISTERED' &&
+                        t(
+                          'appAccess.enterEmailScreen.warnings.registeredEmail',
+                        )}
                     </Text>
                   </Collapsible>
                   <AgreementRow

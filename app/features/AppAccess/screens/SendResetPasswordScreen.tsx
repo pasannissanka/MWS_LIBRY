@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -8,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
@@ -18,8 +19,15 @@ import PrimaryTextInput from '../components/PrimaryTextInput';
 import Collapsible from 'react-native-collapsible';
 import {emailFormatevalidate} from '../../../helper/formatters';
 import {useDispatch, useSelector} from 'react-redux';
-import {getPasswordChangeRequest, setPasswordChangeRequest} from '../redux/action/action';
-import {setUserEmail} from '../../../redux/action/action';
+import {
+  getPasswordChangeRequest,
+  setEmailValidation,
+  setPasswordChangeRequest,
+} from '../redux/action/action';
+import {
+  setEndPointErrorVisible,
+  setUserEmail,
+} from '../../../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
 const SendResetPasswordScreen = () => {
@@ -28,14 +36,14 @@ const SendResetPasswordScreen = () => {
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
-  const warnings = {
-    IncorrectEmailFormat: 'IncorrectEmailFormat',
-  };
+
   const ChangePasswordRequestStatus = useSelector(
     (state: any) => state.appAccessReducer.changePasswordReqResponse,
   );
+  const EmailValidation = useSelector(
+    (state: any) => state.appAccessReducer.emailValidation,
+  );
   const [email, onChangeEmail] = useState('');
-  const [warning, setWarning] = useState('');
 
   const emailRef = useRef<any>();
 
@@ -43,13 +51,34 @@ const SendResetPasswordScreen = () => {
     const validEmail = emailFormatevalidate(email);
 
     if (validEmail) {
-      setWarning('');
+      dispatch(setEmailValidation('VALID'));
       dispatch(setUserEmail(email));
       dispatch(getPasswordChangeRequest());
     } else {
       emailRef.current.focus();
-      setWarning(warnings.IncorrectEmailFormat);
+      dispatch(setEmailValidation('INVALID'));
     }
+  };
+
+  useEffect(() => {
+    const backAction = () => {
+      onPressBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const onPressBack = () => {
+    dispatch(setEmailValidation('VALID'));
+    dispatch(setPasswordChangeRequest('UNDEFINED'));
+    RootNavigation.goBack();
+    dispatch(setEndPointErrorVisible(false));
   };
 
   return (
@@ -94,19 +123,20 @@ const SendResetPasswordScreen = () => {
 
                 <Collapsible
                   collapsed={
-                    warning === '' &&
+                    EmailValidation === 'VALID' &&
                     ChangePasswordRequestStatus !== 'USER_NOT_FOUND'
                   }
                   style={styles.collapsibleView}
                   duration={500}>
                   <Text style={styles.warning}>
-                    {warning === warnings.IncorrectEmailFormat ? (
+                    {EmailValidation === 'INVALID' && (
                       <Text style={styles.warningRed}>
                         {t(
                           'appAccess.sendResetPasswordScreen.warnings.incorrectEmailFormat',
                         )}
                       </Text>
-                    ) : ChangePasswordRequestStatus === 'USER_NOT_FOUND' ? (
+                    )}
+                    {ChangePasswordRequestStatus === 'USER_NOT_FOUND' && (
                       <Text>
                         <Text style={styles.warningRed}>
                           {t(
@@ -117,7 +147,7 @@ const SendResetPasswordScreen = () => {
                           style={styles.warningLinkText}
                           onPress={() => {
                             dispatch(setPasswordChangeRequest('UNDEFINED'));
-                            RootNavigation.navigate('OpeningScreen');
+                            RootNavigation.replace('OpeningScreen');
                           }}>
                           {t(
                             'appAccess.loginScreen.warnings.emailNotRegisteredPartTwo',
@@ -129,8 +159,6 @@ const SendResetPasswordScreen = () => {
                           )}
                         </Text>
                       </Text>
-                    ) : (
-                      <Text />
                     )}
                   </Text>
                 </Collapsible>
@@ -144,11 +172,7 @@ const SendResetPasswordScreen = () => {
                 }}
               />
 
-              <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => {
-                  RootNavigation.goBack();
-                }}>
+              <TouchableOpacity style={styles.backButton} onPress={onPressBack}>
                 <Text style={styles.backText}>
                   {t('appAccess.sendResetPasswordScreen.back')}
                 </Text>

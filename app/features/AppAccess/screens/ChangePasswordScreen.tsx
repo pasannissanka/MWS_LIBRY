@@ -1,5 +1,14 @@
-import {Image, KeyboardAvoidingView, Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {useRef, useState} from 'react';
+import {
+  BackHandler,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
@@ -8,15 +17,22 @@ import PrimaryTextInput from '../components/PrimaryTextInput';
 import {validatePassword} from '../../../helper/formatters';
 import Collapsible from 'react-native-collapsible';
 import {useDispatch, useSelector} from 'react-redux';
-import {getChangePasswordResponse} from '../redux/action/action';
+import {
+  getChangePasswordResponse,
+  setPasswordValidation,
+} from '../redux/action/action';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import EndPointError from '../../../components/views/EndPointError';
+import {setEndPointErrorVisible} from '../../../redux/action/action';
 
 const ChangePasswordScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const Email = useSelector((state: any) => state.commonReducer.userEmail);
+  const PasswordValidation = useSelector(
+    (state: any) => state.appAccessReducer.passwordValidation,
+  );
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
@@ -24,14 +40,9 @@ const ChangePasswordScreen = () => {
   const [password, onChangePassword] = useState('');
   const [otp, onChangeOtp] = useState('');
   const [confirmPassword, onChangeConfirmPassword] = useState('');
-  const [warning, setWarning] = useState('');
 
   const passwordRef = useRef<any>();
   const confirmPasswordRef = useRef<any>();
-
-  const warnings = {
-    IncorrectPasswordFormat: 'IncorrectPasswordFormat',
-  };
 
   let requestBody = {
     password: '',
@@ -42,16 +53,16 @@ const ChangePasswordScreen = () => {
   const onPressChangePassword = () => {
     const validPassword = validatePassword(password);
     if (!validPassword) {
-      setWarning(warnings.IncorrectPasswordFormat);
+      dispatch(setPasswordValidation('INVALID'));
       passwordRef.current.focus();
     } else if (password.length === 0) {
-      setWarning('');
+      dispatch(setPasswordValidation('VALID'));
       passwordRef.current.focus();
     } else if (confirmPassword !== password) {
-      setWarning('');
+      dispatch(setPasswordValidation('VALID'));
       confirmPasswordRef.current.focus();
     } else {
-      setWarning('');
+      dispatch(setPasswordValidation('VALID'));
       requestBody = {
         password: password,
         email: Email,
@@ -62,11 +73,31 @@ const ChangePasswordScreen = () => {
     }
   };
 
+  useEffect(() => {
+    const backAction = () => {
+      onPressBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
+
+  const onPressBack = () => {
+    dispatch(setPasswordValidation('VALID'));
+    RootNavigation.replace('OpeningScreen');
+    dispatch(setEndPointErrorVisible(false));
+  };
+
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    keyboardVerticalOffset={16}
-    style={styles.parentView}>
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={16}
+      style={styles.parentView}>
       <StatusBar
         translucent={false}
         backgroundColor={Colors.SCREEN_PRIMARY_BACKGROUND_COLOR}
@@ -100,7 +131,7 @@ const ChangePasswordScreen = () => {
                     keyboardType="phone-pad"
                     onChangeText={onChangeOtp}
                     secureTextEntry={false}
-                    error={warning !== ''}
+                    error={false}
                   />
                   <PrimaryTextInput
                     reference={passwordRef}
@@ -113,7 +144,7 @@ const ChangePasswordScreen = () => {
                     keyboardType="default"
                     onChangeText={onChangePassword}
                     secureTextEntry={true}
-                    error={warning !== ''}
+                    error={PasswordValidation === 'INVALID'}
                   />
                   <PrimaryTextInput
                     reference={confirmPasswordRef}
@@ -129,7 +160,7 @@ const ChangePasswordScreen = () => {
                   />
 
                   <Collapsible
-                    collapsed={warning === ''}
+                    collapsed={PasswordValidation === 'VALID'}
                     style={styles.collapsibleView}
                     duration={500}>
                     <Text style={styles.warning}>

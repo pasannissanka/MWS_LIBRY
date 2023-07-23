@@ -11,7 +11,10 @@ import MobileNumInput from '../components/MobileNumInput';
 import Collapsible from 'react-native-collapsible';
 import {isValidPhoneNumber} from 'react-phone-number-input';
 import {useDispatch, useSelector} from 'react-redux';
-import {getSignUpResponse} from '../redux/action/action';
+import {
+  getSignUpResponse,
+  setMobileNumberValidation,
+} from '../redux/action/action';
 import {setMobileNumber} from '../../../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
@@ -21,21 +24,23 @@ const EnterMobileNumberScreen = () => {
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
+  const MobileNumberValidation = useSelector(
+    (state: any) => state.appAccessReducer.mobileNumberValidation,
+  );
 
   const [mobileNum, onChangeMobileNum] = useState('');
-  const [validMobileNumber, setValidMobileNumber] = useState(true);
-
   const onPressBack = () => {
+    dispatch(setMobileNumberValidation('VALID'));
     RootNavigation.navigate('OpeningScreen');
   };
 
   const onPressNext = () => {
     if (isValidPhoneNumber(mobileNum)) {
-      setValidMobileNumber(true);
+      dispatch(setMobileNumberValidation('VALID'));
       dispatch(setMobileNumber(mobileNum));
       dispatch(getSignUpResponse('EnterMobileNumberScreen'));
     } else {
-      setValidMobileNumber(false);
+      dispatch(setMobileNumberValidation('INVALID'));
     }
   };
 
@@ -67,16 +72,21 @@ const EnterMobileNumberScreen = () => {
 
                   <MobileNumInput
                     onChangeMobileNum={onChangeMobileNum}
-                    error={!validMobileNumber}
+                    error={MobileNumberValidation !== 'VALID'}
                   />
                   <Collapsible
-                    collapsed={validMobileNumber}
+                    collapsed={MobileNumberValidation === 'VALID'}
                     style={styles.collapsibleView}
                     duration={500}>
                     <Text style={styles.warning}>
-                      {t(
-                        'appAccess.enterMobileNumberScreen.warnings.notRealPhoneNumber',
-                      )}
+                      {MobileNumberValidation === 'INVALID' &&
+                        t(
+                          'appAccess.enterMobileNumberScreen.warnings.notRealPhoneNumber',
+                        )}
+                      {MobileNumberValidation === 'REGISTERED' &&
+                        t(
+                          'appAccess.enterMobileNumberScreen.warnings.registeredPhoneNumber',
+                        )}
                     </Text>
                   </Collapsible>
 

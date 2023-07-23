@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -18,12 +19,16 @@ import PrimaryTextInput from '../components/PrimaryTextInput';
 import Collapsible from 'react-native-collapsible';
 import {emailFormatevalidate} from '../../../helper/formatters';
 import {useDispatch, useSelector} from 'react-redux';
-import {setUserEmail} from '../../../redux/action/action';
+import {
+  setEndPointErrorVisible,
+  setUserEmail,
+} from '../../../redux/action/action';
 import {
   getAccessToken,
   setChangePasswordResponse,
   setEmailValidation,
   setLoginStatus,
+  setPasswordValidation,
 } from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
@@ -35,11 +40,20 @@ const LoginScreen = () => {
     setTimeout(() => {
       dispatch(setChangePasswordResponse('UNDEFINED'));
     }, 5000);
+
+    const backAction = () => {
+      onPressBack();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
   }, []);
 
-  const ValidEmail = useSelector(
-    (state: any) => state.appAccessReducer.validEmail,
-  );
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
@@ -48,6 +62,12 @@ const LoginScreen = () => {
   );
   const ChangePasswordStatus = useSelector(
     (state: any) => state.appAccessReducer.confirmChangePasswordStatus,
+  );
+  const PasswordValidation = useSelector(
+    (state: any) => state.appAccessReducer.passwordValidation,
+  );
+  const EmailValidation = useSelector(
+    (state: any) => state.appAccessReducer.emailValidation,
   );
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
@@ -59,18 +79,27 @@ const LoginScreen = () => {
     const validEmail = emailFormatevalidate(email);
     const validPassword = password.trim().length > 0;
 
-    if (validPassword) {
-    } else {
-      passwordRef.current.focus();
-    }
     if (validEmail) {
-      dispatch(setEmailValidation(true));
-      dispatch(setUserEmail(email));
-      dispatch(getAccessToken(password));
+      dispatch(setEmailValidation('VALID'));
+      if (validPassword) {
+        dispatch(setPasswordValidation('VALID'));
+        dispatch(setUserEmail(email));
+        dispatch(getAccessToken(password));
+      } else {
+        dispatch(setPasswordValidation('INVALID'));
+        passwordRef.current.focus();
+      }
     } else {
       emailRef.current.focus();
-      dispatch(setEmailValidation(false));
+      dispatch(setEmailValidation('INVALID'));
     }
+  };
+
+  const onPressBack = () => {
+    dispatch(setEmailValidation('VALID'));
+    dispatch(setPasswordValidation('VALID'));
+    RootNavigation.replace('OpeningScreen');
+    dispatch(setEndPointErrorVisible(false));
   };
 
   return (
@@ -126,7 +155,10 @@ const LoginScreen = () => {
                       inputMode="email"
                       keyboardType="default"
                       onChangeText={onChangeEmail}
-                      error={!ValidEmail || LoginStatus === 'USER_NOT_FOUND'}
+                      error={
+                        EmailValidation === 'INVALID' ||
+                        LoginStatus === 'USER_NOT_FOUND'
+                      }
                     />
                     <PrimaryTextInput
                       reference={passwordRef}
@@ -139,24 +171,37 @@ const LoginScreen = () => {
                       keyboardType="default"
                       onChangeText={onChangePassword}
                       secureTextEntry={true}
-                      error={LoginStatus === 'PASSWORD_INVALID'}
+                      error={
+                        LoginStatus === 'PASSWORD_INVALID' ||
+                        PasswordValidation === 'INVALID'
+                      }
                     />
                     <Collapsible
                       collapsed={
-                        ValidEmail &&
+                        EmailValidation === 'VALID' &&
+                        PasswordValidation === 'VALID' &&
                         (LoginStatus === 'LOGIN_SUCCESS' ||
                           LoginStatus === 'UNDEFINED')
                       }
                       style={styles.collapsibleView}
                       duration={500}>
                       <Text style={styles.warning}>
-                        {!ValidEmail ? (
+                        {EmailValidation === 'INVALID' && (
                           <Text style={styles.warningRed}>
                             {t(
                               'appAccess.loginScreen.warnings.incorrectEmailFormat',
                             )}
                           </Text>
-                        ) : LoginStatus === 'USER_NOT_FOUND' ? (
+                        )}
+                        {(PasswordValidation === 'INVALID' ||
+                          LoginStatus === 'PASSWORD_INVALID') && (
+                          <Text style={styles.warningRed}>
+                            {t(
+                              'appAccess.loginScreen.warnings.incorrectPassword',
+                            )}
+                          </Text>
+                        )}
+                        {LoginStatus === 'USER_NOT_FOUND' && (
                           <Text>
                             <Text style={styles.warningRed}>
                               {t(
@@ -179,14 +224,6 @@ const LoginScreen = () => {
                               )}
                             </Text>
                           </Text>
-                        ) : LoginStatus === 'PASSWORD_INVALID' ? (
-                          <Text style={styles.warningRed}>
-                            {t(
-                              'appAccess.loginScreen.warnings.incorrectPassword',
-                            )}
-                          </Text>
-                        ) : (
-                          <Text />
                         )}
                       </Text>
                     </Collapsible>
@@ -211,10 +248,7 @@ const LoginScreen = () => {
 
                   <TouchableOpacity
                     style={styles.backButton}
-                    onPress={() => {
-                      dispatch(setEmailValidation(true));
-                      RootNavigation.goBack();
-                    }}>
+                    onPress={onPressBack}>
                     <Text style={styles.backText}>
                       {t('appAccess.loginScreen.back')}
                     </Text>

@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   Image,
   Platform,
   StatusBar,
@@ -7,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Colors, Sizes, Images} from '../../../theme';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
@@ -16,6 +17,20 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 
 const OpeningScreen = () => {
   const {t} = useTranslation();
+
+  useEffect(() => {
+    const backAction = () => {
+      BackHandler.exitApp();
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <>
@@ -114,8 +129,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   topSpace: {
-    width: '100%',
     flex: 3.8,
+    height: 300,
+    width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
@@ -126,6 +142,7 @@ const styles = StyleSheet.create({
   },
   bottomSpace: {
     flex: 1,
+    height: 16,
   },
   logo: {
     width: 155,
@@ -182,7 +199,7 @@ const styles = StyleSheet.create({
     color: Colors.text.PRIMARY_COLOR,
   },
   expandIcon: {
-    width: 5,
+    width: 10,
     height: 10,
     marginLeft: 5,
     transform: [{rotate: '180deg'}],

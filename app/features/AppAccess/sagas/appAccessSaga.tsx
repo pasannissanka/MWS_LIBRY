@@ -5,6 +5,7 @@ import {
   setChangePasswordResponse,
   setEmailValidation,
   setLoginStatus,
+  setMobileNumberValidation,
   setOtpModalVisible,
   setOtpValidation,
   setPasswordChangeRequest,
@@ -64,17 +65,14 @@ export function* renderEnterOtpScreen(action: any) {
   try {
     yield put(setSpinnerVisible(true));
     const raw_response: {
-      //status: 'ERROR' | 'SUCCESS';
+      status: 'ERROR' | 'SUCCESS';
       message: string;
       data: {
         token: string;
       };
-      //error: null;
+      error: null;
     } = yield call(fetchSignUpResponse, requestBody);
-    if (
-      raw_response.message === 'OTP_SENT'
-      //raw_response.status === 'SUCCESS'
-    ) {
+    if (raw_response.message === 'OTP_SENT') {
       const response = raw_response.data;
       yield put(setSignUpResponse(response));
 
@@ -83,6 +81,8 @@ export function* renderEnterOtpScreen(action: any) {
       } else {
         RootNavigation.replace('EnterOTPScreen');
       }
+    } else if (raw_response.message === 'PHONE_NUMBER_EXISTS') {
+      yield put(setMobileNumberValidation('REGISTERED'));
     } else {
       const cannotSendOtpAlertBoxContent = {
         visible: true,
@@ -178,16 +178,16 @@ export function* renderEnterPasswordScreen() {
       error: null;
     } = yield call(fetchSignUpEmailResponse, requestBody);
 
-    if (raw_response.status === 'SUCCESS') {
+    if (raw_response.message === 'EMAIL_ADDED') {
       response = raw_response.data;
 
       yield put(setSignUpEmailResponse(response));
-      yield put(setEmailValidation(true));
+      yield put(setEmailValidation('VALID'));
 
       //Navigate Enter Password Screen
       RootNavigation.navigate('EnterPasswordScreen');
-    } else {
-      yield put(setEmailValidation(false));
+    } else if (raw_response.message === 'EMAIL_TAKEN') {
+      yield put(setEmailValidation('REGISTERED'));
     }
     yield put(setSpinnerVisible(false));
   } catch (error) {
@@ -265,12 +265,12 @@ export function* renderWelcomeLibryScreen(action: any) {
       response = raw_response.data;
 
       yield put(setRegisterResponse(response));
-      yield put(setPasswordValidation(true));
+      yield put(setPasswordValidation('VALID'));
 
       //Navigate Enter Password Screen
       RootNavigation.navigate('WelcomeLibryScreen');
     } else {
-      yield put(setPasswordValidation(false));
+      yield put(setPasswordValidation('INVALID'));
     }
     yield put(setSpinnerVisible(false));
   } catch (error) {

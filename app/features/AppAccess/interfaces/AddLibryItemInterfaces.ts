@@ -17,4 +17,5 @@ export type LibryItemInterface = {
 export type AddLibryItemInterface = {
   item: LibryItemInterface;
   onAction: Function;
+  index: number;
 };

@@ -10,22 +10,32 @@ import React, {useState} from 'react';
 import {Colors, Images, Sizes} from '../../../theme';
 import {useTranslation} from 'react-i18next';
 import {AddLibryItemInterface} from '../interfaces';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {followUserResponse, unfollowUserResponse} from '../redux/action/action';
 
-const AddLibryItem = ({item, onAction}: AddLibryItemInterface) => {
+const AddLibryItem = ({index, item, onAction}: AddLibryItemInterface) => {
   const [buttonStatus, setButtonStatus] = useState(item.isFollowed);
 
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
+  const FollowUnfollowStatus = useSelector(
+    (state: any) => state.appAccessReducer.followUnfollowStatus,
+  );
+
   const onClickAdd = (id: string) => {
+    const user = {
+      index: index,
+      id: id,
+    };
     buttonStatus
-      ? dispatch(unfollowUserResponse(id))
-      : dispatch(followUserResponse(id));
+      ? dispatch(unfollowUserResponse(user))
+      : dispatch(followUserResponse(user));
+
     setButtonStatus(!buttonStatus);
     buttonStatus ? onAction(1) : onAction(-1);
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.row}>

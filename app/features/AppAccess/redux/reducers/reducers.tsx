@@ -4,6 +4,7 @@ import {
   SET_ADD_NAME_BIRTH_DATE_RESPONSE,
   SET_CHANGE_PASSWORD_RESPONSE,
   SET_EMAIL_VALIDATION,
+  SET_FOLLOW_UNFOLLOW_RESPONSE_STATUS,
   SET_LOGIN_STATUS,
   SET_MOBILE_NUMBER_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
@@ -97,6 +98,7 @@ const initialState = {
   confirmChangePasswordStatus: 'UNDEFINED',
   changePasswordReqResponse: 'UNDEFINED',
   mobileNumberValidation: 'VALID',
+  followUnfollowStatus: 'UNDEFINED',
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -200,6 +202,12 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       mobileNumberValidation: action.payload,
+    };
+  },
+  [SET_FOLLOW_UNFOLLOW_RESPONSE_STATUS](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      followUnfollowStatus: action.payload,
     };
   },
 });

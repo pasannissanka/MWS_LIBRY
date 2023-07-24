@@ -18,6 +18,7 @@ import {
   SET_ADD_NAME_BIRTH_DATE_RESPONSE,
   SET_CHANGE_PASSWORD_RESPONSE,
   SET_EMAIL_VALIDATION,
+  SET_FOLLOW_UNFOLLOW_RESPONSE_STATUS,
   SET_LOGIN_STATUS,
   SET_MOBILE_NUMBER_VALIDATION,
   SET_OTP_MODAL_VISIBLE,
@@ -240,17 +241,17 @@ export const getChangePasswordResponse = (reqBody: object) => {
   };
 };
 
-export const followUserResponse = (id: string) => {
+export const followUserResponse = (user: object) => {
   return {
     type: FOLLOW_USER_REQUEST,
-    payload: id,
+    payload: user,
   };
 };
 
-export const unfollowUserResponse = (id: string) => {
+export const unfollowUserResponse = (user: object) => {
   return {
     type: UNFOLLOW_USER_REQUEST,
-    payload: id,
+    payload: user,
   };
 };
 
@@ -268,6 +269,15 @@ export const setMobileNumberValidation = (
 ) => {
   return {
     type: SET_MOBILE_NUMBER_VALIDATION,
+    payload: status,
+  };
+};
+
+export const setFllowUnfollowResponseStatus = (
+  status: 'FAILURE' | 'UNDEFINED' | 'USER_FOLLOWED' | 'USER_UNFOLLOWED',
+) => {
+  return {
+    type: SET_FOLLOW_UNFOLLOW_RESPONSE_STATUS,
     payload: status,
   };
 };

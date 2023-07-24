@@ -42,3 +42,7 @@ export const AccessToken = (state: {appAccessReducer: {accessToken: string}}) =>
 export const RegisteredResponse = (state: {
   appAccessReducer: {registerResponse: object};
 }) => state.appAccessReducer.registerResponse;
+
+export const SuggestUsersProfils = (state: {
+  appAccessReducer: {suggestUserProfils: object};
+}) => state.appAccessReducer.suggestUserProfils;

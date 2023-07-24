@@ -55,6 +55,7 @@ const AddYourLibryScreen = () => {
   const scrollIndicatorTopSpacePerc = Number(
     scrollPerc > 90 ? 90 : scrollPerc < 0 ? 0 : scrollPerc,
   ).toFixed(0);
+
   return (
     <>
       <StatusBar
@@ -95,8 +96,12 @@ const AddYourLibryScreen = () => {
                   <FlatList
                     data={DATA}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({item}) => (
-                      <AddLibryItem item={item} onAction={onSelectionChange} />
+                    renderItem={({item, index}) => (
+                      <AddLibryItem
+                        item={item}
+                        onAction={onSelectionChange}
+                        index={index}
+                      />
                     )}
                     showsVerticalScrollIndicator={false}
                     extraData={DATA}

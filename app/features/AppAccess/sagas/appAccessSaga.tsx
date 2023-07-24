@@ -4,6 +4,7 @@ import {
   setAddNameBirthDateResponse,
   setChangePasswordResponse,
   setEmailValidation,
+  setFllowUnfollowResponseStatus,
   setLoginStatus,
   setMobileNumberValidation,
   setOtpModalVisible,
@@ -42,6 +43,7 @@ import {
   RegisteredResponse,
   SignUpEmailResponse,
   SignUpResponse,
+  SuggestUsersProfils,
   UserEnteredName,
 } from '../redux/selectors';
 import {
@@ -638,10 +640,40 @@ export function* followUserSaga(action: any) {
       refreshToken: string;
     };
   } = yield select(RegisteredResponse);
-  const id = action.payload;
+
+  const user = action.payload;
   try {
     //yield put(setSpinnerVisible(true));
-    yield call(followUser, id, registered_response.tokens.accessToken);
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: 'USER_FOLLOWED';
+      data: {};
+    } = yield call(followUser, user.id, registered_response.tokens.accessToken);
+    if (raw_response.message === 'USER_FOLLOWED') {
+      const suggestUsersProfils: [
+        {
+          id: '';
+          email: '';
+          phone_number: '';
+          name: '';
+          birth_date: '';
+          userConfirmed: boolean;
+          email_verified: boolean;
+          phone_number_verified: boolean;
+          followers: [];
+          following: [];
+          isFollowed: boolean;
+        },
+      ] = yield select(SuggestUsersProfils);
+
+      suggestUsersProfils[user.index].isFollowed = true;
+
+      yield put(setSuggestUsers(suggestUsersProfils));
+
+      yield put(setFllowUnfollowResponseStatus('USER_FOLLOWED'));
+    } else {
+      yield put(setFllowUnfollowResponseStatus('FAILURE'));
+    }
     yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));
@@ -671,10 +703,43 @@ export function* unfollowUserSaga(action: any) {
       refreshToken: string;
     };
   } = yield select(RegisteredResponse);
-  const id = action.payload;
+  const user = action.payload;
   try {
-    //yield put(setSpinnerVisible(true));
-    yield call(unFollowUser, id, registered_response.tokens.accessToken);
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: 'USER_UNFOLLOWED';
+      data: {};
+    } = yield call(
+      unFollowUser,
+      user.id,
+      registered_response.tokens.accessToken,
+    );
+
+    if (raw_response.message === 'USER_UNFOLLOWED') {
+      const suggestUsersProfils: [
+        {
+          id: '';
+          email: '';
+          phone_number: '';
+          name: '';
+          birth_date: '';
+          userConfirmed: boolean;
+          email_verified: boolean;
+          phone_number_verified: boolean;
+          followers: [];
+          following: [];
+          isFollowed: boolean;
+        },
+      ] = yield select(SuggestUsersProfils);
+
+      suggestUsersProfils[user.index].isFollowed = false;
+
+      yield put(setSuggestUsers(suggestUsersProfils));
+      yield put(setFllowUnfollowResponseStatus('USER_UNFOLLOWED'));
+    } else {
+      yield put(setFllowUnfollowResponseStatus('FAILURE'));
+    }
+
     yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));

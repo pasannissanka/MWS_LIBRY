@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import React, {PropsWithChildren, useEffect, useState} from 'react';
 import {Colors, Images} from '../../theme';
+import {useDispatch} from 'react-redux';
+import {setEndPointErrorVisible} from '../../redux/action/action';
 
 type SectionProps = PropsWithChildren<{
   style?: object;
@@ -27,10 +29,11 @@ const Header = ({
   onPressSkip,
 }: SectionProps): React.JSX.Element => {
   const [text, setText] = useState<string>('skysports');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const backAction = () => {
-      onPressBack();
+      onPressBackArrow();
       return true;
     };
 
@@ -42,9 +45,14 @@ const Header = ({
     return () => backHandler.remove();
   }, []);
 
+  const onPressBackArrow = () => {
+    dispatch(setEndPointErrorVisible(false));
+    onPressBack();
+  };
+
   return (
     <View style={{...styles.parentView, ...style}}>
-      <TouchableOpacity style={styles.backButton} onPress={onPressBack}>
+      <TouchableOpacity style={styles.backButton} onPress={onPressBackArrow}>
         <Image
           style={styles.backArrow}
           resizeMode="contain"

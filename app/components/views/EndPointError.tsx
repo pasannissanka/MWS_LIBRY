@@ -15,8 +15,8 @@ const EndPointError = ({onPressBack}: SectionProps) => {
   const dispatch = useDispatch();
 
   const onPress = () => {
-    onPressBack();
     dispatch(setEndPointErrorVisible(false));
+    onPressBack();
   };
   return (
     <View style={styles.container}>

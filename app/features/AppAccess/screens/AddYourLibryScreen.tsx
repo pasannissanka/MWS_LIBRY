@@ -64,7 +64,7 @@ const AddYourLibryScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={7} uncompleted={2} />
+        <ProgressBar completed={9} uncompleted={1} />
         <View style={styles.primaryContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 

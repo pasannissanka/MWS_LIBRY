@@ -61,7 +61,7 @@ const EnterEmailScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={3} uncompleted={6} />
+        <ProgressBar completed={3} uncompleted={7} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
           {EndPointErrorVisibility ? (

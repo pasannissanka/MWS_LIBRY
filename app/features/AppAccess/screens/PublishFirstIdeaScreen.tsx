@@ -49,7 +49,7 @@ const PublishFirstIdeaScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={9} uncompleted={0} />
+        <ProgressBar completed={10} uncompleted={0} />
 
         <View style={styles.primaryContentContainer}>
           <Header

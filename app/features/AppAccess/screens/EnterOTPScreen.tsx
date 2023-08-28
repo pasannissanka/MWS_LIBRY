@@ -96,7 +96,7 @@ const EnterOTPScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={2} uncompleted={7} />
+        <ProgressBar completed={2} uncompleted={8} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 

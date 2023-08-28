@@ -57,7 +57,7 @@ const EnterPasswordScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={4} uncompleted={5} />
+        <ProgressBar completed={5} uncompleted={5} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
           {EndPointErrorVisibility ? (

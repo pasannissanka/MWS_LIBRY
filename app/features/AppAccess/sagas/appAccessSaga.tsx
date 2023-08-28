@@ -187,7 +187,7 @@ export function* renderEnterPasswordScreen() {
       yield put(setEmailValidation('VALID'));
 
       //Navigate Enter Password Screen
-      RootNavigation.replace('EnterPasswordScreen');
+      RootNavigation.replace('EnterUsernameScreen');
     } else if (raw_response.message === 'EMAIL_TAKEN') {
       yield put(setEmailValidation('REGISTERED'));
     }

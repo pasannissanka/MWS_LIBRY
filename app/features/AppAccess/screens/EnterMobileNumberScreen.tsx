@@ -52,7 +52,7 @@ const EnterMobileNumberScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={1} uncompleted={8} />
+        <ProgressBar completed={1} uncompleted={9} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 

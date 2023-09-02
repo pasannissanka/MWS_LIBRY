@@ -28,6 +28,14 @@ export const SignUpEmailResponse = (state: {
   };
 }) => state.appAccessReducer.signUpEmailResponse;
 
+export const UsernameVerifyResponse = (state: {
+  appAccessReducer: {
+    usernameVerifyResponse: {
+      token: string;
+    };
+  };
+}) => state.appAccessReducer.usernameVerifyResponse;
+
 export const BirthDate = (state: {
   commonReducer: {userEnteredBirthDate: string};
 }) => state.commonReducer.userEnteredBirthDate;

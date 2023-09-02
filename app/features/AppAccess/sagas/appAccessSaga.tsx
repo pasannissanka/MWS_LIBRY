@@ -154,8 +154,8 @@ export function* renderEnterEmailScreen(action: any) {
   }
 }
 
-//NAVIGATE ENTER PASSWORD SCREEN
-export function* renderEnterPasswordScreen() {
+//NAVIGATE ENTER USERNAME SCREEN
+export function* renderEnterUsernameScreen() {
   let response = {
     token: '',
   };
@@ -186,7 +186,7 @@ export function* renderEnterPasswordScreen() {
       yield put(setSignUpEmailResponse(response));
       yield put(setEmailValidation('VALID'));
 
-      //Navigate Enter Password Screen
+      //Navigate Enter Username Screen
       RootNavigation.replace('EnterUsernameScreen');
     } else if (raw_response.message === 'EMAIL_TAKEN') {
       yield put(setEmailValidation('REGISTERED'));

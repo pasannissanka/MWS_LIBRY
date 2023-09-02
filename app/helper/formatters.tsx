@@ -32,5 +32,13 @@ function validatePassword(password: string): boolean {
   // All criteria passed, password is valid
   return true;
 }
-
-export {emailFormatevalidate, validatePassword};
+function validateUsername(username: string): boolean {
+  //Check if the username is not empty
+  if (username.length > 0) {
+    return true;
+  } else {
+    //Else, username is invalid
+    return false;
+  }
+}
+export {emailFormatevalidate, validatePassword, validateUsername};

@@ -95,6 +95,15 @@
                 "incorrectPasswordFormat": "Please use a correct password format."
             }
         },
+        "enterUsernameScreen": {
+            "title": "My username",
+            "description": "You can change this any time.",
+            "next": "NEXT",
+            "warnings": {
+                "incorrectUsernameFormat": "The username can't be empty.",
+                "usernameTaken": "This username is taken. Please try another."
+            }
+        },
         "enterNameScreen": {
             "title": "My name is",
             "description": "This will be shown on your profile. You can edit your profile at any time.",

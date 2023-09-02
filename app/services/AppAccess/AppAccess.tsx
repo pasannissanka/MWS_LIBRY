@@ -32,6 +32,16 @@ export function fetchSignUpEmailResponse(body: object) {
   );
 }
 
+export function fetchVerifyUsernameResponse(body: object) {
+  return callService(
+    Env.BASE_URL,
+    AppAccessEndPoints.VERIFY_USERNAME,
+    'POST',
+    null, //token
+    body,
+  );
+}
+
 export function fetchRegisterResponse(body: object) {
   return callService(
     Env.BASE_URL,

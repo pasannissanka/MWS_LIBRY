@@ -18,6 +18,8 @@ import {
   setSignUpResponseVerify,
   setSuggestUsers,
   setUserProfile,
+  setUsernameValidation,
+  setVerifyUsernameResponse,
 } from '../redux/action/action';
 import {
   fetchAddNameBirthDateResponse,
@@ -30,6 +32,7 @@ import {
   fetchSignUpVerifyResponse,
   fetchSuggestUsersProfile,
   fetchUserProfile,
+  fetchVerifyUsernameResponse,
   followUser,
   unFollowUser,
 } from '../../../services/AppAccess/AppAccess';
@@ -45,6 +48,7 @@ import {
   SignUpResponse,
   SuggestUsersProfils,
   UserEnteredName,
+  UsernameVerifyResponse,
 } from '../redux/selectors';
 import {
   setAlertBoxVisibility,
@@ -200,6 +204,54 @@ export function* renderEnterUsernameScreen() {
   }
 }
 
+//NAVIGATE ENTER PASSWORD SCREEN
+export function* renderEnterPasswordScreen(action: any) {
+  let response = {
+    token: '',
+  };
+  const username: string = action.payload;
+  const sign_up_email_response: {token: string} = yield select(
+    SignUpEmailResponse,
+  );
+  const device_id: string = yield select(DeviceId);
+
+  const requestBody = {
+    device_id: device_id,
+    email: username,
+    token: sign_up_email_response.token,
+  };
+
+  try {
+    yield put(setSpinnerVisible(true));
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: {
+        token: string;
+      };
+      error: null;
+    } = yield call(fetchVerifyUsernameResponse, requestBody);
+
+    if (raw_response.message === 'USERNAME_ADDED') {
+      response = raw_response.data;
+
+      yield put(setVerifyUsernameResponse(response));
+      yield put(setUsernameValidation('VALID'));
+
+      //Navigate Enter Username Screen
+      RootNavigation.replace('EnterPasswordScreen');
+    } else if (raw_response.message === 'USERNAME_TAKEN') {
+      yield put(setUsernameValidation('TAKEN'));
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('APP_ACCESS_SAGA_ERROR =>', error);
+  }
+}
+
 //NAVIGATE WELCOME LIBRY SCREEN
 export function* renderWelcomeLibryScreen(action: any) {
   let response = {
@@ -211,6 +263,7 @@ export function* renderWelcomeLibryScreen(action: any) {
       email: '',
       email_verified: false,
       phone_number: '',
+      username: '',
       phone_number_verified: false,
       cognitoSub: '',
       userConfirmed: false,
@@ -223,13 +276,13 @@ export function* renderWelcomeLibryScreen(action: any) {
       refreshToken: '',
     },
   };
-  const sign_up_email_response: {token: string} = yield select(
-    SignUpEmailResponse,
+  const verify_username_response: {token: string} = yield select(
+    UsernameVerifyResponse,
   );
   const device_id: string = yield select(DeviceId);
 
   const requestBody = {
-    token: sign_up_email_response.token,
+    token: verify_username_response.token,
     password: action.payload,
     device_id: device_id,
   };
@@ -249,6 +302,7 @@ export function* renderWelcomeLibryScreen(action: any) {
           email: string;
           email_verified: boolean;
           phone_number: string;
+          username: string;
           phone_number_verified: boolean;
           cognitoSub: string;
           userConfirmed: boolean;
@@ -338,6 +392,7 @@ export function* renderAddYourLibryScreen() {
     email: '',
     email_verified: false,
     phone_number: '',
+    username: '',
     phone_number_verified: false,
     userConfirmed: false,
     birth_date: '',
@@ -356,6 +411,7 @@ export function* renderAddYourLibryScreen() {
       email: string;
       email_verified: boolean;
       phone_number: string;
+      username: string;
       phone_number_verified: boolean;
       cognitoSub: string;
       userConfirmed: boolean;
@@ -383,6 +439,7 @@ export function* renderAddYourLibryScreen() {
         id: string;
         email: string;
         phone_number: string;
+        username: string;
         description: string;
         name: string;
         birth_date: string;
@@ -423,6 +480,7 @@ function* renderUserPorfile() {
     email: '',
     email_verified: false,
     phone_number: '',
+    username: '',
     phone_number_verified: false,
     userConfirmed: false,
     birth_date: '',
@@ -448,6 +506,7 @@ function* renderUserPorfile() {
         id: string;
         email: string;
         phone_number: string;
+        username: string;
         description: string;
         name: string;
         birth_date: string;
@@ -482,6 +541,7 @@ function* fetchSuggestUsers() {
       id: '',
       email: '',
       phone_number: '',
+      username: '',
       name: '',
       birth_date: '',
       userConfirmed: false,
@@ -500,6 +560,7 @@ function* fetchSuggestUsers() {
       email: string;
       email_verified: boolean;
       phone_number: string;
+      username: string;
       phone_number_verified: boolean;
       userConfirmed: boolean;
       birth_date: string;
@@ -629,6 +690,7 @@ export function* followUserSaga(action: any) {
       email: string;
       email_verified: boolean;
       phone_number: string;
+      username: string;
       phone_number_verified: boolean;
       userConfirmed: boolean;
       birth_date: string;
@@ -655,6 +717,7 @@ export function* followUserSaga(action: any) {
           id: '';
           email: '';
           phone_number: '';
+          username: '';
           name: '';
           birth_date: '';
           userConfirmed: boolean;
@@ -692,6 +755,7 @@ export function* unfollowUserSaga(action: any) {
       email: string;
       email_verified: boolean;
       phone_number: string;
+      username: string;
       phone_number_verified: boolean;
       userConfirmed: boolean;
       birth_date: string;
@@ -721,6 +785,7 @@ export function* unfollowUserSaga(action: any) {
           id: '';
           email: '';
           phone_number: '';
+          username: '';
           name: '';
           birth_date: '';
           userConfirmed: boolean;

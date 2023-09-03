@@ -41,7 +41,7 @@ const YourLibryReadyScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={8} uncompleted={1} />
+        <ProgressBar completed={9} uncompleted={1} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
           <PrimaryContainer>

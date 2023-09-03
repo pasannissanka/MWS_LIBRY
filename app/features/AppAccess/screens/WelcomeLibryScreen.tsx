@@ -46,7 +46,7 @@ const WelcomeLibryScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={5} uncompleted={4} />
+        <ProgressBar completed={6} uncompleted={4} />
         <View style={styles.primaryContentContainer}>
           <PrimaryContainer>
             <View style={styles.welcomeContainer}>

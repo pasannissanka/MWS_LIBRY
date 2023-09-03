@@ -14,6 +14,7 @@ import {
   GET_SIGN_UP_RESPONSE,
   GET_SIGN_UP_RESPONSE_VERIFY,
   GET_USER_PROFILE,
+  GET_VERIFY_USERNAME_RESPONSE,
   SET_ACCESS_TOKEN,
   SET_ADD_NAME_BIRTH_DATE_RESPONSE,
   SET_CHANGE_PASSWORD_RESPONSE,
@@ -31,7 +32,9 @@ import {
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
   SET_SUGGEST_USERS,
+  SET_USERNAME_VALIDATION,
   SET_USER_PROFILE,
+  SET_VERIFY_USERNAME_RESPONSE,
   UNFOLLOW_USER_REQUEST,
 } from './types';
 
@@ -279,5 +282,28 @@ export const setFllowUnfollowResponseStatus = (
   return {
     type: SET_FOLLOW_UNFOLLOW_RESPONSE_STATUS,
     payload: status,
+  };
+};
+
+export const setUsernameValidation = (
+  status: 'VALID' | 'INVALID' | 'TAKEN',
+) => {
+  return {
+    type: SET_USERNAME_VALIDATION,
+    payload: status,
+  };
+};
+
+export const setVerifyUsernameResponse = (response: object) => {
+  return {
+    type: SET_VERIFY_USERNAME_RESPONSE,
+    payload: response,
+  };
+};
+
+export const getVerifyUsernameResponse = (username: string) => {
+  return {
+    type: GET_VERIFY_USERNAME_RESPONSE,
+    payload: username,
   };
 };

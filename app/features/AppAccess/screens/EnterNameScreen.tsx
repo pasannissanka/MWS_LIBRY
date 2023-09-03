@@ -42,7 +42,7 @@ const EnterNameScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={6} uncompleted={3} />
+        <ProgressBar completed={7} uncompleted={3} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
           <PrimaryContainer>

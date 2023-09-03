@@ -59,7 +59,7 @@ const EnterBirthdayScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={7} uncompleted={2} />
+        <ProgressBar completed={8} uncompleted={2} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
 

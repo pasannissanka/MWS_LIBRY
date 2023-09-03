@@ -17,6 +17,7 @@ import AddYourLibryScreen from '../features/AppAccess/screens/AddYourLibryScreen
 import WelcomeLibryScreen from '../features/AppAccess/screens/WelcomeLibryScreen';
 import YourLibryReadyScreen from '../features/AppAccess/screens/YourLibryReadyScreen';
 import PublishFirstIdeaScreen from '../features/AppAccess/screens/PublishFirstIdeaScreen';
+import EnterUsernameScreen from '../features/AppAccess/screens/EnterUsernameScreen';
 
 const Stack = createStackNavigator();
 
@@ -65,6 +66,10 @@ const NavigationStack = (): React.JSX.Element => {
       <Stack.Screen
         name="PublishFirstIdeaScreen"
         component={PublishFirstIdeaScreen}
+      />
+      <Stack.Screen
+        name="EnterUsernameScreen"
+        component={EnterUsernameScreen}
       />
     </Stack.Navigator>
   );

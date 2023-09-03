@@ -17,7 +17,9 @@ import {
   SET_SIGN_UP_RESPONSE,
   SET_SIGN_UP_RESPONSE_VERIFY,
   SET_SUGGEST_USERS,
+  SET_USERNAME_VALIDATION,
   SET_USER_PROFILE,
+  SET_VERIFY_USERNAME_RESPONSE,
 } from '../action/types';
 
 // Initial State
@@ -41,6 +43,7 @@ const initialState = {
       email: '',
       email_verified: false,
       phone_number: '',
+      username: '',
       phone_number_verified: false,
       userConfirmed: false,
       birth_date: '',
@@ -61,6 +64,7 @@ const initialState = {
     email: '',
     email_verified: false,
     phone_number: '',
+    username: '',
     phone_number_verified: false,
     userConfirmed: false,
     birth_date: '',
@@ -73,6 +77,7 @@ const initialState = {
     email: '',
     email_verified: false,
     phone_number: '',
+    username: '',
     phone_number_verified: false,
     userConfirmed: false,
     birth_date: '',
@@ -84,6 +89,7 @@ const initialState = {
       id: '',
       email: '',
       phone_number: '',
+      username: '',
       name: '',
       birth_date: '',
       userConfirmed: false,
@@ -99,6 +105,10 @@ const initialState = {
   changePasswordReqResponse: 'UNDEFINED',
   mobileNumberValidation: 'VALID',
   followUnfollowStatus: 'UNDEFINED',
+  usernameValidation: 'VALID',
+  usernameVerifyResponse: {
+    token: '',
+  },
 };
 
 export const appAccessReducer = createReducer(initialState, {
@@ -208,6 +218,18 @@ export const appAccessReducer = createReducer(initialState, {
     return {
       ...state,
       followUnfollowStatus: action.payload,
+    };
+  },
+  [SET_USERNAME_VALIDATION](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      usernameValidation: action.payload,
+    };
+  },
+  [SET_VERIFY_USERNAME_RESPONSE](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      usernameVerifyResponse: action.payload,
     };
   },
 });

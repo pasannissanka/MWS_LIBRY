@@ -1,28 +1,28 @@
 import {Platform, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {useRef, useState} from 'react';
-import {Colors, Sizes} from '../../../theme';
-import PrimaryButton from '../../../components/buttons/PrimaryButton';
-import {useTranslation} from 'react-i18next';
-import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import ProgressBar from '../components/ProgressBar';
+import {Colors, Sizes} from '../../../theme';
 import Header from '../../../components/header/Header';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import Collapsible from 'react-native-collapsible';
-import PrimaryTextInput from '../components/PrimaryTextInput';
-import {validatePassword} from '../../../helper/formatters';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  getRegisterResponse,
-  setPasswordValidation,
-} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
+import PrimaryContainer from '../../../components/containers/PrimaryContainer';
+import PrimaryTextInput from '../components/PrimaryTextInput';
+import {useTranslation} from 'react-i18next';
+import {useDispatch, useSelector} from 'react-redux';
+import PrimaryButton from '../../../components/buttons/PrimaryButton';
+import Collapsible from 'react-native-collapsible';
+import {validateUsername} from '../../../helper/formatters';
+import {
+  getVerifyUsernameResponse,
+  setUsernameValidation,
+} from '../redux/action/action';
 
-const EnterPasswordScreen = () => {
+const EnterUsernameScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
 
-  const PasswordValidation = useSelector(
-    (state: any) => state.appAccessReducer.passwordValidation,
+  const UsernameValidation = useSelector(
+    (state: any) => state.appAccessReducer.usernameValidation,
   );
 
   const EndPointErrorVisibility = useSelector(
@@ -30,25 +30,24 @@ const EnterPasswordScreen = () => {
   );
 
   const ref = useRef<any>();
-  const [password, onChangePassword] = useState('');
+  const [username, onChangeUsername] = useState('');
 
   const onPressBack = () => {
-    dispatch(setPasswordValidation('VALID'));
+    dispatch(setUsernameValidation('VALID'));
     RootNavigation.replace('EnterMobileNumberScreen');
   };
 
   const onPressNext = () => {
-    const valid = validatePassword(password);
+    const valid = validateUsername(username);
 
     if (valid) {
-      dispatch(setPasswordValidation('VALID'));
-      dispatch(getRegisterResponse(password));
+      dispatch(setUsernameValidation('VALID'));
+      dispatch(getVerifyUsernameResponse(username));
     } else {
       ref.current.focus();
-      dispatch(setPasswordValidation('INVALID'));
+      dispatch(setUsernameValidation('INVALID'));
     }
   };
-
   return (
     <>
       <StatusBar
@@ -57,7 +56,7 @@ const EnterPasswordScreen = () => {
         barStyle={'default'}
       />
       <View style={styles.parentView}>
-        <ProgressBar completed={5} uncompleted={5} />
+        <ProgressBar completed={4} uncompleted={6} />
         <View style={styles.primaryContentContainer}>
           <Header style={styles.header} onPressBack={onPressBack} />
           {EndPointErrorVisibility ? (
@@ -65,39 +64,44 @@ const EnterPasswordScreen = () => {
           ) : (
             <>
               <PrimaryContainer>
-                <View style={styles.passwordInputContainer}>
+                <View style={styles.usernameInputContainer}>
                   <Text style={styles.title}>
-                    {t('appAccess.enterPasswordScreen.title')}
+                    {t('appAccess.enterUsernameScreen.title')}
                   </Text>
 
                   <Text style={styles.description}>
-                    {t('appAccess.enterPasswordScreen.description')}
+                    {t('appAccess.enterUsernameScreen.description')}
                   </Text>
 
                   <PrimaryTextInput
                     reference={ref}
-                    value={password}
+                    value={username}
                     inputMode="text"
                     keyboardType="default"
-                    onChangeText={onChangePassword}
-                    secureTextEntry={true}
-                    error={PasswordValidation === 'INVALID'}
+                    onChangeText={onChangeUsername}
+                    error={UsernameValidation === 'INVALID'}
                   />
 
                   <Collapsible
-                    collapsed={PasswordValidation === 'VALID'}
+                    collapsed={UsernameValidation === 'VALID'}
                     style={styles.collapsibleView}
                     duration={500}>
                     <Text style={styles.warning}>
-                      {t(
-                        'appAccess.enterPasswordScreen.warnings.incorrectPasswordFormat',
-                      )}
+                      {UsernameValidation === 'INVALID'
+                        ? t(
+                            'appAccess.enterUsernameScreen.warnings.incorrectUsernameFormat',
+                          )
+                        : UsernameValidation === 'TAKEN'
+                        ? t(
+                            'appAccess.enterUsernameScreen.warnings.usernameTaken',
+                          )
+                        : ''}
                     </Text>
                   </Collapsible>
                 </View>
               </PrimaryContainer>
               <PrimaryButton
-                text={t('appAccess.enterPasswordScreen.next')}
+                text={t('appAccess.enterUsernameScreen.next')}
                 color="green"
                 style={styles.button}
                 onPress={() => {
@@ -112,7 +116,7 @@ const EnterPasswordScreen = () => {
   );
 };
 
-export default EnterPasswordScreen;
+export default EnterUsernameScreen;
 
 const styles = StyleSheet.create({
   parentView: {
@@ -126,7 +130,7 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 10,
   },
-  passwordInputContainer: {
+  usernameInputContainer: {
     flex: 1,
     width: '100%',
     paddingHorizontal: 12,

@@ -13,6 +13,7 @@ const Images = {
   },
   image: {
     opening_placeholder: require('../assets/images/opening-placeholder/opening-placeholder.png'),
+    welcome_placeholder: require('../assets/images/welcome-placeholder/welcome-placeholder.png'),
   },
 };
 

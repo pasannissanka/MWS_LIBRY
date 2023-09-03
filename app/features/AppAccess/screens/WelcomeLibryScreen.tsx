@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect} from 'react';
-import {Colors, Sizes} from '../../../theme';
+import {Colors, Images, Sizes} from '../../../theme';
 import PrimaryButton from '../../../components/buttons/PrimaryButton';
 import {useTranslation} from 'react-i18next';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
@@ -55,7 +55,7 @@ const WelcomeLibryScreen = () => {
               </Text>
 
               <Image
-                source={require('./../../../assets/dummyImages/orange-placeholder/orange-placeholder.png')}
+                source={Images.image.welcome_placeholder}
                 style={styles.imagePlaceholder}
                 resizeMode="contain"
               />
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
   imagePlaceholder: {
     width: 224,
     height: 226,
-    backgroundColor: '#FF781A',
     alignSelf: 'center',
   },
   description: {

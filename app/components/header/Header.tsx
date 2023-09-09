@@ -5,30 +5,46 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TextInputProps,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {PropsWithChildren, useEffect, useState} from 'react';
+import React, {PropsWithChildren, RefObject, useEffect} from 'react';
 import {Colors, Images} from '../../theme';
 import {useDispatch} from 'react-redux';
 import {setEndPointErrorVisible} from '../../redux/action/action';
 
-type SectionProps = PropsWithChildren<{
+type HeaderProps = PropsWithChildren<{
   style?: object;
   onPressBack?: any;
   title?: string;
   skipButton?: boolean;
   onPressSkip?: any;
+  searchBar?: boolean;
+  searchBarImageUri?: string;
+  searchBarRightIcon?: 'meatballs' | 'hamburger' | 'none';
+  onChangeSearchBarText?: any;
+  searchBarValue?: string;
+  onFocusSearchBar?: any;
+  onBlurSearchBar?: any;
+  searchBarRef?: RefObject<TextInput>;
 }>;
 
-const Header = ({
+const Header: React.FC<HeaderProps> = ({
   style,
   onPressBack,
   title,
   skipButton,
   onPressSkip,
-}: SectionProps): React.JSX.Element => {
-  const [text, setText] = useState<string>('skysports');
+  searchBar = false,
+  searchBarImageUri = '',
+  searchBarRightIcon = 'none',
+  onChangeSearchBarText,
+  searchBarValue = '',
+  onFocusSearchBar,
+  onBlurSearchBar,
+  searchBarRef,
+}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -76,33 +92,35 @@ const Header = ({
         </>
       )}
 
-      {false && (
+      {searchBar && (
         <>
           <View style={styles.searchBar}>
             <TouchableOpacity>
               <Image
                 style={styles.searchIcon}
                 resizeMode="contain"
-                //source={require('../../../assets/images/search-icon/search-icon.png')}
+                source={Images.icons.search_icon}
               />
             </TouchableOpacity>
 
-            <Image
-              style={styles.profileImage}
-              resizeMode="contain"
-              //source={require('../../../assets/dummyImages/skysoport-profile/skysport.png')}
-            />
+            {searchBarImageUri && (
+              <Image
+                style={styles.profileImage}
+                resizeMode="contain"
+                source={{
+                  uri: searchBarImageUri,
+                }}
+              />
+            )}
             <TextInput
-              //ref={}
+              ref={searchBarRef}
               placeholderTextColor={'#B3B3B3'}
               placeholder="Search Libry"
               style={styles.textInput}
-              onChangeText={(value: React.SetStateAction<string>) =>
-                setText(value)
-              }
-              value={text}
-              // onBlur={}
-              // onFocus={}
+              onChangeText={onChangeSearchBarText}
+              value={searchBarValue}
+              onBlur={onBlurSearchBar}
+              onFocus={onFocusSearchBar}
               keyboardType="default"
               returnKeyType="done"
               numberOfLines={1}
@@ -110,11 +128,29 @@ const Header = ({
           </View>
 
           <TouchableOpacity>
-            <Image style={styles.bellIcon} resizeMode="contain" />
+            <Image
+              style={styles.bellIcon}
+              resizeMode="contain"
+              source={Images.icons.bell_icon}
+            />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Image style={styles.meatballsIcon} resizeMode="contain" />
-          </TouchableOpacity>
+          {searchBarRightIcon === 'hamburger' ? (
+            <TouchableOpacity>
+              <Image
+                style={styles.hamburgerIcons}
+                resizeMode="contain"
+                source={Images.icons.hamburger_icons}
+              />
+            </TouchableOpacity>
+          ) : searchBarRightIcon === 'meatballs' ? (
+            <TouchableOpacity>
+              <Image
+                style={styles.meatballsIcon}
+                resizeMode="contain"
+                source={Images.icons.meatballs_icon}
+              />
+            </TouchableOpacity>
+          ) : null}
         </>
       )}
     </View>
@@ -190,11 +226,17 @@ const styles = StyleSheet.create({
   bellIcon: {
     width: 20,
     height: 24,
-    marginHorizontal: 10,
+    marginLeft: 10,
   },
   meatballsIcon: {
     height: 6,
     width: 28,
+    marginLeft: 10,
+  },
+  hamburgerIcons: {
+    height: 16,
+    width: 20,
+    marginLeft: 10,
   },
   flexOne: {
     flex: 1,

@@ -10,6 +10,15 @@ const Images = {
     warning: require('../assets/images/warning/warning.png'),
     right_arrow: require('../assets/images/right-arrow/right-arrow.png'),
     expand_icon: require('../assets/images/expand-icon/expand-icon.png'),
+    search_icon: require('../assets/images/search-icon/search-icon.png'),
+    bell_icon: require('../assets/images/bell-icon/bell-icon.png'),
+    hamburger_icons: require('../assets/images/hamburger-icons/hamburger-icons.png'),
+    meatballs_icon: require('../assets/images/meatballs-icon/meatballs-icon.png'),
+
+    bottom_tab_icon: {
+      conttent_icon: require('../assets/images/bottom-tab-icons/conttent-icon/content-icon.png'),
+      add_icon: require('../assets/images/bottom-tab-icons/add-icon/add-icon.png'),
+    },
   },
   image: {
     opening_placeholder: require('../assets/images/opening-placeholder/opening-placeholder.png'),

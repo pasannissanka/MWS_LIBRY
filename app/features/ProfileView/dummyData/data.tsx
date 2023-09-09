@@ -28,15 +28,15 @@ let data = {
     },
     {
       id: 1,
-      link: 'Play the Sky Sports Premiere League Fantasy',
+      link: 'My Link to Some Content',
     },
     {
       id: 2,
-      link: 'Play the Sky Sports Premiere League Fantasy',
+      link: 'My Link to Some Content',
     },
     {
       id: 3,
-      link: 'Play the Sky Sports Premiere League Fantasy',
+      link: 'My Link to Some Content',
     },
   ],
   contents: [

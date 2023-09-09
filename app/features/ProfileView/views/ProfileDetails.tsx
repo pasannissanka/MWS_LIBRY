@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {Dimensions} from 'react-native';
+import { Colors } from '../../../theme';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -20,10 +21,10 @@ const ProfileDetails = (): React.JSX.Element => {
       <View style={styles.topRow}>
         <Image
           style={styles.profileImage}
-          source={require('../../../assets/dummyImages/skysoport-profile/skysport.png')}
+          source={require('../../../assets/dummyImages/philhughes-profile/philhughes.png')}
         />
         <View style={styles.topRowLeftContainer}>
-          <Text style={styles.profileName}>{'Sky Sports'}</Text>
+          <Text style={styles.profileName}>{'Phil Hughes'}</Text>
           <View style={styles.followingButtonRow}>
             <View style={styles.buttonContainerLeft}>
               <TouchableOpacity style={styles.outlinedButton}>
@@ -61,6 +62,7 @@ export default ProfileDetails;
 
 const styles = StyleSheet.create({
   parentView: {
+    paddingTop: 28,
     width: (windowWidth < windowHeight ? windowWidth : windowHeight) - 30,
   },
   topRow: {
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: 'left',
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: Colors.text.PRIMARY_COLOR,
   },
   followingButtonRow: {
     flexDirection: 'row',
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#06D30F',
+    backgroundColor: Colors.ACTIVE_GREEN_COLOR,
     borderRadius: 20,
   },
   filledButtonAdded: {
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'center',
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: Colors.text.PRIMARY_COLOR,
   },
   followingButtonGreenText: {
     fontFamily:
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'center',
     fontWeight: '600',
-    color: '#06D30F',
+    color: Colors.text.GREEN_TEXT_COLOR,
   },
   tickIcon: {
     width: 10,

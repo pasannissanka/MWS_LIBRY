@@ -134,9 +134,8 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     width: '100%',
-    paddingHorizontal: 28,
+    paddingHorizontal: 15,
     paddingTop: 10,
-    paddingBottom: 28,
   },
   tabBarStyle: {
     width: '100%',

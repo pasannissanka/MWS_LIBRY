@@ -1,0 +1,12 @@
+{
+    "profileView": {
+        "profileViewScreen": {
+            "detailsView":{
+                "addedButton": "",
+                "addButton": "",
+                "addingsButton": "",
+                "addsButton": ""
+            }
+        }
+    }
+}

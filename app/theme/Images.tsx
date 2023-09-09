@@ -14,6 +14,7 @@ const Images = {
     bell_icon: require('../assets/images/bell-icon/bell-icon.png'),
     hamburger_icons: require('../assets/images/hamburger-icons/hamburger-icons.png'),
     meatballs_icon: require('../assets/images/meatballs-icon/meatballs-icon.png'),
+    tick_icon: require('../assets/images/tick-icon/tick.png'),
 
     bottom_tab_icon: {
       conttent_icon: require('../assets/images/bottom-tab-icons/conttent-icon/content-icon.png'),

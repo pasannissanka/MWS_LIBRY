@@ -3,7 +3,8 @@ import {initReactI18next} from 'react-i18next';
 import dummy_screens_spanish from './features/DummyScreens/spanish.json';
 import dummy_screens_english from './features/DummyScreens/english.json';
 import app_access_english from './features/AppAccess/english.json';
-import common_components_english from './features/CommonComponents/english.json'
+import common_components_english from './features/CommonComponents/english.json';
+import profile_view_english from './features/ProfileView/english.json';
 
 i18next.use(initReactI18next).init({
   compatibilityJSON: 'v3',
@@ -14,6 +15,7 @@ i18next.use(initReactI18next).init({
         ...app_access_english,
         ...dummy_screens_english,
         ...common_components_english,
+        ...profile_view_english,
       },
     },
     es: dummy_screens_spanish,

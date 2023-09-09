@@ -8,45 +8,80 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {Dimensions} from 'react-native';
+import {Colors, Images} from '../../../theme';
+import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const ProfileDetails = (): React.JSX.Element => {
-  const status = {Add: 'Add', Added: 'Added'};
-  const [addButton, setAddButton] = useState<string>(status.Add);
+  const {t} = useTranslation();
+  const USER_PROFILE = useSelector(
+    (state: any) => state.appAccessReducer.userProfile,
+  );
+
+  const FollowersCount =
+    `${
+      USER_PROFILE.followersCount >= 1000
+        ? Math.round(USER_PROFILE.followersCount / 1000) / 1000 + ' K'
+        : USER_PROFILE.followersCount
+    }` + t('profileView.profileViewScreen.detailsView.addsButton');
+
+  const FollowingCount =
+    `${
+      USER_PROFILE.followersCount >= 1000
+        ? Math.round(USER_PROFILE.followersCount / 1000) / 1000 + ' K'
+        : USER_PROFILE.followingCount
+    }` + t('profileView.profileViewScreen.detailsView.addingsButton');
+
+  const status = {Add: 'Add', Added: 'Added', Addings: 'Addings'};
+  const [addButton, setAddButton] = useState<string>(status.Addings);
   return (
     <View style={styles.parentView}>
       <View style={styles.topRow}>
         <Image
+          resizeMode="contain"
           style={styles.profileImage}
-          source={require('../../../assets/dummyImages/skysoport-profile/skysport.png')}
+          source={require('../../../assets/dummyImages/philhughes-profile/philhughes.png')}
         />
         <View style={styles.topRowLeftContainer}>
-          <Text style={styles.profileName}>{'Sky Sports'}</Text>
+          <Text style={styles.profileName}>{USER_PROFILE.name}</Text>
           <View style={styles.followingButtonRow}>
             <View style={styles.buttonContainerLeft}>
               <TouchableOpacity style={styles.outlinedButton}>
-                <Text style={styles.followingButtonText}>{'784 K adds'}</Text>
+                <Text style={styles.followingButtonText}>{FollowersCount}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.buttonContainerRight}>
-              {addButton === status.Added ? (
+              {addButton === status.Addings ? (
+                <TouchableOpacity
+                  style={styles.filledButtonAddings}
+                  onPress={() => {}}>
+                  <Text style={styles.followingButtonText}>
+                    {FollowingCount}
+                  </Text>
+                </TouchableOpacity>
+              ) : addButton === status.Added ? (
                 <TouchableOpacity
                   style={styles.filledButtonAdded}
                   onPress={() => setAddButton(status.Add)}>
                   <Image
-                    source={require('../../../assets/images/tick-icon/tick.png')}
+                    source={Images.icons.tick_icon}
                     style={styles.tickIcon}
                     resizeMode="contain"
                   />
-                  <Text style={styles.followingButtonGreenText}>{'ADDED'}</Text>
+                  <Text style={styles.followingButtonGreenText}>
+                    {t('profileView.profileViewScreen.detailsView.addedButton')}
+                  </Text>
                 </TouchableOpacity>
               ) : (
                 <TouchableOpacity
                   style={styles.filledButtonAdd}
                   onPress={() => setAddButton(status.Added)}>
-                  <Text style={styles.followingButtonText}>{'+ ADD'}</Text>
+                  <Text style={styles.followingButtonText}>
+                    {t('profileView.profileViewScreen.detailsView.addButton')}
+                  </Text>
                 </TouchableOpacity>
               )}
             </View>
@@ -61,6 +96,7 @@ export default ProfileDetails;
 
 const styles = StyleSheet.create({
   parentView: {
+    paddingTop: 28,
     width: (windowWidth < windowHeight ? windowWidth : windowHeight) - 30,
   },
   topRow: {
@@ -82,7 +118,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     textAlign: 'left',
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: Colors.text.PRIMARY_COLOR,
   },
   followingButtonRow: {
     flexDirection: 'row',
@@ -117,7 +153,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#06D30F',
+    backgroundColor: Colors.ACTIVE_GREEN_COLOR,
     borderRadius: 20,
   },
   filledButtonAdded: {
@@ -129,6 +165,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#303030',
     borderRadius: 20,
   },
+  filledButtonAddings: {
+    width: 125,
+    height: 36,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.ACTIVE_GREEN_COLOR,
+    borderRadius: 20,
+  },
   followingButtonText: {
     flex: 1,
     fontFamily:
@@ -137,7 +182,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'center',
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: Colors.text.PRIMARY_COLOR,
   },
   followingButtonGreenText: {
     fontFamily:
@@ -146,7 +191,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'center',
     fontWeight: '600',
-    color: '#06D30F',
+    color: Colors.text.GREEN_TEXT_COLOR,
   },
   tickIcon: {
     width: 10,

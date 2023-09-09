@@ -25,7 +25,6 @@ const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
       initialRouteName="OpeningScreen"
-      //initialRouteName="ChangePasswordScreen"
       screenOptions={{
         headerShown: false,
       }}>

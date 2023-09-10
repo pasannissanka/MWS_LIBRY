@@ -7,27 +7,40 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {RefObject, useRef, useState} from 'react';
 import ProfileScreen from '../../ProfileView/screens/ProfileScreen';
 import DummyScreen from '../../ProfileView/screens/DummyScreen';
 import {Colors, Images} from '../../../theme';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import Header from '../../../components/header/Header';
+import InfoBottomSheet from '../components/InfoBottomSheet';
+import RBSheet from 'react-native-raw-bottom-sheet';
 
 const DashboardScreen = (): React.JSX.Element => {
   type TabNavigatorParams = {
     ProfileView: undefined;
     DummyOne: undefined;
   };
+
+  type ProfileTypes = 'someone' | 'user';
   const Tab = createBottomTabNavigator();
   const navigation = useNavigation() as NavigationProp<TabNavigatorParams>;
+  const infoBottomSheetRef: RefObject<RBSheet> = useRef<RBSheet>(null);
 
   const onPressBack = () => {
     navigation.navigate('DummyOne');
   };
 
-  const [currentView, setCurrentView] = useState(0);
+  const onPressSearchBarHamburger = () => {
+    infoBottomSheetRef.current!.open();
+  };
+
+  const onPressSearchBarMeatballs = () => {
+    infoBottomSheetRef.current!.open();
+  };
+
   const [searchText, onChangeSearchText] = useState('');
+  const [profileType, setProfileType] = useState<ProfileTypes>('someone');
 
   return (
     <KeyboardAvoidingView
@@ -44,16 +57,20 @@ const DashboardScreen = (): React.JSX.Element => {
           searchBar={true}
           onPressBack={onPressBack}
           searchBarImageUri="https://reactnative.dev/img/tiny_logo.png"
-          searchBarRightIcon={currentView === 2 ? 'hamburger' : 'meatballs'}
+          searchBarRightIcon={
+            profileType === 'user' ? 'hamburger' : 'meatballs'
+          }
           onChangeSearchBarText={onChangeSearchText}
           searchBarValue={searchText}
+          onPressHamburger={onPressSearchBarHamburger}
+          onPressMeatballs={onPressSearchBarMeatballs}
         />
       </View>
 
       <Tab.Navigator
         screenListeners={{
           state: (e: any) => {
-            setCurrentView(e.data.state.index);
+            setProfileType(e.data.state.index === 2 ? 'user' : 'someone');
           },
         }}
         initialRouteName="ProfileView"
@@ -121,6 +138,8 @@ const DashboardScreen = (): React.JSX.Element => {
           }}
         />
       </Tab.Navigator>
+
+      <InfoBottomSheet reference={infoBottomSheetRef} infoType={profileType} />
     </KeyboardAvoidingView>
   );
 };

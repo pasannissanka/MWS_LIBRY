@@ -1,0 +1,11 @@
+{
+    "dashboard": {
+        "dashboardScreen": {
+            "infoBottomSheet":{
+                "option1": "Copy Profile Link",
+                "option2": "Settings",
+                "option3": "Saved"
+            }
+        }
+    }
+}

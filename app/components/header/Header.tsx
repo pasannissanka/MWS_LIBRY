@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TextInputProps,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,18 +15,20 @@ import {setEndPointErrorVisible} from '../../redux/action/action';
 
 type HeaderProps = PropsWithChildren<{
   style?: object;
-  onPressBack?: any;
+  onPressBack: () => void;
   title?: string;
   skipButton?: boolean;
-  onPressSkip?: any;
+  onPressSkip?: () => void;
   searchBar?: boolean;
   searchBarImageUri?: string;
   searchBarRightIcon?: 'meatballs' | 'hamburger' | 'none';
-  onChangeSearchBarText?: any;
+  onChangeSearchBarText?: (text: string) => void;
   searchBarValue?: string;
-  onFocusSearchBar?: any;
-  onBlurSearchBar?: any;
+  onFocusSearchBar?: () => void;
+  onBlurSearchBar?: () => void;
   searchBarRef?: RefObject<TextInput>;
+  onPressHamburger?: () => void;
+  onPressMeatballs?: () => void;
 }>;
 
 const Header: React.FC<HeaderProps> = ({
@@ -44,6 +45,8 @@ const Header: React.FC<HeaderProps> = ({
   onFocusSearchBar,
   onBlurSearchBar,
   searchBarRef,
+  onPressHamburger,
+  onPressMeatballs,
 }) => {
   const dispatch = useDispatch();
 
@@ -135,7 +138,9 @@ const Header: React.FC<HeaderProps> = ({
             />
           </TouchableOpacity>
           {searchBarRightIcon === 'hamburger' ? (
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={onPressHamburger}
+              style={styles.rightIconTouchable}>
               <Image
                 style={styles.hamburgerIcons}
                 resizeMode="contain"
@@ -143,7 +148,9 @@ const Header: React.FC<HeaderProps> = ({
               />
             </TouchableOpacity>
           ) : searchBarRightIcon === 'meatballs' ? (
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={onPressMeatballs}
+              style={styles.rightIconTouchable}>
               <Image
                 style={styles.meatballsIcon}
                 resizeMode="contain"
@@ -228,15 +235,20 @@ const styles = StyleSheet.create({
     height: 24,
     marginLeft: 10,
   },
+  rightIconTouchable: {
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
   meatballsIcon: {
     height: 6,
-    width: 28,
-    marginLeft: 10,
+    width: 24,
   },
   hamburgerIcons: {
     height: 16,
-    width: 20,
-    marginLeft: 10,
+    width: 24,
   },
   flexOne: {
     flex: 1,

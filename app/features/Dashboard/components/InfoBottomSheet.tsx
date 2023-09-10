@@ -4,6 +4,7 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import {Colors, Fonts, Images} from '../../../theme';
 import {useTranslation} from 'react-i18next';
 import Clipboard from '@react-native-clipboard/clipboard';
+import * as RootNavigation from '../../../navigation/RootNavigation';
 
 type BottomSheetProps = PropsWithChildren<{
   reference?: RefObject<RBSheet>;
@@ -31,6 +32,7 @@ const InfoBottomSheet: React.FC<BottomSheetProps> = ({
       icon: Images.icons.settings_icon,
       onPress: () => {
         reference?.current?.close();
+        RootNavigation.navigate('AccountSettingsScreen');
       },
     },
     {

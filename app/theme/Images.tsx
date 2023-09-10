@@ -18,6 +18,7 @@ const Images = {
     hyperlink_icon: require('../assets/images/hyperlink-icon/hyperlink-icon.png'),
     settings_icon: require('../assets/images/setting-icon/setting-icon.png'),
     filled_star_icon_2: require('../assets/images/filled-star-icon/filled-star-icon-2.png'),
+    logout_icon: require('../assets/images/logout-icon/logout-icon.png'),
 
     bottom_tab_icon: {
       conttent_icon: require('../assets/images/bottom-tab-icons/conttent-icon/content-icon.png'),

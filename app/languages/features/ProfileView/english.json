@@ -7,6 +7,14 @@
                 "addingsButton": " addings",
                 "addsButton": " adds"
             }
+        },
+        "accountSettingsScreen": {
+            "screenTitle": "Account",
+            "option1": "Account",
+            "option2": "Send us Feedback",
+            "option3": "Terms of Service",
+            "option4": "Privacy",
+            "option5": "Sign Out"
         }
     }
 }

@@ -16,7 +16,7 @@ import {setEndPointErrorVisible} from '../../redux/action/action';
 type HeaderProps = PropsWithChildren<{
   style?: object;
   onPressBack: () => void;
-  title?: string;
+  title?: string | null;
   skipButton?: boolean;
   onPressSkip?: () => void;
   searchBar?: boolean;

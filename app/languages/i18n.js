@@ -5,6 +5,7 @@ import dummy_screens_english from './features/DummyScreens/english.json';
 import app_access_english from './features/AppAccess/english.json';
 import common_components_english from './features/CommonComponents/english.json';
 import profile_view_english from './features/ProfileView/english.json';
+import dashboard_screen from './features/Dashboard/english.json';
 
 i18next.use(initReactI18next).init({
   compatibilityJSON: 'v3',
@@ -16,6 +17,7 @@ i18next.use(initReactI18next).init({
         ...dummy_screens_english,
         ...common_components_english,
         ...profile_view_english,
+        ...dashboard_screen,
       },
     },
     es: dummy_screens_spanish,

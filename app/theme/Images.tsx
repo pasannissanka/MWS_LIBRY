@@ -15,10 +15,12 @@ const Images = {
     hamburger_icons: require('../assets/images/hamburger-icons/hamburger-icons.png'),
     meatballs_icon: require('../assets/images/meatballs-icon/meatballs-icon.png'),
     tick_icon: require('../assets/images/tick-icon/tick.png'),
+    tick_white_icon: require('../assets/images/tick-icon/tick-white.png'),
     hyperlink_icon: require('../assets/images/hyperlink-icon/hyperlink-icon.png'),
     settings_icon: require('../assets/images/setting-icon/setting-icon.png'),
     filled_star_icon_2: require('../assets/images/filled-star-icon/filled-star-icon-2.png'),
     logout_icon: require('../assets/images/logout-icon/logout-icon.png'),
+    info_icon: require('../assets/images/info-icon/info-icon.png'),
 
     bottom_tab_icon: {
       conttent_icon: require('../assets/images/bottom-tab-icons/conttent-icon/content-icon.png'),

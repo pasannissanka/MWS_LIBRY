@@ -5,6 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  TextStyle,
 } from 'react-native';
 import React, {PropsWithChildren} from 'react';
 import {Colors, Sizes} from '../../../theme';
@@ -15,7 +16,10 @@ type SectionProps = PropsWithChildren<{
   title?: string;
   description?: string;
   button?: string;
-  onPress?: any;
+  onPress: () => void;
+  negativeButton?: string;
+  onPressNegative: () => void | undefined;
+  buttonTextStyle?: TextStyle;
 }>;
 const AlertBox = ({
   visible,
@@ -23,6 +27,9 @@ const AlertBox = ({
   description,
   button,
   onPress,
+  negativeButton,
+  onPressNegative,
+  buttonTextStyle,
 }: SectionProps) => {
   const dispatch = useDispatch();
 
@@ -32,6 +39,9 @@ const AlertBox = ({
     description: '',
     button: '',
     onPress: () => {},
+    negativeButton: '',
+    onPressNegative: () => {},
+    buttonTextStyle: {},
   };
   return (
     <Modal animationType="fade" visible={visible} transparent={true}>
@@ -42,12 +52,26 @@ const AlertBox = ({
             <Text style={styles.description}>{description}</Text>
           </View>
           <View style={styles.alertBottom}>
+            {negativeButton && (
+              <TouchableOpacity
+                style={styles.buttonTouchable}
+                onPress={() => {
+                  onPressNegative();
+                  dispatch(setAlertBoxVisibility(alertBoxVisibility));
+                }}>
+                <Text style={styles.button}>{negativeButton}</Text>
+              </TouchableOpacity>
+            )}
+
             <TouchableOpacity
+              style={styles.buttonTouchable}
               onPress={() => {
                 onPress();
                 dispatch(setAlertBoxVisibility(alertBoxVisibility));
               }}>
-              <Text style={styles.button}>{button}</Text>
+              <Text style={{...styles.button, ...buttonTextStyle}}>
+                {button}
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -81,9 +105,15 @@ const styles = StyleSheet.create({
   },
   alertBottom: {
     width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
     paddingHorizontal: 28,
     paddingVertical: 10,
+  },
+  buttonTouchable: {
+    flex: 1,
+    alignItems: 'center',
   },
   title: {
     fontFamily:

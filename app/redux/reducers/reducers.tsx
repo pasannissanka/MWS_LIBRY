@@ -25,6 +25,9 @@ const initialState = {
     description: '',
     button: '',
     onPress: () => {},
+    negativeButton: '',
+    onPressNegative: () => {},
+    buttonTextStyle: {},
   },
 };
 

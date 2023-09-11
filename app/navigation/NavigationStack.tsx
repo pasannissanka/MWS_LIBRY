@@ -19,13 +19,14 @@ import YourLibryReadyScreen from '../features/AppAccess/screens/YourLibryReadySc
 import PublishFirstIdeaScreen from '../features/AppAccess/screens/PublishFirstIdeaScreen';
 import EnterUsernameScreen from '../features/AppAccess/screens/EnterUsernameScreen';
 import AccountSettingsScreen from '../features/ProfileView/screens/AccountSettingsScreen';
+import SettingsScreen from '../features/ProfileView/screens/SettingsScreen';
 
 const Stack = createStackNavigator();
 
 const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName="AccountSettingsScreen"
+      initialRouteName="OpeningScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -73,6 +74,8 @@ const NavigationStack = (): React.JSX.Element => {
       />
 
       {/* Profile Settings */}
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+
       <Stack.Screen
         name="AccountSettingsScreen"
         component={AccountSettingsScreen}

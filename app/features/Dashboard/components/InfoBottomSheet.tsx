@@ -32,7 +32,7 @@ const InfoBottomSheet: React.FC<BottomSheetProps> = ({
       icon: Images.icons.settings_icon,
       onPress: () => {
         reference?.current?.close();
-        RootNavigation.navigate('AccountSettingsScreen');
+        RootNavigation.navigate('SettingsScreen');
       },
     },
     {

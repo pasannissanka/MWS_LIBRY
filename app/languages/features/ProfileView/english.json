@@ -10,6 +10,26 @@
         },
         "accountSettingsScreen": {
             "screenTitle": "Account",
+            "option1": "Change Password",
+            "option2": "Change Email",
+            "option3": "Delete account",
+            "option4": "Email unverified",
+            "option4_lined_text": "Re-send verification email",
+
+            "detailsUpdateAlert": {
+                "description1": "Password updated",
+                "description2": "Email updated",
+                "description3": "Email verification sent"
+            },
+            "deleteConfirmation": {
+                "title": "Are you sure you want to delete your Libry account?",
+                "description": "This is non-reversible. Your content and settings will all be deleted.",
+                "button": "DELETE",
+                "negativeButton": "NO, GO BACK"
+            }
+        },
+        "settingsScreen": {
+            "screenTitle": "Settings",
             "option1": "Account",
             "option2": "Send us Feedback",
             "option3": "Terms of Service",

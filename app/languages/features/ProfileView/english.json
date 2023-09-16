@@ -41,8 +41,8 @@
             "headerRightButton": "Save",
             "passwordInputLabel": "New Password",
             "conPasswordInputLabel": "Confirm Password",
-            "passwordInputPlaceholder": "New Password",
-            "conPasswordInputPlaceholder": "Confirm New Password",
+            "passwordInputPlaceholder": "Password",
+            "conPasswordInputPlaceholder": "Confirm Password",
 
             "passwordChangingAlertOne": {
                 "title": "Passwords don’t match",

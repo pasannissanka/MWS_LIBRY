@@ -35,6 +35,26 @@
             "option3": "Terms of Service",
             "option4": "Privacy",
             "option5": "Sign Out"
+        },
+        "PasswordChangeConfirmationScreen": {
+            "screenTitle": "Change Password",
+            "headerRightButton": "Save",
+            "passwordInputLabel": "New Password",
+            "conPasswordInputLabel": "Confirm Password",
+            "passwordInputPlaceholder": "New Password",
+            "conPasswordInputPlaceholder": "Confirm New Password",
+
+            "passwordChangingAlertOne": {
+                "title": "Passwords don’t match",
+                "description": "Please try entering the passwords in again.",
+                "button": "OK"
+            },
+
+            "passwordChangingAlertTwo": {
+                "title": "That’s not a new password",
+                "description": "Please enter a new password other than your current one.",
+                "button": "OK"
+            }
         }
     }
 }

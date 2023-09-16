@@ -40,7 +40,9 @@ const AccountSettingsScreen = () => {
       setAlertType('none');
     }, 5000);
   }, []);
-
+  const onPressOption1 = () => {
+    RootNavigation.navigate('PasswordChangeConfirmation');
+  };
   const onPressOption2 = () => {
     if (isEmailVerified) {
       setVerifiyEmailAlertVisibility(false);
@@ -89,7 +91,9 @@ const AccountSettingsScreen = () => {
         <View style={styles.primaryContentContainer}>
           <PrimaryContainer style={styles.optionCardContainer}>
             <OptionCard>
-              <TouchableOpacity style={styles.optionTouchable}>
+              <TouchableOpacity
+                style={styles.optionTouchable}
+                onPress={onPressOption1}>
                 <Text style={styles.optionText}>
                   {t('profileView.accountSettingsScreen.option1')}
                 </Text>

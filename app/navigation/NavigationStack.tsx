@@ -20,13 +20,14 @@ import PublishFirstIdeaScreen from '../features/AppAccess/screens/PublishFirstId
 import EnterUsernameScreen from '../features/AppAccess/screens/EnterUsernameScreen';
 import AccountSettingsScreen from '../features/ProfileView/screens/AccountSettingsScreen';
 import SettingsScreen from '../features/ProfileView/screens/SettingsScreen';
+import PasswordChangeConfirmation from '../features/ProfileView/screens/PasswordChangeConfirmation';
 
 const Stack = createStackNavigator();
 
 const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName="OpeningScreen"
+      initialRouteName="AccountSettingsScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -79,6 +80,10 @@ const NavigationStack = (): React.JSX.Element => {
       <Stack.Screen
         name="AccountSettingsScreen"
         component={AccountSettingsScreen}
+      />
+      <Stack.Screen
+        name="PasswordChangeConfirmation"
+        component={PasswordChangeConfirmation}
       />
     </Stack.Navigator>
   );

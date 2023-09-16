@@ -18,7 +18,7 @@ type SectionProps = PropsWithChildren<{
   button?: string;
   onPress: () => void;
   negativeButton?: string;
-  onPressNegative: () => void | undefined;
+  onPressNegative?: () => void;
   buttonTextStyle?: TextStyle;
 }>;
 const AlertBox = ({
@@ -56,7 +56,7 @@ const AlertBox = ({
               <TouchableOpacity
                 style={styles.buttonTouchable}
                 onPress={() => {
-                  onPressNegative();
+                  onPressNegative?.();
                   dispatch(setAlertBoxVisibility(alertBoxVisibility));
                 }}>
                 <Text style={styles.button}>{negativeButton}</Text>

@@ -1,5 +1,5 @@
 import {StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import {Colors, Fonts} from '../../../theme';
 import Header from '../../../components/header/Header';
@@ -59,6 +59,9 @@ const PasswordChangeConfirmation = () => {
   const showAlert = () => {
     dispatch(setAlertBoxVisibility(passwordChangingAlert));
   };
+  useEffect(()=>{
+    passwordRef.current.focus();
+  },[])
   return (
     <>
       <StatusBar

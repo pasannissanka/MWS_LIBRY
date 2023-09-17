@@ -76,8 +76,9 @@ const AccountSettingsScreen = () => {
   };
 
   const onPressOption5 = () => {
-    RootNavigation.navigate('PasswordChangeConfirmation');
+    RootNavigation.navigate('EditProfileScreen');
   };
+
   return (
     <>
       <StatusBar
@@ -121,6 +122,8 @@ const AccountSettingsScreen = () => {
                   style={styles.optionRightIcon}
                 />
               </TouchableOpacity>
+
+              <View style={styles.separator} />
 
               <TouchableOpacity
                 style={styles.optionTouchable}
@@ -217,7 +220,10 @@ const styles = StyleSheet.create({
     transform: [{rotate: '180deg'}],
   },
   deleteTouchable: {
+    height: 18,
     marginTop: 20,
+    paddingHorizontal: 10,
+    borderRadius: 9,
   },
   linkedText: {
     flex: 1,

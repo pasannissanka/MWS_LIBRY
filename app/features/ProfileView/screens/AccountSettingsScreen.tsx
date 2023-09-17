@@ -74,6 +74,10 @@ const AccountSettingsScreen = () => {
   const onPressOption4 = () => {
     setVerifiyEmailAlertVisibility(false);
   };
+
+  const onPressOption5 = () => {
+    RootNavigation.navigate('PasswordChangeConfirmation');
+  };
   return (
     <>
       <StatusBar
@@ -110,6 +114,19 @@ const AccountSettingsScreen = () => {
                 onPress={onPressOption2}>
                 <Text style={styles.optionText}>
                   {t('profileView.accountSettingsScreen.option2')}
+                </Text>
+                <Image
+                  source={Images.icons.back_icon}
+                  resizeMode="contain"
+                  style={styles.optionRightIcon}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.optionTouchable}
+                onPress={onPressOption5}>
+                <Text style={styles.optionText}>
+                  {t('profileView.accountSettingsScreen.option5')}
                 </Text>
                 <Image
                   source={Images.icons.back_icon}

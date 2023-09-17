@@ -15,6 +15,7 @@
             "option3": "Delete account",
             "option4": "Email unverified",
             "option4_lined_text": "Re-send verification email",
+            "option5": "Edit Profile",
 
             "detailsUpdateAlert": {
                 "description1": "Password updated",

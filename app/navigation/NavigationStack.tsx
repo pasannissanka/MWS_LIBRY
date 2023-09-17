@@ -22,13 +22,14 @@ import AccountSettingsScreen from '../features/ProfileView/screens/AccountSettin
 import SettingsScreen from '../features/ProfileView/screens/SettingsScreen';
 import PasswordChangeConfirmation from '../features/ProfileView/screens/PasswordChangeConfirmation';
 import EmailChangeConfirmation from '../features/ProfileView/screens/EmailChangeConfirmation';
+import EditProfileScreen from '../features/ProfileView/screens/EditProfileScreen';
 
 const Stack = createStackNavigator();
 
 const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName="AccountSettingsScreen"
+      initialRouteName="SettingsScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -90,6 +91,7 @@ const NavigationStack = (): React.JSX.Element => {
         name="EmailChangeConfirmation"
         component={EmailChangeConfirmation}
       />
+      <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
     </Stack.Navigator>
   );
 };

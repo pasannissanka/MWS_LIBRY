@@ -21,6 +21,7 @@ const Images = {
     filled_star_icon_2: require('../assets/images/filled-star-icon/filled-star-icon-2.png'),
     logout_icon: require('../assets/images/logout-icon/logout-icon.png'),
     info_icon: require('../assets/images/info-icon/info-icon.png'),
+    edit_profile_icon: require('../assets/images/edit-profile-icon/edit-profile-icon.png'),
 
     bottom_tab_icon: {
       conttent_icon: require('../assets/images/bottom-tab-icons/conttent-icon/content-icon.png'),

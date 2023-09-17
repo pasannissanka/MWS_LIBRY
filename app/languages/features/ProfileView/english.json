@@ -55,6 +55,24 @@
                 "description": "Please enter a new password other than your current one.",
                 "button": "OK"
             }
+        },
+        "EmailChangeConfirmationScreen": {
+            "screenTitle": "Change Email",
+            "headerRightButton": "Save",
+            "emailInputLabel": "New Email",
+            "emailInputPlaceholder": "Email",
+
+            "passwordChangingAlertOne": {
+                "title": "That’s not an email",
+                "description": "Please enter an email address with correct formatting.",
+                "button": "OK"
+            },
+
+            "passwordChangingAlertTwo": {
+                "title": "That’s not a new email",
+                "description": "Please enter a new email other than your current one.",
+                "button": "OK"
+            }
         }
     }
 }

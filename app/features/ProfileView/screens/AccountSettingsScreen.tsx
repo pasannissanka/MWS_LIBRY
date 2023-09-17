@@ -46,6 +46,7 @@ const AccountSettingsScreen = () => {
   const onPressOption2 = () => {
     if (isEmailVerified) {
       setVerifiyEmailAlertVisibility(false);
+      RootNavigation.navigate('EmailChangeConfirmation');
     } else {
       setVerifiyEmailAlertVisibility(true);
     }

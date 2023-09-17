@@ -21,6 +21,7 @@ import EnterUsernameScreen from '../features/AppAccess/screens/EnterUsernameScre
 import AccountSettingsScreen from '../features/ProfileView/screens/AccountSettingsScreen';
 import SettingsScreen from '../features/ProfileView/screens/SettingsScreen';
 import PasswordChangeConfirmation from '../features/ProfileView/screens/PasswordChangeConfirmation';
+import EmailChangeConfirmation from '../features/ProfileView/screens/EmailChangeConfirmation';
 
 const Stack = createStackNavigator();
 
@@ -84,6 +85,10 @@ const NavigationStack = (): React.JSX.Element => {
       <Stack.Screen
         name="PasswordChangeConfirmation"
         component={PasswordChangeConfirmation}
+      />
+      <Stack.Screen
+        name="EmailChangeConfirmation"
+        component={EmailChangeConfirmation}
       />
     </Stack.Navigator>
   );

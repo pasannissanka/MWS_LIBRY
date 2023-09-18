@@ -23,13 +23,14 @@ import SettingsScreen from '../features/ProfileView/screens/SettingsScreen';
 import PasswordChangeConfirmation from '../features/ProfileView/screens/PasswordChangeConfirmation';
 import EmailChangeConfirmation from '../features/ProfileView/screens/EmailChangeConfirmation';
 import EditProfileScreen from '../features/ProfileView/screens/EditProfileScreen';
+import EditLinksOrderScreen from '../features/ProfileView/screens/EditLinksOrderScreen';
 
 const Stack = createStackNavigator();
 
 const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName="SettingsScreen"
+      initialRouteName="EditLinksOrderScreen"
       screenOptions={{
         headerShown: false,
       }}>
@@ -92,6 +93,10 @@ const NavigationStack = (): React.JSX.Element => {
         component={EmailChangeConfirmation}
       />
       <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
+      <Stack.Screen
+        name="EditLinksOrderScreen"
+        component={EditLinksOrderScreen}
+      />
     </Stack.Navigator>
   );
 };

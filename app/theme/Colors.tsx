@@ -49,6 +49,7 @@ const Colors = {
   button: {
     ADD_BUTTON_GREEN: '#06D30F',
     ADDED_BUTTON_GRAY: '#303030',
+    GRAY: '#303030',
   },
 
   COMPONENTS_BACKGROUNDS: {

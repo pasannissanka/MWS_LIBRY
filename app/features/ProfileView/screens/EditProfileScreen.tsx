@@ -35,6 +35,11 @@ export default function EditProfileScreen() {
   const onPressBack = () => {
     RootNavigation.goBack();
   };
+
+  const onPressLinksRow = () => {
+    RootNavigation.navigate('EditLinksOrderScreen');
+  };
+
   const onPressSaveButton = () => {
     if (!username) {
       editProfileInfoAlert = {
@@ -108,7 +113,7 @@ export default function EditProfileScreen() {
           )}
 
           <View style={styles.optionRowContainer}>
-            <TouchableOpacity style={styles.row}>
+            <TouchableOpacity style={styles.row} onPress={onPressLinksRow}>
               <View style={styles.linkCountContainer}>
                 <Text style={styles.linkCount}>4</Text>
               </View>

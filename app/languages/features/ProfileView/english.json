@@ -95,5 +95,9 @@
                 "button": "OK"
             }
         },
+        "EditLinksOrderScreen": {
+            "screenTitle": "Links",
+            "addLink": "+ ADD LINK"
+        }
     }
 }

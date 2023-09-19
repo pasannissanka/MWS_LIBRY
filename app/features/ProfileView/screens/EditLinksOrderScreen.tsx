@@ -10,9 +10,9 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 import {Colors, Fonts} from '../../../theme';
 import Header from '../../../components/header/Header';
 import {useTranslation} from 'react-i18next';
-import PrimaryContainer from '../../../components/containers/PrimaryContainer';
+import EditLinkOrderDragableList from '../views/EditLinkOrderDraggableList';
 
-const EditLinksOrderScreen = () => {
+const EditLinkOrderDraggableList = () => {
   const {t} = useTranslation();
   const onPressBack = () => {
     RootNavigation.goBack();
@@ -31,20 +31,21 @@ const EditLinksOrderScreen = () => {
           onPressBack={onPressBack}
           title={t('profileView.EditLinksOrderScreen.screenTitle')}
         />
-
-        <PrimaryContainer style={styles.contentContainer}>
+        <View style={styles.contentContainer}>
           <TouchableOpacity style={styles.addLinkTouchable}>
             <Text style={styles.addLinkText}>
               {t('profileView.EditLinksOrderScreen.addLink')}
             </Text>
           </TouchableOpacity>
-        </PrimaryContainer>
+
+          <EditLinkOrderDragableList />
+        </View>
       </View>
     </>
   );
 };
 
-export default EditLinksOrderScreen;
+export default EditLinkOrderDraggableList;
 
 const styles = StyleSheet.create({
   parentView: {

@@ -22,6 +22,7 @@ const Images = {
     logout_icon: require('../assets/images/logout-icon/logout-icon.png'),
     info_icon: require('../assets/images/info-icon/info-icon.png'),
     edit_profile_icon: require('../assets/images/edit-profile-icon/edit-profile-icon.png'),
+    delete_icon: require('../assets/images/delete-icon/delete-icon.png'),
 
     bottom_tab_icon: {
       conttent_icon: require('../assets/images/bottom-tab-icons/conttent-icon/content-icon.png'),

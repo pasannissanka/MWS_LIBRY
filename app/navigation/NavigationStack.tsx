@@ -31,7 +31,7 @@ const Stack = createStackNavigator();
 const NavigationStack = (): React.JSX.Element => {
   return (
     <Stack.Navigator
-      initialRouteName="SettingsScreen"
+      initialRouteName="OpeningScreen"
       screenOptions={{
         headerShown: false,
       }}>

@@ -13,7 +13,7 @@ import {Colors, Fonts, Images} from '../../../theme';
 import Header from '../../../components/header/Header';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import {useTranslation} from 'react-i18next';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
 
 export default function EditProfileScreen() {
@@ -22,7 +22,13 @@ export default function EditProfileScreen() {
   const usernameRef = useRef<any>();
   const nameRef = useRef<any>();
   const bioRef = useRef<any>();
-  const profilePicAvailability = false;
+
+  const USER_PROFILE = useSelector(
+    (state: any) => state.appAccessReducer.userProfile,
+  );
+
+  const profilePicAvailability = USER_PROFILE.profilePicture ? true : false;
+  const numOfLinks = USER_PROFILE.links.length;
 
   let editProfileInfoAlert = {
     visible: false,
@@ -75,9 +81,9 @@ export default function EditProfileScreen() {
     dispatch(setAlertBoxVisibility(editProfileInfoAlert));
   };
 
-  const [username, onChangeUsername] = useState('hasitha96');
-  const [name, onChangeName] = useState('hasitha');
-  const [bio, onChangeBio] = useState('');
+  const [username, onChangeUsername] = useState(USER_PROFILE.username);
+  const [name, onChangeName] = useState(USER_PROFILE.name);
+  const [bio, onChangeBio] = useState(USER_PROFILE.description);
   return (
     <>
       <StatusBar
@@ -115,7 +121,7 @@ export default function EditProfileScreen() {
           <View style={styles.optionRowContainer}>
             <TouchableOpacity style={styles.row} onPress={onPressLinksRow}>
               <View style={styles.linkCountContainer}>
-                <Text style={styles.linkCount}>4</Text>
+                <Text style={styles.linkCount}>{numOfLinks}</Text>
               </View>
 
               <Text style={styles.linksText}>

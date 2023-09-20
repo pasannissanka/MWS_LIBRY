@@ -98,6 +98,13 @@
         "EditLinksOrderScreen": {
             "screenTitle": "Links",
             "addLink": "+ ADD LINK"
+        },
+        "EditAddLinkScreen": {
+            "addLinkScreenTitle": "Add Link",
+            "editLinkScreenTitle": "Edit Link",
+            "headerRightButton": "Done",
+            "nameInputLabel": "Name",
+            "urlInputLabel": "URL"
         }
     }
 }

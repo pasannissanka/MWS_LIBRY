@@ -4,26 +4,37 @@ import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 import {Colors, Images} from '../../../theme';
+import * as RootNavigation from '../../../navigation/RootNavigation';
 
 type ItemRowProps = PropsWithChildren<{
-  item: string;
+  item: {name: string; url: string};
   drag: any;
   isActive: boolean;
 }>;
 const EditLinkOrderDraggableList = () => {
   const initialData = [
-    'Productivity Planner: 18 Ways',
-    'Productivity Planner: 18 Ways',
-    'Productivity Planner: 18 Ways',
-    'Productivity Planner: 18 Ways',
+    {name: 'Productivity Planner: 18 Ways', url: 'www.google.com'},
+    {name: 'Productivity Planner: 18 Ways', url: 'www.google.com'},
+    {name: 'Productivity Planner: 18 Ways', url: 'www.google.com'},
+    {name: 'Productivity Planner: 18 Ways', url: 'www.google.com'},
   ];
   const [data, setData] = useState(initialData);
+
+  const onPressItem = (item: {name: string; url: string}) => {
+    RootNavigation.navigate('EditAddLinkScreen', item);
+  };
 
   const renderItem: React.FC<ItemRowProps> = ({item, drag, isActive}) => {
     return (
       <ScaleDecorator>
         <View style={styles.row}>
-          <Text style={styles.text}>{item}</Text>
+          <Text
+            style={styles.text}
+            onPress={() => {
+              onPressItem(item);
+            }}>
+            {item.name}
+          </Text>
           <TouchableOpacity
             onLongPress={drag}
             disabled={isActive}

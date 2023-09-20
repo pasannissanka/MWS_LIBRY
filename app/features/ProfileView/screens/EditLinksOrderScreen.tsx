@@ -14,9 +14,15 @@ import EditLinkOrderDragableList from '../views/EditLinkOrderDraggableList';
 
 const EditLinkOrderDraggableList = () => {
   const {t} = useTranslation();
+
   const onPressBack = () => {
     RootNavigation.goBack();
   };
+
+  const onPressAddLink = () => {
+    RootNavigation.navigate('EditAddLinkScreen');
+  };
+
   return (
     <>
       <StatusBar
@@ -32,7 +38,9 @@ const EditLinkOrderDraggableList = () => {
           title={t('profileView.EditLinksOrderScreen.screenTitle')}
         />
         <View style={styles.contentContainer}>
-          <TouchableOpacity style={styles.addLinkTouchable}>
+          <TouchableOpacity
+            style={styles.addLinkTouchable}
+            onPress={onPressAddLink}>
             <Text style={styles.addLinkText}>
               {t('profileView.EditLinksOrderScreen.addLink')}
             </Text>

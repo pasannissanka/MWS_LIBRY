@@ -1,29 +1,51 @@
-import React, {PropsWithChildren, useState} from 'react';
+import React, {PropsWithChildren, useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import DraggableFlatList, {
   ScaleDecorator,
 } from 'react-native-draggable-flatlist';
 import {Colors, Images} from '../../../theme';
 import * as RootNavigation from '../../../navigation/RootNavigation';
+import {useDispatch, useSelector} from 'react-redux';
+import {getDeleteLinkResponse} from '../redux/action/action';
 
 type ItemRowProps = PropsWithChildren<{
-  item: {name: string; url: string};
+  item: {id: string; url: string; title: string; createdAt: string};
   drag: any;
   isActive: boolean;
 }>;
 const EditLinkOrderDraggableList = () => {
-  const initialData = [
-    {name: 'Productivity Planner: 18 Ways', url: 'www.google.com'},
-    {name: 'Productivity Planner: 18 Ways', url: 'www.google.com'},
-    {name: 'Productivity Planner: 18 Ways', url: 'www.google.com'},
-    {name: 'Productivity Planner: 18 Ways', url: 'www.google.com'},
-  ];
+  const dispatch = useDispatch();
+  const USER_PROFILE = useSelector(
+    (state: any) => state.appAccessReducer.userProfile,
+  );
+
+  const initialData: [
+    {
+      id: string;
+      url: string;
+      title: string;
+      createdAt: string;
+    },
+  ] = USER_PROFILE.links;
   const [data, setData] = useState(initialData);
 
-  const onPressItem = (item: {name: string; url: string}) => {
+  const onPressItem = (item: {
+    id: string;
+    url: string;
+    title: string;
+    createdAt: string;
+  }) => {
     RootNavigation.navigate('EditAddLinkScreen', item);
   };
 
+  const onPressDelete = (item: {
+    id: string;
+    url: string;
+    title: string;
+    createdAt: string;
+  }) => {
+    dispatch(getDeleteLinkResponse(item.id));
+  };
   const renderItem: React.FC<ItemRowProps> = ({item, drag, isActive}) => {
     return (
       <ScaleDecorator>
@@ -33,7 +55,7 @@ const EditLinkOrderDraggableList = () => {
             onPress={() => {
               onPressItem(item);
             }}>
-            {item.name}
+            {item.title}
           </Text>
           <TouchableOpacity
             onLongPress={drag}
@@ -45,7 +67,10 @@ const EditLinkOrderDraggableList = () => {
               source={Images.icons.hamburger_icons}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              onPressDelete(item);
+            }}>
             <Image
               source={Images.icons.delete_icon}
               resizeMode="contain"

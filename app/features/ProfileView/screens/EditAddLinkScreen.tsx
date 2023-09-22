@@ -6,6 +6,9 @@ import Header from '../../../components/header/Header';
 import {useTranslation} from 'react-i18next';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import {TextInput} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import {getAddLinkResponse} from '../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 type RouteParams = PropsWithChildren<{
   name: string;
@@ -18,16 +21,29 @@ const EditAddLinkScreen: React.FC<{route: {params: RouteParams}}> = ({
   const {t} = useTranslation();
   const nameRef = useRef<any>();
   const urlRef = useRef<any>();
+  const dispatch = useDispatch();
   const item = route.params;
 
   const [name, onChangeName] = useState(item && item.name ? item.name : '');
   const [url, onChangeUrl] = useState(item && item.url ? item.url : '');
 
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
+
   const onPressBack = () => {
     RootNavigation.goBack();
   };
 
-  const onPressDoneButton = () => {};
+  const onPressDoneButton = async () => {
+    if (name && url) {
+      const requestBody = {
+        title: name,
+        url: url,
+      };
+      dispatch(getAddLinkResponse(requestBody));
+    }
+  };
 
   useEffect(() => {
     if (!item) {
@@ -42,49 +58,55 @@ const EditAddLinkScreen: React.FC<{route: {params: RouteParams}}> = ({
         backgroundColor={Colors.SCREEN_PRIMARY_BACKGROUND_COLOR}
         barStyle={'default'}
       />
-      <View style={styles.parentView}>
-        <Header
-          style={styles.header}
-          onPressBack={onPressBack}
-          title={
-            item
-              ? t('profileView.EditAddLinkScreen.editLinkScreenTitle')
-              : t('profileView.EditAddLinkScreen.addLinkScreenTitle')
-          }
-          rightButton={t('profileView.EditAddLinkScreen.headerRightButton')}
-          onPressRightButton={onPressDoneButton}
-        />
+      {EndPointErrorVisibility ? (
+        <View style={styles.endPointErrorViewContainer}>
+          <EndPointError onPressBack={onPressBack} />
+        </View>
+      ) : (
+        <View style={styles.parentView}>
+          <Header
+            style={styles.header}
+            onPressBack={onPressBack}
+            title={
+              item
+                ? t('profileView.EditAddLinkScreen.editLinkScreenTitle')
+                : t('profileView.EditAddLinkScreen.addLinkScreenTitle')
+            }
+            rightButton={t('profileView.EditAddLinkScreen.headerRightButton')}
+            onPressRightButton={onPressDoneButton}
+          />
 
-        <PrimaryContainer style={styles.contentContainer}>
-          <View style={styles.confirmationContainer}>
-            <View style={styles.row}>
-              <Text style={styles.text}>
-                {t('profileView.EditAddLinkScreen.nameInputLabel')}
-              </Text>
-              <TextInput
-                ref={nameRef}
-                style={styles.textInput}
-                placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
-                value={name}
-                onChangeText={onChangeName}
-              />
-            </View>
+          <PrimaryContainer style={styles.contentContainer}>
+            <View style={styles.confirmationContainer}>
+              <View style={styles.row}>
+                <Text style={styles.text}>
+                  {t('profileView.EditAddLinkScreen.nameInputLabel')}
+                </Text>
+                <TextInput
+                  ref={nameRef}
+                  style={styles.textInput}
+                  placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
+                  value={name}
+                  onChangeText={onChangeName}
+                />
+              </View>
 
-            <View style={styles.row}>
-              <Text style={styles.text}>
-                {t('profileView.EditAddLinkScreen.urlInputLabel')}
-              </Text>
-              <TextInput
-                ref={urlRef}
-                style={styles.textInput}
-                placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
-                value={url}
-                onChangeText={onChangeUrl}
-              />
+              <View style={styles.row}>
+                <Text style={styles.text}>
+                  {t('profileView.EditAddLinkScreen.urlInputLabel')}
+                </Text>
+                <TextInput
+                  ref={urlRef}
+                  style={styles.textInput}
+                  placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
+                  value={url}
+                  onChangeText={onChangeUrl}
+                />
+              </View>
             </View>
-          </View>
-        </PrimaryContainer>
-      </View>
+          </PrimaryContainer>
+        </View>
+      )}
     </>
   );
 };
@@ -95,6 +117,11 @@ const styles = StyleSheet.create({
   parentView: {
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
+  },
+  endPointErrorViewContainer: {
+    flex: 1,
+    ackgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
+    padding: 15,
   },
   header: {
     marginTop: 10,

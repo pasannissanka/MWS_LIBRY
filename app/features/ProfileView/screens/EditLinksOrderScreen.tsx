@@ -11,9 +11,14 @@ import {Colors, Fonts} from '../../../theme';
 import Header from '../../../components/header/Header';
 import {useTranslation} from 'react-i18next';
 import EditLinkOrderDragableList from '../views/EditLinkOrderDraggableList';
+import {useSelector} from 'react-redux';
+import EndPointError from '../../../components/views/EndPointError';
 
-const EditLinkOrderDraggableList = () => {
+const EditLinksOrderScreen = () => {
   const {t} = useTranslation();
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
 
   const onPressBack = () => {
     RootNavigation.goBack();
@@ -38,33 +43,45 @@ const EditLinkOrderDraggableList = () => {
           title={t('profileView.EditLinksOrderScreen.screenTitle')}
         />
         <View style={styles.contentContainer}>
-          <TouchableOpacity
-            style={styles.addLinkTouchable}
-            onPress={onPressAddLink}>
-            <Text style={styles.addLinkText}>
-              {t('profileView.EditLinksOrderScreen.addLink')}
-            </Text>
-          </TouchableOpacity>
+          {EndPointErrorVisibility ? (
+            <View style={styles.endPointErrorViewContainer}>
+              <EndPointError onPressBack={onPressBack} />
+            </View>
+          ) : (
+            <>
+              <TouchableOpacity
+                style={styles.addLinkTouchable}
+                onPress={onPressAddLink}>
+                <Text style={styles.addLinkText}>
+                  {t('profileView.EditLinksOrderScreen.addLink')}
+                </Text>
+              </TouchableOpacity>
 
-          <EditLinkOrderDragableList />
+              <EditLinkOrderDragableList />
+            </>
+          )}
         </View>
       </View>
     </>
   );
 };
 
-export default EditLinkOrderDraggableList;
+export default EditLinksOrderScreen;
 
 const styles = StyleSheet.create({
   parentView: {
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
+  endPointErrorViewContainer: {
+    flex: 1,
+  },
   header: {
     marginTop: 10,
     paddingHorizontal: 15,
   },
   contentContainer: {
+    flex: 1,
     padding: 15,
   },
   addLinkTouchable: {

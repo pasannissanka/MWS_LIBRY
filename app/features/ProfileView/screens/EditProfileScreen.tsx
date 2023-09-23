@@ -8,13 +8,14 @@ import {
   View,
 } from 'react-native';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Colors, Fonts, Images} from '../../../theme';
 import Header from '../../../components/header/Header';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
+import {getUserInfoUpdateResponse} from '../redux/action/action';
 
 export default function EditProfileScreen() {
   const {t} = useTranslation();
@@ -26,7 +27,9 @@ export default function EditProfileScreen() {
   const USER_PROFILE = useSelector(
     (state: any) => state.appAccessReducer.userProfile,
   );
-
+  const SpinnerVisibility = useSelector(
+    (state: any) => state.commonReducer.spinnerVisibility,
+  );
   const profilePicAvailability = USER_PROFILE.profilePicture ? true : false;
   const numOfLinks = USER_PROFILE.links.length;
 
@@ -46,7 +49,25 @@ export default function EditProfileScreen() {
     RootNavigation.navigate('EditLinksOrderScreen');
   };
 
-  const onPressSaveButton = () => {
+  const onPressSaveButton = async () => {
+    const requestBody = {
+      name: name,
+      description: bio,
+      username: username,
+    };
+
+    if (name === USER_PROFILE.name) {
+      delete requestBody.name;
+    }
+
+    if (bio === USER_PROFILE.description) {
+      delete requestBody.description;
+    }
+
+    if (username === USER_PROFILE.username) {
+      delete requestBody.username;
+    }
+
     if (!username) {
       editProfileInfoAlert = {
         visible: true,
@@ -74,6 +95,11 @@ export default function EditProfileScreen() {
       };
       showAlert();
     } else {
+      const payload = {
+        requestBody: requestBody,
+        translation: t,
+      };
+      dispatch(getUserInfoUpdateResponse(payload));
     }
   };
 
@@ -84,6 +110,14 @@ export default function EditProfileScreen() {
   const [username, onChangeUsername] = useState(USER_PROFILE.username);
   const [name, onChangeName] = useState(USER_PROFILE.name);
   const [bio, onChangeBio] = useState(USER_PROFILE.description);
+
+  const saveButtonVisibility =
+    name !== USER_PROFILE.name ||
+    bio !== USER_PROFILE.description ||
+    username !== USER_PROFILE.username;
+
+  useEffect(() => {}, [SpinnerVisibility]);
+
   return (
     <>
       <StatusBar
@@ -97,7 +131,11 @@ export default function EditProfileScreen() {
           style={styles.header}
           onPressBack={onPressBack}
           title={t('profileView.EditProfileScreen.screenTitle')}
-          rightButton={t('profileView.EditProfileScreen.headerRightButton')}
+          rightButton={
+            saveButtonVisibility
+              ? t('profileView.EditProfileScreen.headerRightButton')
+              : null
+          }
           onPressRightButton={onPressSaveButton}
         />
 

@@ -31,3 +31,13 @@ export function fetchEditLinkResponse(token: string, id: string, body: object) {
     body,
   );
 }
+
+export function fetchUpdateUserInfoResponse(token: string, body: object) {
+  return callService(
+    Env.BASE_URL,
+    ProfileViewEndPoints.UPDATE_PROFILE_INFO,
+    'POST',
+    token,
+    body,
+  );
+}

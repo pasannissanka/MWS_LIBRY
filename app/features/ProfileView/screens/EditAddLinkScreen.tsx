@@ -7,24 +7,27 @@ import {useTranslation} from 'react-i18next';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import {TextInput} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
-import {getAddLinkResponse} from '../redux/action/action';
+import {getAddLinkResponse, getEditLinkResponse} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 
 type RouteParams = PropsWithChildren<{
-  name: string;
+  id: string;
   url: string;
+  title: string;
+  createdAt: string;
+  order: number;
 }>;
 
 const EditAddLinkScreen: React.FC<{route: {params: RouteParams}}> = ({
   route,
 }) => {
   const {t} = useTranslation();
-  const nameRef = useRef<any>();
+  const titleRef = useRef<any>();
   const urlRef = useRef<any>();
   const dispatch = useDispatch();
   const item = route.params;
 
-  const [name, onChangeName] = useState(item && item.name ? item.name : '');
+  const [title, onChangeName] = useState(item && item.title ? item.title : '');
   const [url, onChangeUrl] = useState(item && item.url ? item.url : '');
 
   const EndPointErrorVisibility = useSelector(
@@ -35,19 +38,30 @@ const EditAddLinkScreen: React.FC<{route: {params: RouteParams}}> = ({
     RootNavigation.goBack();
   };
 
-  const onPressDoneButton = async () => {
-    if (name && url) {
-      const requestBody = {
-        title: name,
-        url: url,
-      };
-      dispatch(getAddLinkResponse(requestBody));
+  const onPressDoneButton = () => {
+    const requestBody = {
+      title: title,
+      url: url,
+    };
+    const id = item && item.id ? item.id : '';
+
+    if (title && url) {
+      if (item) {
+        const payload = {
+          requestBody: requestBody,
+          id: id,
+        };
+
+        dispatch(getEditLinkResponse(payload));
+      } else {
+        dispatch(getAddLinkResponse(requestBody));
+      }
     }
   };
 
   useEffect(() => {
     if (!item) {
-      nameRef.current.focus();
+      titleRef.current.focus();
     }
   }, []);
 
@@ -83,10 +97,10 @@ const EditAddLinkScreen: React.FC<{route: {params: RouteParams}}> = ({
                   {t('profileView.EditAddLinkScreen.nameInputLabel')}
                 </Text>
                 <TextInput
-                  ref={nameRef}
+                  ref={titleRef}
                   style={styles.textInput}
                   placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
-                  value={name}
+                  value={title}
                   onChangeText={onChangeName}
                 />
               </View>

@@ -5,7 +5,7 @@ import ProfileViewEndPoints from '../../constants/ServiceEndPoints/ProfileViewEn
 export function fetchAddLinkResponse(token: string, body: object) {
   return callService(
     Env.BASE_URL,
-    ProfileViewEndPoints.ADD_LINK,
+    ProfileViewEndPoints.LINK,
     'POST',
     token,
     body,
@@ -15,9 +15,19 @@ export function fetchAddLinkResponse(token: string, body: object) {
 export function fetchDeleteLinkResponse(token: string, id: string) {
   return callService(
     Env.BASE_URL,
-    `${ProfileViewEndPoints.DELETE_LINK}${id}`,
+    `${ProfileViewEndPoints.LINK}${id}`,
     'DELETE',
     token,
     null,
+  );
+}
+
+export function fetchEditLinkResponse(token: string, id: string, body: object) {
+  return callService(
+    Env.BASE_URL,
+    `${ProfileViewEndPoints.LINK}${id}`,
+    'POST',
+    token,
+    body,
   );
 }

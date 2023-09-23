@@ -84,14 +84,7 @@ const initialState = {
     phone_number_verified: false,
     followers: [],
     following: [],
-    links: [
-      {
-        id: '',
-        url: '',
-        title: '',
-        createdAt: '',
-      },
-    ],
+    links: [],
     profilePicture: {},
     followersCount: 0,
     followingCount: 0,

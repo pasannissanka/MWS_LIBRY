@@ -1,9 +1,9 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {PropsWithChildren} from 'react';
 import {Colors, Fonts, Images} from '../../../theme';
-import {UpdateDetailsAlertType} from '../interfaces/ProfileInfoInterfaces';
 import Collapsible from 'react-native-collapsible';
 import {useTranslation} from 'react-i18next';
+import {UpdateDetailsAlertType} from '../interfaces';
 
 type UpdateDetailsAlertProps = PropsWithChildren<{
   alertType: UpdateDetailsAlertType;

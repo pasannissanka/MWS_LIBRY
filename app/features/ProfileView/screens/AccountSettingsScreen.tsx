@@ -14,10 +14,10 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import OptionCard from '../views/OptionCard';
 import UpdateDetailsAlert from '../components/UpdateDetailsAlert';
-import {UpdateDetailsAlertType} from '../interfaces/ProfileInfoInterfaces';
 import Collapsible from 'react-native-collapsible';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
+import {UpdateDetailsAlertType} from '../interfaces';
 
 const AccountSettingsScreen = () => {
   const {t} = useTranslation();

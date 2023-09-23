@@ -1,1 +1,2 @@
-export * from './UpdateDetailsAlertType'
+export * from './UpdateDetailsAlertType';
+export * from './UserProfileAttribute';

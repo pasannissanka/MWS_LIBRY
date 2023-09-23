@@ -8,8 +8,9 @@ import {
   fetchDeleteLinkResponse,
 } from '../../../services/ProfileView/ProfileView';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import {AccessToken} from '../redux/selectors';
+import {AccessToken, UserProfile} from '../redux/selectors';
 import {setUserProfile} from '../../AppAccess/redux/action/action';
+import {UserProfileAttribute} from '../interfaces';
 
 //GET ADD LINK RESPONSE
 export function* addLink(action: any) {
@@ -21,35 +22,23 @@ export function* addLink(action: any) {
     const raw_response: {
       status: 'ERROR' | 'SUCCESS';
       message: string;
-      data: {
-        id: string;
-        email: string;
-        username: string;
-        phone_number: string;
-        description: string;
-        name: string;
-        birth_date: string;
-        userConfirmed: boolean;
-        email_verified: boolean;
-        phone_number_verified: boolean;
-        followers: [];
-        following: [];
-        links: [
-          {
-            id: string;
-            url: string;
-            title: string;
-            createdAt: string;
-          },
-        ];
-        profilePicture: {};
-        followersCount: 0;
-        followingCount: 0;
-      };
+      data: [
+        {
+          id: string;
+          url: string;
+          title: string;
+          createdAt: string;
+          order: number;
+        },
+      ];
     } = yield call(fetchAddLinkResponse, access_token, requestBody);
     if (raw_response.status === 'SUCCESS') {
-      yield put(setUserProfile(raw_response.data));
-      RootNavigation.goBack();
+      const UpdatedUserProfile: UserProfileAttribute = yield select(
+        UserProfile,
+      );
+      UpdatedUserProfile.links = raw_response.data;
+      yield put(setUserProfile(UpdatedUserProfile));
+      RootNavigation.navigate('EditLinksOrderScreen');
     } else {
     }
     yield put(setSpinnerVisible(false));
@@ -61,7 +50,7 @@ export function* addLink(action: any) {
   }
 }
 
-//GET ADD LINK RESPONSE
+//GET DELETE LINK RESPONSE
 export function* deleteLink(action: any) {
   const id = action.payload;
   const access_token: string = yield select(AccessToken);
@@ -71,34 +60,23 @@ export function* deleteLink(action: any) {
     const raw_response: {
       status: 'ERROR' | 'SUCCESS';
       message: string;
-      data: {
-        id: string;
-        email: string;
-        username: string;
-        phone_number: string;
-        description: string;
-        name: string;
-        birth_date: string;
-        userConfirmed: boolean;
-        email_verified: boolean;
-        phone_number_verified: boolean;
-        followers: [];
-        following: [];
-        links: [
-          {
-            id: string;
-            url: string;
-            title: string;
-            createdAt: string;
-          },
-        ];
-        profilePicture: {};
-        followersCount: 0;
-        followingCount: 0;
-      };
+      data: [
+        {
+          id: string;
+          url: string;
+          title: string;
+          createdAt: string;
+          order: number;
+        },
+      ];
     } = yield call(fetchDeleteLinkResponse, access_token, id);
     if (raw_response.status === 'SUCCESS') {
-      yield put(setUserProfile(raw_response.data));
+      const UpdatedUserProfile: UserProfileAttribute = yield select(
+        UserProfile,
+      );
+      UpdatedUserProfile.links = raw_response.data;
+      yield put(setUserProfile(UpdatedUserProfile));
+      //RootNavigation.replace('EditLinksOrderScreen');
     } else {
     }
     yield put(setSpinnerVisible(false));

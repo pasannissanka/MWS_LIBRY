@@ -17,6 +17,12 @@ export function navigate(name: string, params?: object | undefined) {
   }
 }
 
+export function pop() {
+  if (navigationRef.isReady()) {
+    navigationRef.dispatch(StackActions.pop(1));
+  }
+}
+
 export function goBack() {
   if (navigationRef.isReady()) {
     navigationRef.goBack();

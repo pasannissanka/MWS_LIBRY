@@ -15,7 +15,7 @@ type ItemRowProps = PropsWithChildren<{
 }>;
 const EditLinkOrderDraggableList = () => {
   const dispatch = useDispatch();
-  const USER_PROFILE = useSelector(
+  let USER_PROFILE = useSelector(
     (state: any) => state.appAccessReducer.userProfile,
   );
 
@@ -89,6 +89,7 @@ const EditLinkOrderDraggableList = () => {
       keyExtractor={(item, index) => index.toString()}
       renderItem={renderItem}
       style={styles.draggableList}
+      showsVerticalScrollIndicator={false}
     />
   );
 };

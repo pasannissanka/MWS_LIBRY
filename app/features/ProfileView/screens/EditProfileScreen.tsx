@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
 import {getUserInfoUpdateResponse} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export default function EditProfileScreen() {
   const {t} = useTranslation();
@@ -112,6 +113,16 @@ export default function EditProfileScreen() {
     dispatch(setAlertBoxVisibility(editProfileInfoAlert));
   };
 
+  const addProfileImage = () => {
+    ImagePicker.openPicker({
+      width: 320,
+      height: 320,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+    });
+  };
+
   const [username, onChangeUsername] = useState(USER_PROFILE.username);
   const [name, onChangeName] = useState(USER_PROFILE.name);
   const [bio, onChangeBio] = useState(USER_PROFILE.description);
@@ -149,7 +160,9 @@ export default function EditProfileScreen() {
           />
 
           <PrimaryContainer style={styles.contentContainer}>
-            <TouchableOpacity style={styles.profileImageTouchable}>
+            <TouchableOpacity
+              style={styles.profileImageTouchable}
+              onPress={addProfileImage}>
               <Image
                 style={styles.profileImage}
                 resizeMode="contain"
@@ -166,21 +179,25 @@ export default function EditProfileScreen() {
             )}
 
             <View style={styles.optionRowContainer}>
-              <TouchableOpacity style={styles.row} onPress={onPressLinksRow}>
-                <View style={styles.linkCountContainer}>
-                  <Text style={styles.linkCount}>{numOfLinks}</Text>
-                </View>
+              <View style={styles.row}>
+                <TouchableOpacity
+                  style={styles.linkRowTouchable}
+                  onPress={onPressLinksRow}>
+                  <View style={styles.linkCountContainer}>
+                    <Text style={styles.linkCount}>{numOfLinks}</Text>
+                  </View>
 
-                <Text style={styles.linksText}>
-                  {t('profileView.EditProfileScreen.links')}
-                </Text>
+                  <Text style={styles.linksText}>
+                    {t('profileView.EditProfileScreen.links')}
+                  </Text>
 
-                <Image
-                  source={Images.icons.right_arrow}
-                  resizeMode="contain"
-                  style={styles.rightArrow}
-                />
-              </TouchableOpacity>
+                  <Image
+                    source={Images.icons.right_arrow}
+                    resizeMode="contain"
+                    style={styles.rightArrow}
+                  />
+                </TouchableOpacity>
+              </View>
 
               <View style={styles.row}>
                 <Text style={styles.textInputLabel}>
@@ -282,9 +299,15 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    borderTopWidth: 0.35,
+    borderTopWidth: 0.5,
     padding: 16,
     borderTopColor: Colors.LINE_BRAKER_COLOR,
+  },
+  linkRowTouchable: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   linkCountContainer: {
     minWidth: 24,

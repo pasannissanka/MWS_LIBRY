@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {PropsWithChildren, useEffect, useState} from 'react';
 import {Colors, Fonts, Images} from '../../../theme';
 import Header from '../../../components/header/Header';
 import {useTranslation} from 'react-i18next';
@@ -18,8 +18,16 @@ import Collapsible from 'react-native-collapsible';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
 import {UpdateDetailsAlertType} from '../interfaces';
+import { useFocusEffect } from '@react-navigation/native';
 
-const AccountSettingsScreen = () => {
+
+type RouteParams = PropsWithChildren<{
+  alertType: UpdateDetailsAlertType;
+}>;
+
+const AccountSettingsScreen: React.FC<{route: {params: RouteParams}}> = ({
+  route,
+}) => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const USER_PROFILE = useSelector(
@@ -32,14 +40,21 @@ const AccountSettingsScreen = () => {
     RootNavigation.goBack();
   };
 
-  const [alertType, setAlertType] =
-    useState<UpdateDetailsAlertType>('passwordUpdated');
+  const [alertType, setAlertType] = useState<UpdateDetailsAlertType>('none');
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAlertType('none');
-    }, 5000);
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      setAlertType(
+        route.params && route.params.alertType
+          ? route.params.alertType
+          : 'none',
+      );
+      setTimeout(() => {
+        setAlertType('none');
+      }, 5000);
+    }, [route.params]),
+  );
+
   const onPressOption1 = () => {
     RootNavigation.navigate('PasswordChangeConfirmation');
   };

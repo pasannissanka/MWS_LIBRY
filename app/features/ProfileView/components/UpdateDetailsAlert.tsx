@@ -28,16 +28,20 @@ const UpdateDetailsAlert: React.FC<UpdateDetailsAlertProps> = ({alertType}) => {
       : '';
 
   return (
-    <Collapsible style={styles.container} collapsed={alertType === 'none'}>
-      <View style={styles.iconContainer}>
-        <Image
-          source={Images.icons.tick_white_icon}
-          resizeMode="contain"
-          style={styles.icon}
-        />
-      </View>
-      <Text style={styles.description}>{AlertDescription}</Text>
-    </Collapsible>
+    <>
+      {alertType !== 'none' && (
+        <View style={styles.container}>
+          <View style={styles.iconContainer}>
+            <Image
+              source={Images.icons.tick_white_icon}
+              resizeMode="contain"
+              style={styles.icon}
+            />
+          </View>
+          <Text style={styles.description}>{AlertDescription}</Text>
+        </View>
+      )}
+    </>
   );
 };
 

@@ -218,6 +218,9 @@ export function* changeEmail(action: any) {
 
     if (raw_response.status === 'SUCCESS') {
       yield put(setUserProfile({...currentUserInfo, ...raw_response.data}));
+      RootNavigation.navigate('AccountSettingsScreen', {
+        alertType: 'emailUpdated',
+      });
     } else {
       if (raw_response.message === 'EMAIL_TAKEN') {
         const emailChangingAlert = {

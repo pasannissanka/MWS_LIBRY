@@ -20,6 +20,7 @@ import {UserProfileAttribute} from '../interfaces';
 export function* addLink(action: any) {
   const requestBody = action.payload;
   const access_token: string = yield select(AccessToken);
+  const currentUserInfo: UserProfileAttribute = yield select(UserProfile);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -37,11 +38,9 @@ export function* addLink(action: any) {
       ];
     } = yield call(fetchAddLinkResponse, access_token, requestBody);
     if (raw_response.status === 'SUCCESS') {
-      const UpdatedUserProfile: UserProfileAttribute = yield select(
-        UserProfile,
+      yield put(
+        setUserProfile({...currentUserInfo, ...{links: raw_response.data}}),
       );
-      UpdatedUserProfile.links = raw_response.data;
-      yield put(setUserProfile(UpdatedUserProfile));
       RootNavigation.navigate('EditLinksOrderScreen');
     } else {
     }
@@ -58,6 +57,7 @@ export function* addLink(action: any) {
 export function* deleteLink(action: any) {
   const id = action.payload;
   const access_token: string = yield select(AccessToken);
+  const currentUserInfo: UserProfileAttribute = yield select(UserProfile);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -75,11 +75,9 @@ export function* deleteLink(action: any) {
       ];
     } = yield call(fetchDeleteLinkResponse, access_token, id);
     if (raw_response.status === 'SUCCESS') {
-      const UpdatedUserProfile: UserProfileAttribute = yield select(
-        UserProfile,
+      yield put(
+        setUserProfile({...currentUserInfo, ...{links: raw_response.data}}),
       );
-      UpdatedUserProfile.links = raw_response.data;
-      yield put(setUserProfile(UpdatedUserProfile));
       //RootNavigation.replace('EditLinksOrderScreen');
     } else {
     }
@@ -97,6 +95,7 @@ export function* editLink(action: any) {
   const id = action.payload.id;
   const requestBody = action.payload.requestBody;
   const access_token: string = yield select(AccessToken);
+  const currentUserInfo: UserProfileAttribute = yield select(UserProfile);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -114,11 +113,9 @@ export function* editLink(action: any) {
       ];
     } = yield call(fetchEditLinkResponse, access_token, id, requestBody);
     if (raw_response.status === 'SUCCESS') {
-      const UpdatedUserProfile: UserProfileAttribute = yield select(
-        UserProfile,
+      yield put(
+        setUserProfile({...currentUserInfo, ...{links: raw_response.data}}),
       );
-      UpdatedUserProfile.links = raw_response.data;
-      yield put(setUserProfile(UpdatedUserProfile));
       RootNavigation.navigate('EditLinksOrderScreen');
     } else {
     }
@@ -136,6 +133,7 @@ export function* updateUserInfo(action: any) {
   const requestBody = action.payload.requestBody;
   const t = action.payload.translation;
   const access_token: string = yield select(AccessToken);
+  const currentUserInfo: UserProfileAttribute = yield select(UserProfile);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -160,15 +158,7 @@ export function* updateUserInfo(action: any) {
     } = yield call(fetchUpdateUserInfoResponse, access_token, requestBody);
 
     if (raw_response.status === 'SUCCESS') {
-      const UpdatedUserProfile: UserProfileAttribute = yield select(
-        UserProfile,
-      );
-
-      UpdatedUserProfile.username = raw_response.data.username;
-      UpdatedUserProfile.name = raw_response.data.name;
-      UpdatedUserProfile.description = raw_response.data.description;
-
-      yield put(setUserProfile(UpdatedUserProfile));
+      yield put(setUserProfile({...currentUserInfo, ...raw_response.data}));
     } else {
       if (raw_response.message === 'USERNAME_ALREADY_EXISTS') {
         const editProfileInfoAlert = {
@@ -197,11 +187,12 @@ export function* updateUserInfo(action: any) {
   }
 }
 
-//GET UPDATE USER INFO RESPONSE
+//GET CHANGE EMAIL RESPONSE
 export function* changeEmail(action: any) {
   const requestBody = action.payload.requestBody;
   const t = action.payload.translation;
   const access_token: string = yield select(AccessToken);
+  const currentUserInfo: UserProfileAttribute = yield select(UserProfile);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -226,13 +217,7 @@ export function* changeEmail(action: any) {
     } = yield call(fetchEmailChangeResponse, access_token, requestBody);
 
     if (raw_response.status === 'SUCCESS') {
-      const UpdatedUserProfile: UserProfileAttribute = yield select(
-        UserProfile,
-      );
-
-      UpdatedUserProfile.email = raw_response.data.email;
-
-      yield put(setUserProfile(UpdatedUserProfile));
+      yield put(setUserProfile({...currentUserInfo, ...raw_response.data}));
     } else {
       if (raw_response.message === 'EMAIL_TAKEN') {
         const emailChangingAlert = {

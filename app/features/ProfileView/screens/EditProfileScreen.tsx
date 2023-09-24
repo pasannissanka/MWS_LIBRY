@@ -16,6 +16,7 @@ import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
 import {getUserInfoUpdateResponse} from '../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 export default function EditProfileScreen() {
   const {t} = useTranslation();
@@ -30,6 +31,10 @@ export default function EditProfileScreen() {
   const SpinnerVisibility = useSelector(
     (state: any) => state.commonReducer.spinnerVisibility,
   );
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
+
   const profilePicAvailability = USER_PROFILE.profilePicture ? true : false;
   const numOfLinks = USER_PROFILE.links.length;
 
@@ -125,95 +130,100 @@ export default function EditProfileScreen() {
         backgroundColor={Colors.SCREEN_PRIMARY_BACKGROUND_COLOR}
         barStyle={'default'}
       />
+      {EndPointErrorVisibility ? (
+        <View style={styles.endPointErrorViewContainer}>
+          <EndPointError onPressBack={onPressBack} />
+        </View>
+      ) : (
+        <View style={styles.parentView}>
+          <Header
+            style={styles.header}
+            onPressBack={onPressBack}
+            title={t('profileView.EditProfileScreen.screenTitle')}
+            rightButton={
+              saveButtonVisibility
+                ? t('profileView.EditProfileScreen.headerRightButton')
+                : null
+            }
+            onPressRightButton={onPressSaveButton}
+          />
 
-      <View style={styles.parentView}>
-        <Header
-          style={styles.header}
-          onPressBack={onPressBack}
-          title={t('profileView.EditProfileScreen.screenTitle')}
-          rightButton={
-            saveButtonVisibility
-              ? t('profileView.EditProfileScreen.headerRightButton')
-              : null
-          }
-          onPressRightButton={onPressSaveButton}
-        />
-
-        <PrimaryContainer style={styles.contentContainer}>
-          <TouchableOpacity style={styles.profileImageTouchable}>
-            <Image
-              style={styles.profileImage}
-              resizeMode="contain"
-              source={Images.icons.edit_profile_icon}
-            />
-          </TouchableOpacity>
-
-          {!profilePicAvailability && (
-            <TouchableOpacity style={styles.changePictureTextTouchable}>
-              <Text style={styles.changePictureText}>
-                {t('profileView.EditProfileScreen.changePicture')}
-              </Text>
+          <PrimaryContainer style={styles.contentContainer}>
+            <TouchableOpacity style={styles.profileImageTouchable}>
+              <Image
+                style={styles.profileImage}
+                resizeMode="contain"
+                source={Images.icons.edit_profile_icon}
+              />
             </TouchableOpacity>
-          )}
 
-          <View style={styles.optionRowContainer}>
-            <TouchableOpacity style={styles.row} onPress={onPressLinksRow}>
-              <View style={styles.linkCountContainer}>
-                <Text style={styles.linkCount}>{numOfLinks}</Text>
+            {!profilePicAvailability && (
+              <TouchableOpacity style={styles.changePictureTextTouchable}>
+                <Text style={styles.changePictureText}>
+                  {t('profileView.EditProfileScreen.changePicture')}
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            <View style={styles.optionRowContainer}>
+              <TouchableOpacity style={styles.row} onPress={onPressLinksRow}>
+                <View style={styles.linkCountContainer}>
+                  <Text style={styles.linkCount}>{numOfLinks}</Text>
+                </View>
+
+                <Text style={styles.linksText}>
+                  {t('profileView.EditProfileScreen.links')}
+                </Text>
+
+                <Image
+                  source={Images.icons.right_arrow}
+                  resizeMode="contain"
+                  style={styles.rightArrow}
+                />
+              </TouchableOpacity>
+
+              <View style={styles.row}>
+                <Text style={styles.textInputLabel}>
+                  {t('profileView.EditProfileScreen.usernameInputLabel')}
+                </Text>
+                <TextInput
+                  ref={usernameRef}
+                  style={styles.textInput}
+                  placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
+                  value={username}
+                  onChangeText={onChangeUsername}
+                />
               </View>
 
-              <Text style={styles.linksText}>
-                {t('profileView.EditProfileScreen.links')}
-              </Text>
+              <View style={styles.row}>
+                <Text style={styles.textInputLabel}>
+                  {t('profileView.EditProfileScreen.nameInputLabel')}
+                </Text>
+                <TextInput
+                  ref={nameRef}
+                  style={styles.textInput}
+                  placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
+                  value={name}
+                  onChangeText={onChangeName}
+                />
+              </View>
 
-              <Image
-                source={Images.icons.right_arrow}
-                resizeMode="contain"
-                style={styles.rightArrow}
-              />
-            </TouchableOpacity>
-
-            <View style={styles.row}>
-              <Text style={styles.textInputLabel}>
-                {t('profileView.EditProfileScreen.usernameInputLabel')}
-              </Text>
-              <TextInput
-                ref={usernameRef}
-                style={styles.textInput}
-                placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
-                value={username}
-                onChangeText={onChangeUsername}
-              />
+              <View style={styles.row}>
+                <Text style={styles.textInputLabel}>
+                  {t('profileView.EditProfileScreen.bioInputLabel')}
+                </Text>
+                <TextInput
+                  ref={bioRef}
+                  style={styles.textInput}
+                  placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
+                  value={bio}
+                  onChangeText={onChangeBio}
+                />
+              </View>
             </View>
-
-            <View style={styles.row}>
-              <Text style={styles.textInputLabel}>
-                {t('profileView.EditProfileScreen.nameInputLabel')}
-              </Text>
-              <TextInput
-                ref={nameRef}
-                style={styles.textInput}
-                placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
-                value={name}
-                onChangeText={onChangeName}
-              />
-            </View>
-
-            <View style={styles.row}>
-              <Text style={styles.textInputLabel}>
-                {t('profileView.EditProfileScreen.bioInputLabel')}
-              </Text>
-              <TextInput
-                ref={bioRef}
-                style={styles.textInput}
-                placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
-                value={bio}
-                onChangeText={onChangeBio}
-              />
-            </View>
-          </View>
-        </PrimaryContainer>
-      </View>
+          </PrimaryContainer>
+        </View>
+      )}
     </>
   );
 }
@@ -229,6 +239,11 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingVertical: 15,
+  },
+  endPointErrorViewContainer: {
+    flex: 1,
+    ackgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
+    padding: 15,
   },
   profileImageTouchable: {
     width: 72,

@@ -8,6 +8,7 @@ import {
   fetchAddLinkResponse,
   fetchDeleteLinkResponse,
   fetchEditLinkResponse,
+  fetchEmailChangeResponse,
   fetchUpdateUserInfoResponse,
 } from '../../../services/ProfileView/ProfileView';
 import * as RootNavigation from '../../../navigation/RootNavigation';
@@ -185,6 +186,85 @@ export function* updateUserInfo(action: any) {
         };
 
         yield put(setAlertBoxVisibility(editProfileInfoAlert));
+      }
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
+  }
+}
+
+//GET UPDATE USER INFO RESPONSE
+export function* changeEmail(action: any) {
+  const requestBody = action.payload.requestBody;
+  const t = action.payload.translation;
+  const access_token: string = yield select(AccessToken);
+
+  try {
+    yield put(setSpinnerVisible(true));
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: {
+        id: string;
+        email: string;
+        username: string;
+        phone_number: string;
+        description: string;
+        name: string;
+        birth_date: string;
+        userConfirmed: boolean;
+        email_verified: boolean;
+        phone_number_verified: boolean;
+        followersCount: number;
+        followingCount: number;
+        profilePicture: object;
+      };
+    } = yield call(fetchEmailChangeResponse, access_token, requestBody);
+
+    if (raw_response.status === 'SUCCESS') {
+      const UpdatedUserProfile: UserProfileAttribute = yield select(
+        UserProfile,
+      );
+
+      UpdatedUserProfile.email = raw_response.data.email;
+
+      yield put(setUserProfile(UpdatedUserProfile));
+    } else {
+      if (raw_response.message === 'EMAIL_TAKEN') {
+        const emailChangingAlert = {
+          visible: true,
+          title: t(
+            'profileView.EmailChangeConfirmationScreen.emailChangingAlertTwo.title',
+          ),
+          description: t(
+            'profileView.EmailChangeConfirmationScreen.emailChangingAlertTwo.description',
+          ),
+          button: t(
+            'profileView.EmailChangeConfirmationScreen.emailChangingAlertTwo.button',
+          ),
+          onPress: () => {},
+        };
+
+        yield put(setAlertBoxVisibility(emailChangingAlert));
+      } else if (raw_response.message === 'INVALID_EMAIL') {
+        const emailChangingAlert = {
+          visible: true,
+          title: t(
+            'profileView.EmailChangeConfirmationScreen.emailChangingAlertOne.title',
+          ),
+          description: t(
+            'profileView.EmailChangeConfirmationScreen.emailChangingAlertOne.description',
+          ),
+          button: t(
+            'profileView.EmailChangeConfirmationScreen.emailChangingAlertOne.button',
+          ),
+          onPress: () => {},
+        };
+        yield put(setAlertBoxVisibility(emailChangingAlert));
       }
     }
     yield put(setSpinnerVisible(false));

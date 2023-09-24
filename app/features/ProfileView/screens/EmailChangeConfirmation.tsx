@@ -7,19 +7,32 @@ import {useTranslation} from 'react-i18next';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import {TextInput} from 'react-native-gesture-handler';
 import {emailFormatevalidate} from '../../../helper/formatters';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
+import {getEmailChangeResponse} from '../redux/action/action';
+import EndPointError from '../../../components/views/EndPointError';
 
 const EmailChangeConfirmation = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const emailRef = useRef<any>();
 
+  const USER_PROFILE = useSelector(
+    (state: any) => state.appAccessReducer.userProfile,
+  );
+
+  const SpinnerVisibility = useSelector(
+    (state: any) => state.commonReducer.spinnerVisibility,
+  );
+  const EndPointErrorVisibility = useSelector(
+    (state: any) => state.commonReducer.endPointErrorVisibility,
+  );
+
   const onPressBack = () => {
     RootNavigation.goBack();
   };
 
-  const [email, onChnageEmail] = useState('');
+  const [email, onChnageEmail] = useState(USER_PROFILE.email);
 
   let emailChangingAlert = {
     visible: false,
@@ -32,18 +45,27 @@ const EmailChangeConfirmation = () => {
   const onPressSaveButton = () => {
     const valid = emailFormatevalidate(email);
     if (valid) {
+      const requestBody = {
+        email: email,
+      };
+      const payload = {
+        requestBody: requestBody,
+        translation: t,
+      };
+
+      dispatch(getEmailChangeResponse(payload));
     } else {
       emailRef.current.focus();
       emailChangingAlert = {
         visible: true,
         title: t(
-          'profileView.EmailChangeConfirmationScreen.passwordChangingAlertOne.title',
+          'profileView.EmailChangeConfirmationScreen.emailChangingAlertOne.title',
         ),
         description: t(
-          'profileView.EmailChangeConfirmationScreen.passwordChangingAlertOne.description',
+          'profileView.EmailChangeConfirmationScreen.emailChangingAlertOne.description',
         ),
         button: t(
-          'profileView.EmailChangeConfirmationScreen.passwordChangingAlertOne.button',
+          'profileView.EmailChangeConfirmationScreen.emailChangingAlertOne.button',
         ),
         onPress: () => {},
       };
@@ -56,8 +78,10 @@ const EmailChangeConfirmation = () => {
   };
 
   useEffect(() => {
-    emailRef.current.focus();
-  }, []);
+    EndPointErrorVisibility || emailRef.current.focus();
+  }, [EndPointErrorVisibility, SpinnerVisibility]);
+
+  const saveButtonVisibility = USER_PROFILE.email !== email;
 
   return (
     <>
@@ -66,38 +90,49 @@ const EmailChangeConfirmation = () => {
         backgroundColor={Colors.SCREEN_PRIMARY_BACKGROUND_COLOR}
         barStyle={'default'}
       />
-      <View style={styles.parentView}>
-        <Header
-          style={styles.header}
-          onPressBack={onPressBack}
-          title={t('profileView.EmailChangeConfirmationScreen.screenTitle')}
-          rightButton={t(
-            'profileView.EmailChangeConfirmationScreen.headerRightButton',
-          )}
-          onPressRightButton={onPressSaveButton}
-        />
+      {EndPointErrorVisibility ? (
+        <View style={styles.endPointErrorViewContainer}>
+          <EndPointError onPressBack={onPressBack} />
+        </View>
+      ) : (
+        <View style={styles.parentView}>
+          <Header
+            style={styles.header}
+            onPressBack={onPressBack}
+            title={t('profileView.EmailChangeConfirmationScreen.screenTitle')}
+            rightButton={
+              saveButtonVisibility
+                ? t(
+                    'profileView.EmailChangeConfirmationScreen.headerRightButton',
+                  )
+                : null
+            }
+            onPressRightButton={onPressSaveButton}
+          />
 
-        <PrimaryContainer style={styles.contentContainer}>
-          <View style={styles.confirmationContainer}>
-            <View style={styles.row}>
-              <Text style={styles.text}>
-                {t('profileView.EmailChangeConfirmationScreen.emailInputLabel')}
-              </Text>
-              <TextInput
-                ref={emailRef}
-                style={styles.textInput}
-                placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
-                placeholder={t(
-                  'profileView.EmailChangeConfirmationScreen.emailInputPlaceholder',
-                )}
-                value={email}
-                onChangeText={onChnageEmail}
-                secureTextEntry={true}
-              />
+          <PrimaryContainer style={styles.contentContainer}>
+            <View style={styles.confirmationContainer}>
+              <View style={styles.row}>
+                <Text style={styles.text}>
+                  {t(
+                    'profileView.EmailChangeConfirmationScreen.emailInputLabel',
+                  )}
+                </Text>
+                <TextInput
+                  ref={emailRef}
+                  style={styles.textInput}
+                  placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
+                  placeholder={t(
+                    'profileView.EmailChangeConfirmationScreen.emailInputPlaceholder',
+                  )}
+                  value={email}
+                  onChangeText={onChnageEmail}
+                />
+              </View>
             </View>
-          </View>
-        </PrimaryContainer>
-      </View>
+          </PrimaryContainer>
+        </View>
+      )}
     </>
   );
 };
@@ -108,6 +143,11 @@ const styles = StyleSheet.create({
   parentView: {
     flex: 1,
     backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
+  },
+  endPointErrorViewContainer: {
+    flex: 1,
+    ackgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
+    padding: 15,
   },
   header: {
     marginTop: 10,

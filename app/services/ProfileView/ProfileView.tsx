@@ -41,3 +41,13 @@ export function fetchUpdateUserInfoResponse(token: string, body: object) {
     body,
   );
 }
+
+export function fetchEmailChangeResponse(token: string, body: object) {
+  return callService(
+    Env.BASE_URL,
+    ProfileViewEndPoints.EMAIL_CHANGE_RESPONSE,
+    'POST',
+    token,
+    body,
+  );
+}

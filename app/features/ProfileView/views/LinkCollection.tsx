@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#FFFFFF',
     marginBottom: 12,
-    backgroundColor: 'green',
   },
   touchableLink: {
     width: '100%',

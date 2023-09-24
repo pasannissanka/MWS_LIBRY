@@ -1,5 +1,6 @@
 import {
   Image,
+  Platform,
   StatusBar,
   StyleSheet,
   Text,
@@ -18,6 +19,7 @@ import {setAlertBoxVisibility} from '../../../redux/action/action';
 import {getUserInfoUpdateResponse} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 import ImagePicker from 'react-native-image-crop-picker';
+import {PERMISSIONS, RESULTS, request, check} from 'react-native-permissions';
 
 export default function EditProfileScreen() {
   const {t} = useTranslation();
@@ -114,13 +116,32 @@ export default function EditProfileScreen() {
   };
 
   const addProfileImage = () => {
-    ImagePicker.openPicker({
-      width: 320,
-      height: 320,
-      cropping: true,
-    }).then(image => {
-      console.log(image);
-    });
+    if (Platform.OS === 'android') {
+      request(PERMISSIONS.ANDROID.CAMERA).then(result => {
+        switch (result) {
+          case RESULTS.GRANTED:
+            ImagePicker.openPicker({
+              width: 320,
+              height: 320,
+              cropping: true,
+            }).then(image => {
+              console.log(image);
+            });
+            break;
+
+          default:
+            console.log('UNABLE TO PICK IMAGE');
+        }
+      });
+    } else {
+      ImagePicker.openPicker({
+        width: 320,
+        height: 320,
+        cropping: true,
+      }).then(image => {
+        console.log(image);
+      });
+    }
   };
 
   const [username, onChangeUsername] = useState(USER_PROFILE.username);

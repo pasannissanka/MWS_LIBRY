@@ -214,10 +214,9 @@ export function* renderEnterPasswordScreen(action: any) {
     SignUpEmailResponse,
   );
   const device_id: string = yield select(DeviceId);
-
   const requestBody = {
     device_id: device_id,
-    email: username,
+    username: username,
     token: sign_up_email_response.token,
   };
 
@@ -285,6 +284,7 @@ export function* renderWelcomeLibryScreen(action: any) {
     token: verify_username_response.token,
     password: action.payload,
     device_id: device_id,
+    is_marketing_enabled: true,
   };
 
   try {

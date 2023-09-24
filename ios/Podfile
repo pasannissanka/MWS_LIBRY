@@ -19,8 +19,8 @@ setup_permissions([
     'Microphone',
   # 'Motion',
   # 'Notifications',
-    'PhotoLibrary'
-    'PhotoLibraryAddOnly',
+    'PhotoLibrary',
+    'PhotoLibraryAddOnly'
   # 'Reminders',
   # 'SpeechRecognition',
   # 'StoreKit'

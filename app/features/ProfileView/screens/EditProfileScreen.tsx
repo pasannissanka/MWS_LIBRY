@@ -19,7 +19,7 @@ import {setAlertBoxVisibility} from '../../../redux/action/action';
 import {getUserInfoUpdateResponse} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 import ImagePicker from 'react-native-image-crop-picker';
-import {PERMISSIONS, RESULTS, request, check} from 'react-native-permissions';
+import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 
 export default function EditProfileScreen() {
   const {t} = useTranslation();
@@ -116,17 +116,11 @@ export default function EditProfileScreen() {
   };
 
   const addProfileImage = () => {
-    if (Platform.OS === 'android') {
-      request(PERMISSIONS.ANDROID.CAMERA).then(result => {
+    if (Platform.OS === 'ios') {
+      request(PERMISSIONS.IOS.PHOTO_LIBRARY).then(result => {
         switch (result) {
           case RESULTS.GRANTED:
-            ImagePicker.openPicker({
-              width: 320,
-              height: 320,
-              cropping: true,
-            }).then(image => {
-              console.log(image);
-            });
+            onGallery();
             break;
 
           default:
@@ -134,19 +128,26 @@ export default function EditProfileScreen() {
         }
       });
     } else {
-      ImagePicker.openPicker({
-        width: 320,
-        height: 320,
-        cropping: true,
-      }).then(image => {
-        console.log(image);
-      });
+      onGallery();
     }
+  };
+
+  const onGallery = () => {
+    ImagePicker.openPicker({
+      width: 320,
+      height: 320,
+      cropping: true,
+      mediaType: 'photo',
+    }).then(image => {
+      console.log(image);
+      setProfileImagePreview(image.path);
+    });
   };
 
   const [username, onChangeUsername] = useState(USER_PROFILE.username);
   const [name, onChangeName] = useState(USER_PROFILE.name);
   const [bio, onChangeBio] = useState(USER_PROFILE.description);
+  const [profileImagePreview, setProfileImagePreview] = useState<string>();
 
   const saveButtonVisibility =
     name !== USER_PROFILE.name ||
@@ -187,7 +188,11 @@ export default function EditProfileScreen() {
               <Image
                 style={styles.profileImage}
                 resizeMode="contain"
-                source={Images.icons.edit_profile_icon}
+                source={
+                  profileImagePreview
+                    ? {uri: profileImagePreview}
+                    : Images.icons.edit_profile_icon
+                }
               />
             </TouchableOpacity>
 

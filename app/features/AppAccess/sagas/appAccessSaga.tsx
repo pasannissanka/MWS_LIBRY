@@ -48,6 +48,7 @@ import {
   SignUpResponse,
   SuggestUsersProfils,
   UserEnteredName,
+  UserProfile,
   UsernameVerifyResponse,
 } from '../redux/selectors';
 import {
@@ -56,6 +57,7 @@ import {
   setSpinnerVisible,
 } from '../../../redux/action/action';
 import * as RootNavigation from '../../../navigation/RootNavigation';
+import {UserProfileAttribute} from '../../ProfileView/interfaces';
 
 //NAVIGATE ENTER OTP SCREEN
 export function* renderEnterOtpScreen(action: any) {
@@ -254,22 +256,7 @@ export function* renderEnterPasswordScreen(action: any) {
 //NAVIGATE WELCOME LIBRY SCREEN
 export function* renderWelcomeLibryScreen(action: any) {
   let response = {
-    user: {
-      id: '',
-      name: '',
-      description: '',
-      birth_date: '',
-      email: '',
-      email_verified: false,
-      phone_number: '',
-      username: '',
-      phone_number_verified: false,
-      cognitoSub: '',
-      userConfirmed: false,
-      followingCount: null,
-      followersCount: null,
-      isFollowed: false,
-    },
+    user: {},
     tokens: {
       accessToken: '',
       refreshToken: '',
@@ -279,6 +266,7 @@ export function* renderWelcomeLibryScreen(action: any) {
     UsernameVerifyResponse,
   );
   const device_id: string = yield select(DeviceId);
+  const currentUserInfo: object = yield select(UserProfile);
 
   const requestBody = {
     token: verify_username_response.token,
@@ -294,22 +282,7 @@ export function* renderWelcomeLibryScreen(action: any) {
       status: 'ERROR' | 'SUCCESS';
       message: string;
       data: {
-        user: {
-          id: string;
-          name: string;
-          description: string;
-          birth_date: string;
-          email: string;
-          email_verified: boolean;
-          phone_number: string;
-          username: string;
-          phone_number_verified: boolean;
-          cognitoSub: string;
-          userConfirmed: boolean;
-          followingCount: null;
-          followersCount: null;
-          isFollowed: boolean;
-        };
+        user: UserProfileAttribute;
         tokens: {
           accessToken: string;
           refreshToken: string;
@@ -321,6 +294,8 @@ export function* renderWelcomeLibryScreen(action: any) {
       response = raw_response.data;
 
       yield put(setRegisterResponse(response));
+
+      yield put(setUserProfile({...currentUserInfo, ...response.user}));
       yield put(setPasswordValidation('VALID'));
 
       //Navigate Enter Password Screen
@@ -386,39 +361,13 @@ export function* renderLoginScreen(action: any) {
 
 //ADD NAME & BIRTHDAY
 export function* renderAddYourLibryScreen() {
-  let response = {
-    id: '',
-    name: '',
-    email: '',
-    email_verified: false,
-    phone_number: '',
-    username: '',
-    phone_number_verified: false,
-    userConfirmed: false,
-    birth_date: '',
-    followers: [],
-    following: [],
-  };
+  let response = {};
 
   const name: string = yield select(UserEnteredName);
   const birth_date: string = yield select(BirthDate);
+  const currentUserInfo: object = yield select(UserProfile);
   const registered_response: {
-    user: {
-      id: string;
-      name: string;
-      description: string;
-      birth_date: string;
-      email: string;
-      email_verified: boolean;
-      phone_number: string;
-      username: string;
-      phone_number_verified: boolean;
-      cognitoSub: string;
-      userConfirmed: boolean;
-      followingCount: null;
-      followersCount: null;
-      isFollowed: boolean;
-    };
+    user: UserProfileAttribute;
     tokens: {
       accessToken: string;
       refreshToken: string;
@@ -435,21 +384,7 @@ export function* renderAddYourLibryScreen() {
     const raw_response: {
       status: 'ERROR' | 'SUCCESS';
       message: '';
-      data: {
-        id: string;
-        email: string;
-        phone_number: string;
-        username: string;
-        description: string;
-        name: string;
-        birth_date: string;
-        userConfirmed: boolean;
-        email_verified: boolean;
-        phone_number_verified: boolean;
-        followers: [];
-        following: [];
-        isFollowed: boolean;
-      };
+      data: UserProfileAttribute;
     } = yield call(
       fetchAddNameBirthDateResponse,
       registered_response.tokens.accessToken,
@@ -459,6 +394,7 @@ export function* renderAddYourLibryScreen() {
     if (raw_response.status === 'SUCCESS') {
       response = raw_response.data;
       yield put(setAddNameBirthDateResponse(response));
+      yield put(setUserProfile({...currentUserInfo, ...response}));
       yield* fetchSuggestUsers();
     } else {
     }
@@ -474,19 +410,7 @@ export function* renderAddYourLibryScreen() {
 
 //RENDER USER PROFILE
 function* renderUserPorfile() {
-  let response = {
-    id: '',
-    name: '',
-    email: '',
-    email_verified: false,
-    phone_number: '',
-    username: '',
-    phone_number_verified: false,
-    userConfirmed: false,
-    birth_date: '',
-    followers: [],
-    following: [],
-  };
+  let response = {};
 
   const emailVerifyAlertBoxContent = {
     visible: true,
@@ -498,34 +422,22 @@ function* renderUserPorfile() {
   };
 
   const access_token: string = yield select(AccessToken);
+  const currentUserInfo: object = yield select(UserProfile);
   try {
     const raw_response: {
       status: 'ERROR' | 'SUCCESS';
       message: string;
-      data: {
-        id: string;
-        email: string;
-        phone_number: string;
-        username: string;
-        description: string;
-        name: string;
-        birth_date: string;
-        userConfirmed: boolean;
-        email_verified: boolean;
-        phone_number_verified: boolean;
-        followers: [];
-        following: [];
-      };
+      data: UserProfileAttribute;
     } = yield call(fetchUserProfile, access_token);
 
     if (raw_response.status === 'SUCCESS') {
       response = raw_response.data;
-      yield put(setUserProfile(response));
+      yield put(setUserProfile({...currentUserInfo, ...response}));
 
       //Navigate Dashboard Screen
       RootNavigation.replace('DashboardScreen');
 
-      if (!response.email_verified) {
+      if (!raw_response.data.email_verified) {
         yield put(setAlertBoxVisibility(emailVerifyAlertBoxContent));
       }
     }
@@ -684,24 +596,13 @@ export function* changePassword(action: any) {
 // FOLLOW USER
 export function* followUserSaga(action: any) {
   const registered_response: {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      email_verified: boolean;
-      phone_number: string;
-      username: string;
-      phone_number_verified: boolean;
-      userConfirmed: boolean;
-      birth_date: string;
-      followers: [];
-      following: [];
-    };
+    user: {};
     tokens: {
       accessToken: string;
       refreshToken: string;
     };
   } = yield select(RegisteredResponse);
+  const currentUserInfo: object = yield select(UserProfile);
 
   const user = action.payload;
   try {
@@ -709,7 +610,7 @@ export function* followUserSaga(action: any) {
     const raw_response: {
       status: 'ERROR' | 'SUCCESS';
       message: 'USER_FOLLOWED';
-      data: {};
+      data: UserProfileAttribute;
     } = yield call(followUser, user.id, registered_response.tokens.accessToken);
     if (raw_response.message === 'USER_FOLLOWED') {
       const suggestUsersProfils: [
@@ -732,6 +633,7 @@ export function* followUserSaga(action: any) {
       suggestUsersProfils[user.index].isFollowed = true;
 
       yield put(setSuggestUsers(suggestUsersProfils));
+      yield put(setUserProfile({...currentUserInfo, ...raw_response.data}));
 
       yield put(setFllowUnfollowResponseStatus('USER_FOLLOWED'));
     } else {
@@ -749,30 +651,19 @@ export function* followUserSaga(action: any) {
 //UNFOLLOW USER
 export function* unfollowUserSaga(action: any) {
   const registered_response: {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      email_verified: boolean;
-      phone_number: string;
-      username: string;
-      phone_number_verified: boolean;
-      userConfirmed: boolean;
-      birth_date: string;
-      followers: [];
-      following: [];
-    };
+    user: {};
     tokens: {
       accessToken: string;
       refreshToken: string;
     };
   } = yield select(RegisteredResponse);
+  const currentUserInfo: object = yield select(UserProfile);
   const user = action.payload;
   try {
     const raw_response: {
       status: 'ERROR' | 'SUCCESS';
       message: 'USER_UNFOLLOWED';
-      data: {};
+      data: UserProfileAttribute;
     } = yield call(
       unFollowUser,
       user.id,
@@ -800,6 +691,7 @@ export function* unfollowUserSaga(action: any) {
       suggestUsersProfils[user.index].isFollowed = false;
 
       yield put(setSuggestUsers(suggestUsersProfils));
+      yield put(setUserProfile({...currentUserInfo, ...raw_response.data}));
       yield put(setFllowUnfollowResponseStatus('USER_UNFOLLOWED'));
     } else {
       yield put(setFllowUnfollowResponseStatus('FAILURE'));

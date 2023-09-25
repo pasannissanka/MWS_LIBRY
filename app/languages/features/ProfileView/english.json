@@ -39,8 +39,10 @@
         "PasswordChangeConfirmationScreen": {
             "screenTitle": "Change Password",
             "headerRightButton": "Save",
+            "currentPasswordInputLabel": "Current Password",
             "passwordInputLabel": "New Password",
             "conPasswordInputLabel": "Confirm Password",
+            "currentPasswordInputPlaceholder": "Currnet Password",
             "passwordInputPlaceholder": "Password",
             "conPasswordInputPlaceholder": "Confirm Password",
             "passwordChangingAlertOne": {
@@ -51,6 +53,11 @@
             "passwordChangingAlertTwo": {
                 "title": "That’s not a new password",
                 "description": "Please enter a new password other than your current one.",
+                "button": "OK"
+            },
+            "passwordChangingAlertThree": {
+                "title": "Current Password Required",
+                "description": "Please Enter Your Current Password to Continue.",
                 "button": "OK"
             }
         },

@@ -15,12 +15,15 @@ const PasswordChangeConfirmation = () => {
   const dispatch = useDispatch();
   const passwordRef = useRef<any>();
   const conPasswordRef = useRef<any>();
+  const currentPasswordRef = useRef<any>();
+
   const onPressBack = () => {
     RootNavigation.goBack();
   };
 
-  const [password, onChnagePassword] = useState('');
-  const [conPassword, onChnageConPassword] = useState('');
+  const [currentPassword, onChangeCurrentPassword] = useState('');
+  const [password, onChangePassword] = useState('');
+  const [conPassword, onChangeConPassword] = useState('');
 
   let passwordChangingAlert = {
     visible: false,
@@ -32,7 +35,23 @@ const PasswordChangeConfirmation = () => {
 
   const onPressSaveButton = () => {
     const validPassword = validatePassword(password);
-    if (!validPassword) {
+
+    if (currentPassword.length === 0) {
+      passwordChangingAlert = {
+        visible: true,
+        title: t(
+          'profileView.PasswordChangeConfirmationScreen.passwordChangingAlertThree.title',
+        ),
+        description: t(
+          'profileView.PasswordChangeConfirmationScreen.passwordChangingAlertThree.description',
+        ),
+        button: t(
+          'profileView.PasswordChangeConfirmationScreen.passwordChangingAlertThree.button',
+        ),
+        onPress: () => {},
+      };
+      showAlert();
+    } else if (!validPassword) {
       passwordRef.current.focus();
     } else if (password.length === 0) {
       passwordRef.current.focus();
@@ -59,9 +78,9 @@ const PasswordChangeConfirmation = () => {
   const showAlert = () => {
     dispatch(setAlertBoxVisibility(passwordChangingAlert));
   };
-  useEffect(()=>{
-    passwordRef.current.focus();
-  },[])
+  useEffect(() => {
+    currentPasswordRef.current.focus();
+  }, []);
   return (
     <>
       <StatusBar
@@ -85,6 +104,28 @@ const PasswordChangeConfirmation = () => {
             <View style={styles.row}>
               <Text style={styles.text}>
                 {t(
+                  'profileView.PasswordChangeConfirmationScreen.currentPasswordInputLabel',
+                )}
+              </Text>
+              <TextInput
+                ref={currentPasswordRef}
+                style={styles.textInput}
+                placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
+                placeholder={t(
+                  'profileView.PasswordChangeConfirmationScreen.currentPasswordInputPlaceholder',
+                )}
+                value={currentPassword}
+                onChangeText={onChangeCurrentPassword}
+                secureTextEntry={true}
+                inputMode="text"
+                autoCapitalize="none"
+                keyboardType="visible-password"
+              />
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.text}>
+                {t(
                   'profileView.PasswordChangeConfirmationScreen.passwordInputLabel',
                 )}
               </Text>
@@ -96,8 +137,11 @@ const PasswordChangeConfirmation = () => {
                   'profileView.PasswordChangeConfirmationScreen.passwordInputPlaceholder',
                 )}
                 value={password}
-                onChangeText={onChnagePassword}
+                onChangeText={onChangePassword}
                 secureTextEntry={true}
+                inputMode="text"
+                autoCapitalize="none"
+                keyboardType="visible-password"
               />
             </View>
 
@@ -115,8 +159,11 @@ const PasswordChangeConfirmation = () => {
                   'profileView.PasswordChangeConfirmationScreen.conPasswordInputPlaceholder',
                 )}
                 value={conPassword}
-                onChangeText={onChnageConPassword}
+                onChangeText={onChangeConPassword}
                 secureTextEntry={true}
+                inputMode="text"
+                autoCapitalize="none"
+                keyboardType="visible-password"
               />
             </View>
           </View>
@@ -150,7 +197,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 20,
-    borderBottomWidth: 0.35,
+    borderBottomWidth: 0.5,
     borderBottomColor: Colors.LINE_BRAKER_COLOR,
   },
   text: {

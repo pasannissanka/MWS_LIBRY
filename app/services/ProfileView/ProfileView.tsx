@@ -51,3 +51,13 @@ export function fetchEmailChangeResponse(token: string, body: object) {
     body,
   );
 }
+
+export function fetchPasswordChangeResponse(token: string, body: object) {
+  return callService(
+    Env.BASE_URL,
+    ProfileViewEndPoints.CHANGE_PASSWORD,
+    'POST',
+    token,
+    body,
+  );
+}

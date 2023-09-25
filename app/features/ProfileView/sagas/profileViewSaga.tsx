@@ -9,6 +9,7 @@ import {
   fetchDeleteLinkResponse,
   fetchEditLinkResponse,
   fetchEmailChangeResponse,
+  fetchPasswordChangeResponse,
   fetchUpdateUserInfoResponse,
 } from '../../../services/ProfileView/ProfileView';
 import * as RootNavigation from '../../../navigation/RootNavigation';
@@ -254,6 +255,32 @@ export function* changeEmail(action: any) {
         };
         yield put(setAlertBoxVisibility(emailChangingAlert));
       }
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
+  }
+}
+
+//GET CHANGE PASSWORD RESPONSE
+export function* changePassword(action: any) {
+  const requestBody = action.payload;
+  const access_token: string = yield select(AccessToken);
+
+  try {
+    yield put(setSpinnerVisible(true));
+    const raw_response: {
+      status: 'ERROR' | 'SUCCESS';
+      message: string;
+      data: {};
+    } = yield call(fetchPasswordChangeResponse, access_token, requestBody);
+
+    if (raw_response.status === 'SUCCESS') {
+      RootNavigation.navigate('OpeningScreen');
+    } else {
     }
     yield put(setSpinnerVisible(false));
   } catch (error) {

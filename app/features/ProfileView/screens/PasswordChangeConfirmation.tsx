@@ -9,6 +9,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import {validatePassword} from '../../../helper/formatters';
 import {useDispatch} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
+import {getPasswordChangeResponse} from '../redux/action/action';
 
 const PasswordChangeConfirmation = () => {
   const {t} = useTranslation();
@@ -71,7 +72,28 @@ const PasswordChangeConfirmation = () => {
       };
       showAlert();
       conPasswordRef.current.focus();
+    } else if (currentPassword === password) {
+      passwordChangingAlert = {
+        visible: true,
+        title: t(
+          'profileView.PasswordChangeConfirmationScreen.passwordChangingAlertTwo.title',
+        ),
+        description: t(
+          'profileView.PasswordChangeConfirmationScreen.passwordChangingAlertTwo.description',
+        ),
+        button: t(
+          'profileView.PasswordChangeConfirmationScreen.passwordChangingAlertTwo.button',
+        ),
+        onPress: () => {},
+      };
+      showAlert();
+      conPasswordRef.current.focus();
     } else {
+      const requestBody = {
+        oldPassword: currentPassword,
+        newPassword: password,
+      };
+      dispatch(getPasswordChangeResponse(requestBody));
     }
   };
 

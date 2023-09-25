@@ -125,6 +125,9 @@ const EmailChangeConfirmation = () => {
                   placeholder={t(
                     'profileView.EmailChangeConfirmationScreen.emailInputPlaceholder',
                   )}
+                  keyboardType="email-address"
+                  inputMode="email"
+                  autoCapitalize="none"
                   value={email}
                   onChangeText={onChnageEmail}
                 />

@@ -140,19 +140,26 @@ export default function EditProfileScreen() {
       mediaType: 'photo',
     }).then(image => {
       console.log(image);
-      setProfileImagePreview(image.path);
+      setSelectedImagePath(image.path);
     });
+  };
+
+  const profileImagePreview = () => {
+    return selectedImagePath
+      ? {uri: selectedImagePath}
+      : Images.icons.edit_profile_icon;
   };
 
   const [username, onChangeUsername] = useState(USER_PROFILE.username);
   const [name, onChangeName] = useState(USER_PROFILE.name);
   const [bio, onChangeBio] = useState(USER_PROFILE.description);
-  const [profileImagePreview, setProfileImagePreview] = useState<string>();
+  const [selectedImagePath, setSelectedImagePath] = useState<string>();
 
   const saveButtonVisibility =
     name !== USER_PROFILE.name ||
     bio !== USER_PROFILE.description ||
-    username !== USER_PROFILE.username;
+    username !== USER_PROFILE.username ||
+    selectedImagePath;
 
   useEffect(() => {}, [SpinnerVisibility]);
 
@@ -188,11 +195,7 @@ export default function EditProfileScreen() {
               <Image
                 style={styles.profileImage}
                 resizeMode="contain"
-                source={
-                  profileImagePreview
-                    ? {uri: profileImagePreview}
-                    : Images.icons.edit_profile_icon
-                }
+                source={profileImagePreview()}
               />
             </TouchableOpacity>
 

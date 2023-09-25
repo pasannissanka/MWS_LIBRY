@@ -16,6 +16,7 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 import {AccessToken, UserProfile} from '../redux/selectors';
 import {setUserProfile} from '../../AppAccess/redux/action/action';
 import {UserProfileAttribute} from '../interfaces';
+import {setLinkUpdatedRefKey} from '../redux/action/action';
 
 //GET ADD LINK RESPONSE
 export function* addLink(action: any) {
@@ -42,7 +43,14 @@ export function* addLink(action: any) {
       yield put(
         setUserProfile({...currentUserInfo, ...{links: raw_response.data}}),
       );
+
       RootNavigation.navigate('EditLinksOrderScreen');
+
+      let date = new Date();
+      let minutes = date.getMinutes();
+      let seconds = date.getSeconds();
+      const refKey = Number(minutes.toString() + seconds.toString());
+      yield put(setLinkUpdatedRefKey(refKey));
     } else {
     }
     yield put(setSpinnerVisible(false));
@@ -79,6 +87,12 @@ export function* deleteLink(action: any) {
       yield put(
         setUserProfile({...currentUserInfo, ...{links: raw_response.data}}),
       );
+
+      let date = new Date();
+      let minutes = date.getMinutes();
+      let seconds = date.getSeconds();
+      const refKey = Number(minutes.toString() + seconds.toString());
+      yield put(setLinkUpdatedRefKey(refKey));
       //RootNavigation.replace('EditLinksOrderScreen');
     } else {
     }
@@ -118,6 +132,12 @@ export function* editLink(action: any) {
         setUserProfile({...currentUserInfo, ...{links: raw_response.data}}),
       );
       RootNavigation.navigate('EditLinksOrderScreen');
+
+      let date = new Date();
+      let minutes = date.getMinutes();
+      let seconds = date.getSeconds();
+      const refKey = Number(minutes.toString() + seconds.toString());
+      yield put(setLinkUpdatedRefKey(refKey));
     } else {
     }
     yield put(setSpinnerVisible(false));

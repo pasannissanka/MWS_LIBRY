@@ -13,6 +13,7 @@ import {useTranslation} from 'react-i18next';
 import EditLinkOrderDragableList from '../views/EditLinkOrderDraggableList';
 import {useSelector} from 'react-redux';
 import EndPointError from '../../../components/views/EndPointError';
+import {UserProfileAttribute} from '../interfaces';
 
 const EditLinksOrderScreen = () => {
   const {t} = useTranslation();
@@ -28,6 +29,28 @@ const EditLinksOrderScreen = () => {
     RootNavigation.navigate('EditAddLinkScreen');
   };
 
+  let USER_PROFILE: UserProfileAttribute = useSelector(
+    (state: any) => state.appAccessReducer.userProfile,
+  );
+  let RefKeyVlaue: number = useSelector(
+    (state: any) => state.profileViewReducer.linkUpdatedRefKey,
+  );
+
+  const key = USER_PROFILE.links.reduce(
+    (
+      total: any,
+      currentItem: {
+        id: string;
+        url: string;
+        title: string;
+        createdAt: string;
+        order: number;
+      },
+    ) => (total = total + currentItem.url.length + currentItem.title.length),
+    0,
+  );
+  console.log('Links Key ->', RefKeyVlaue);
+
   return (
     <>
       <StatusBar
@@ -42,7 +65,7 @@ const EditLinksOrderScreen = () => {
           onPressBack={onPressBack}
           title={t('profileView.EditLinksOrderScreen.screenTitle')}
         />
-        <View style={styles.contentContainer}>
+        <View style={styles.contentContainer} key={RefKeyVlaue}>
           {EndPointErrorVisibility ? (
             <View style={styles.endPointErrorViewContainer}>
               <EndPointError onPressBack={onPressBack} />

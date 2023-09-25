@@ -102,6 +102,9 @@ const EditAddLinkScreen: React.FC<{route: {params: RouteParams}}> = ({
                   placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
                   value={title}
                   onChangeText={onChangeName}
+                  keyboardType="default"
+                  inputMode="text"
+                  autoCapitalize="none"
                 />
               </View>
 
@@ -115,6 +118,9 @@ const EditAddLinkScreen: React.FC<{route: {params: RouteParams}}> = ({
                   placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
                   value={url}
                   onChangeText={onChangeUrl}
+                  keyboardType="default"
+                  inputMode="url"
+                  autoCapitalize="none"
                 />
               </View>
             </View>

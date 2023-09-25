@@ -1,14 +1,15 @@
 import createReducer from '../../../../helper/createReducer';
+import {SET_LINK_UPDATED_REFERNCE_KEY} from '../action/types';
 
 const initialState = {
-  //addLinkResponse: 'UNDEFINED',
+  linkUpdatedRefKey: 0,
 };
 
 export const profileViewReducer = createReducer(initialState, {
-  //   [SET_ADD_LINK_RESPONSE](state: any, action: {payload: object}) {
-  //     return {
-  //       ...state,
-  //       addLinkResponse: action.payload,
-  //     };
-  //   },
+  [SET_LINK_UPDATED_REFERNCE_KEY](state: any, action: {payload: object}) {
+    return {
+      ...state,
+      linkUpdatedRefKey: action.payload,
+    };
+  },
 });

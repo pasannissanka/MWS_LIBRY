@@ -169,7 +169,10 @@ export function* updateUserInfo(action: any) {
     } = yield call(fetchUpdateUserInfoResponse, access_token, requestBody);
 
     if (raw_response.status === 'SUCCESS') {
-      yield put(setUserProfile({...currentUserInfo, ...raw_response.data}));
+      currentUserInfo.username = raw_response.data.username;
+      currentUserInfo.name = raw_response.data.name;
+      currentUserInfo.description = raw_response.data.description;
+      yield put(setUserProfile(currentUserInfo));
     } else {
       if (raw_response.message === 'USERNAME_ALREADY_EXISTS') {
         const editProfileInfoAlert = {
@@ -228,7 +231,8 @@ export function* changeEmail(action: any) {
     } = yield call(fetchEmailChangeResponse, access_token, requestBody);
 
     if (raw_response.status === 'SUCCESS') {
-      yield put(setUserProfile({...currentUserInfo, ...raw_response.data}));
+      currentUserInfo.email = raw_response.data.email;
+      yield put(setUserProfile(currentUserInfo));
       RootNavigation.navigate('AccountSettingsScreen', {
         alertType: 'emailUpdated',
       });

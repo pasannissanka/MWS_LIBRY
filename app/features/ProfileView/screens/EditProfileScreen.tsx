@@ -161,7 +161,9 @@ export default function EditProfileScreen() {
     username !== USER_PROFILE.username ||
     selectedImagePath;
 
-  useEffect(() => {}, [SpinnerVisibility]);
+  let RefKeyVlaue: number = useSelector(
+    (state: any) => state.profileViewReducer.linkUpdatedRefKey,
+  );
 
   return (
     <>
@@ -212,7 +214,7 @@ export default function EditProfileScreen() {
                 <TouchableOpacity
                   style={styles.linkRowTouchable}
                   onPress={onPressLinksRow}>
-                  <View style={styles.linkCountContainer}>
+                  <View style={styles.linkCountContainer} key={RefKeyVlaue}>
                     <Text style={styles.linkCount}>{numOfLinks}</Text>
                   </View>
 

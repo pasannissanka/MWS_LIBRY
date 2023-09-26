@@ -29,27 +29,9 @@ const EditLinksOrderScreen = () => {
     RootNavigation.navigate('EditAddLinkScreen');
   };
 
-  let USER_PROFILE: UserProfileAttribute = useSelector(
-    (state: any) => state.appAccessReducer.userProfile,
-  );
   let RefKeyVlaue: number = useSelector(
     (state: any) => state.profileViewReducer.linkUpdatedRefKey,
   );
-
-  const key = USER_PROFILE.links.reduce(
-    (
-      total: any,
-      currentItem: {
-        id: string;
-        url: string;
-        title: string;
-        createdAt: string;
-        order: number;
-      },
-    ) => (total = total + currentItem.url.length + currentItem.title.length),
-    0,
-  );
-  console.log('Links Key ->', RefKeyVlaue);
 
   return (
     <>

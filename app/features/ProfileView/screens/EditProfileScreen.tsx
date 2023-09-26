@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Colors, Fonts, Images} from '../../../theme';
 import Header from '../../../components/header/Header';
 import PrimaryContainer from '../../../components/containers/PrimaryContainer';
@@ -240,6 +240,9 @@ export default function EditProfileScreen() {
                   placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
                   value={username}
                   onChangeText={onChangeUsername}
+                  keyboardType="default"
+                  inputMode="text"
+                  autoCapitalize="none"
                 />
               </View>
 
@@ -253,6 +256,9 @@ export default function EditProfileScreen() {
                   placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
                   value={name}
                   onChangeText={onChangeName}
+                  keyboardType="default"
+                  inputMode="text"
+                  autoCapitalize="none"
                 />
               </View>
 
@@ -266,6 +272,9 @@ export default function EditProfileScreen() {
                   placeholderTextColor={Colors.text.GRAY_TEXT_COLOR}
                   value={bio}
                   onChangeText={onChangeBio}
+                  keyboardType="default"
+                  inputMode="text"
+                  autoCapitalize="none"
                 />
               </View>
             </View>
@@ -341,13 +350,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   linkCountContainer: {
-    minWidth: 24,
-    minHeight: 24,
-    maxWidth: 'auto',
-    maxHeight: 'auto',
+    height: 24,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 4,
+    paddingHorizontal: 8,
     backgroundColor: Colors.COMPONENTS_BACKGROUNDS.GRAY,
     borderRadius: 12,
     marginRight: 6,

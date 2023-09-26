@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     width: '100%',
-    height: 0.5,
+    height: 1,
     backgroundColor: Colors.LINE_BRAKER_COLOR,
   },
   optionRightIcon: {

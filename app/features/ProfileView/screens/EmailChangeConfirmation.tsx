@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
   },
   confirmationContainer: {
     width: '100%',
-    borderTopWidth: 0.35,
+    borderTopWidth: 0.5,
     borderTopColor: Colors.LINE_BRAKER_COLOR,
   },
   row: {
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 20,
-    borderBottomWidth: 0.35,
+    borderBottomWidth: 0.5,
     borderBottomColor: Colors.LINE_BRAKER_COLOR,
   },
   text: {

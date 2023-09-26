@@ -31,9 +31,7 @@ export default function EditProfileScreen() {
   const USER_PROFILE = useSelector(
     (state: any) => state.appAccessReducer.userProfile,
   );
-  const SpinnerVisibility = useSelector(
-    (state: any) => state.commonReducer.spinnerVisibility,
-  );
+
   const EndPointErrorVisibility = useSelector(
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
@@ -315,7 +313,7 @@ const styles = StyleSheet.create({
   },
   confirmationContainer: {
     width: '100%',
-    borderTopWidth: 0.35,
+    borderTopWidth: 0.5,
     borderTopColor: Colors.LINE_BRAKER_COLOR,
   },
   changePictureTextTouchable: {

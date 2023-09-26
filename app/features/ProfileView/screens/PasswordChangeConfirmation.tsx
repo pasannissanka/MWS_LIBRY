@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   },
   confirmationContainer: {
     width: '100%',
-    borderTopWidth: 0.35,
+    borderTopWidth: 0.5,
     borderTopColor: Colors.LINE_BRAKER_COLOR,
   },
   row: {

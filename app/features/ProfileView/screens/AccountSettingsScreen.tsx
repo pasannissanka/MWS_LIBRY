@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {PropsWithChildren, useEffect, useState} from 'react';
+import React, {PropsWithChildren, useState} from 'react';
 import {Colors, Fonts, Images} from '../../../theme';
 import Header from '../../../components/header/Header';
 import {useTranslation} from 'react-i18next';
@@ -18,8 +18,7 @@ import Collapsible from 'react-native-collapsible';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
 import {UpdateDetailsAlertType} from '../interfaces';
-import { useFocusEffect } from '@react-navigation/native';
-
+import {useFocusEffect} from '@react-navigation/native';
 
 type RouteParams = PropsWithChildren<{
   alertType: UpdateDetailsAlertType;

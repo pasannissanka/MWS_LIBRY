@@ -13,10 +13,18 @@ import {
   fetchUpdateUserInfoResponse,
 } from '../../../services/ProfileView/ProfileView';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import {AccessToken, LinkUpdatedRefKey, UserProfile} from '../redux/selectors';
+import {
+  AccessToken,
+  LinkUpdatedRefKey,
+  ProfileInfoUpdatedRefKey,
+  UserProfile,
+} from '../redux/selectors';
 import {setUserProfile} from '../../AppAccess/redux/action/action';
 import {UserProfileAttribute} from '../interfaces';
-import {setLinkUpdatedRefKey} from '../redux/action/action';
+import {
+  setLinkUpdatedRefKey,
+  setProfileInfoUpdatedRefKey,
+} from '../redux/action/action';
 
 //GET ADD LINK RESPONSE
 export function* addLink(action: any) {
@@ -144,7 +152,7 @@ export function* updateUserInfo(action: any) {
   const requestBody = action.payload.requestBody;
   const t = action.payload.translation;
   const access_token: string = yield select(AccessToken);
-  const currentUserInfo: UserProfileAttribute = yield select(UserProfile);
+  let currentUserInfo: UserProfileAttribute = yield select(UserProfile);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -172,7 +180,10 @@ export function* updateUserInfo(action: any) {
       currentUserInfo.username = raw_response.data.username;
       currentUserInfo.name = raw_response.data.name;
       currentUserInfo.description = raw_response.data.description;
-      yield put(setUserProfile(currentUserInfo));
+      yield put(setUserProfile({...currentUserInfo}));
+
+      const refKey: number = yield select(ProfileInfoUpdatedRefKey);
+      yield put(setProfileInfoUpdatedRefKey(refKey + 1));
     } else {
       if (raw_response.message === 'USERNAME_ALREADY_EXISTS') {
         const editProfileInfoAlert = {

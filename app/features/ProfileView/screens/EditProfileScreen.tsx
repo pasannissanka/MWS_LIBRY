@@ -36,8 +36,15 @@ export default function EditProfileScreen() {
     (state: any) => state.commonReducer.endPointErrorVisibility,
   );
 
+  const RefKeyVlaue: number = useSelector(
+    (state: any) => state.profileViewReducer.linkUpdatedRefKey,
+  );
+
   const profilePicAvailability = USER_PROFILE.profilePicture ? true : false;
   const numOfLinks = USER_PROFILE.links.length;
+  const ProfileInfoUpdatedRefKey: number = useSelector(
+    (state: any) => state.profileViewReducer.linkUpdatedRefKey,
+  );
 
   let editProfileInfoAlert = {
     visible: false,
@@ -159,10 +166,6 @@ export default function EditProfileScreen() {
     username !== USER_PROFILE.username ||
     selectedImagePath;
 
-  let RefKeyVlaue: number = useSelector(
-    (state: any) => state.profileViewReducer.linkUpdatedRefKey,
-  );
-
   return (
     <>
       <StatusBar
@@ -175,7 +178,7 @@ export default function EditProfileScreen() {
           <EndPointError onPressBack={onPressBack} />
         </View>
       ) : (
-        <View style={styles.parentView}>
+        <View style={styles.parentView} key={ProfileInfoUpdatedRefKey}>
           <Header
             style={styles.header}
             onPressBack={onPressBack}

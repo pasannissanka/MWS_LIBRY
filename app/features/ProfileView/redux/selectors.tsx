@@ -7,3 +7,7 @@ export const UserProfile = (state: {appAccessReducer: {userProfile: object}}) =>
 export const LinkUpdatedRefKey = (state: {
   profileViewReducer: {linkUpdatedRefKey: number};
 }) => state.profileViewReducer.linkUpdatedRefKey;
+
+export const ProfileInfoUpdatedRefKey = (state: {
+  profileViewReducer: {profileInfoUpdatedRefKey: number};
+}) => state.profileViewReducer.profileInfoUpdatedRefKey;

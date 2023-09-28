@@ -165,12 +165,12 @@ export default function EditProfileScreen() {
       height: 320,
       cropping: true,
       mediaType: 'photo',
+      cropperCircleOverlay: true,
     }).then(async image => {
       const selectedImage: ImageInterface = {
         filename: image.filename,
         path: image.path,
       };
-      console.log('Path->', image.path)
       setSelectedProfileImage(selectedImage);
     });
   };

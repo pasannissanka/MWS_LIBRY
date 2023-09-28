@@ -16,10 +16,15 @@ import PrimaryContainer from '../../../components/containers/PrimaryContainer';
 import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
-import {getUserInfoUpdateResponse} from '../redux/action/action';
+import {
+  getProfileImageUploadedResponse,
+  getUserInfoUpdateResponse,
+} from '../redux/action/action';
 import EndPointError from '../../../components/views/EndPointError';
 import ImagePicker from 'react-native-image-crop-picker';
 import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
+import {GetProfileImgUploadUrlRequest} from '../../../services/models/requests';
+import {ImageInterface} from '../interfaces/ImageInterface';
 
 export default function EditProfileScreen() {
   const {t} = useTranslation();
@@ -116,6 +121,23 @@ export default function EditProfileScreen() {
     }
   };
 
+  const onPressSaveButton1 = async () => {
+    if (selectedProfileImage) {
+      const param: GetProfileImgUploadUrlRequest = {
+        'file-type': selectedProfileImage.filename?.toString().split('.')[1],
+      };
+      const response = await fetch(selectedProfileImage.path);
+      const imageBody = await response.blob();
+
+      const payload = {
+        param: param,
+        imageBody: imageBody,
+      };
+
+      dispatch(getProfileImageUploadedResponse(payload));
+    }
+  };
+
   const showAlert = () => {
     dispatch(setAlertBoxVisibility(editProfileInfoAlert));
   };
@@ -137,34 +159,39 @@ export default function EditProfileScreen() {
     }
   };
 
-  const onGallery = () => {
+  const onGallery = async () => {
     ImagePicker.openPicker({
       width: 320,
       height: 320,
       cropping: true,
       mediaType: 'photo',
-    }).then(image => {
-      console.log(image);
-      setSelectedImagePath(image.path);
+    }).then(async image => {
+      const selectedImage: ImageInterface = {
+        filename: image.filename,
+        path: image.path,
+      };
+      console.log('Path->', image.path)
+      setSelectedProfileImage(selectedImage);
     });
   };
 
   const profileImagePreview = () => {
-    return selectedImagePath
-      ? {uri: selectedImagePath}
+    return selectedProfileImage?.path
+      ? {uri: selectedProfileImage.path}
       : Images.icons.edit_profile_icon;
   };
 
   const [username, onChangeUsername] = useState(USER_PROFILE.username);
   const [name, onChangeName] = useState(USER_PROFILE.name);
   const [bio, onChangeBio] = useState(USER_PROFILE.description);
-  const [selectedImagePath, setSelectedImagePath] = useState<string>();
+  const [selectedProfileImage, setSelectedProfileImage] =
+    useState<ImageInterface>();
 
   const saveButtonVisibility =
     name !== USER_PROFILE.name ||
     bio !== USER_PROFILE.description ||
     username !== USER_PROFILE.username ||
-    selectedImagePath;
+    selectedProfileImage;
 
   return (
     <>

@@ -4,6 +4,7 @@ import {
   GET_EDIT_LINK_RESPONSE,
   GET_EMAIL_CHANGE_RESPONSE,
   GET_PASSWORD_CHANGE_RESPONSE,
+  GET_PROFILE_IMAGE_UPLOADED_RESPONSE,
   GET_USER_INFO_UPDATE_RESPONSE,
   SET_LINK_UPDATED_REFERNCE_KEY,
   SET_PORFILE_INFO_UPDATED_REFERNCE_KEY,
@@ -62,5 +63,12 @@ export const setProfileInfoUpdatedRefKey = (key: number) => {
   return {
     type: SET_PORFILE_INFO_UPDATED_REFERNCE_KEY,
     payload: key,
+  };
+};
+
+export const getProfileImageUploadedResponse = (payload: object) => {
+  return {
+    type: GET_PROFILE_IMAGE_UPLOADED_RESPONSE,
+    payload: payload,
   };
 };

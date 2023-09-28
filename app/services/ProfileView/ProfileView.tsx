@@ -61,3 +61,18 @@ export function fetchPasswordChangeResponse(token: string, body: object) {
     body,
   );
 }
+
+export function fetchProfileImgUploadUrl(token: string, param: object) {
+  return callService(
+    Env.BASE_URL,
+    ProfileViewEndPoints.GET_PROFILE_IMAGE_UPLOAD_URL,
+    'GET',
+    token,
+    null,
+    param,
+  );
+}
+
+export function fetchuploadProfileImageResponse(url: string, imageBody: any) {
+  return callService(url, null, 'PUT', null, imageBody, null);
+}

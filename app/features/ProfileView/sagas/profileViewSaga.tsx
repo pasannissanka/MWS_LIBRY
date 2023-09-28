@@ -10,7 +10,9 @@ import {
   fetchEditLinkResponse,
   fetchEmailChangeResponse,
   fetchPasswordChangeResponse,
+  fetchProfileImgUploadUrl,
   fetchUpdateUserInfoResponse,
+  fetchuploadProfileImageResponse,
 } from '../../../services/ProfileView/ProfileView';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import {
@@ -25,6 +27,7 @@ import {
   setLinkUpdatedRefKey,
   setProfileInfoUpdatedRefKey,
 } from '../redux/action/action';
+import {GetProfileImgUploadUrlResponse} from '../../../services/models/responses';
 
 //GET ADD LINK RESPONSE
 export function* addLink(action: any) {
@@ -313,5 +316,48 @@ export function* changePassword(action: any) {
     yield put(setEndPointErrorVisible(true));
 
     console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
+  }
+}
+
+//GET PROFILE IMAGE UPLOAD RESPONSE
+export function* getProfileImgUploadUrl(action: any) {
+  const param = action.payload.param;
+  const imageBody = action.payload.imageBody;
+
+  const access_token: string = yield select(AccessToken);
+  let imageUploadUrl: string = '';
+
+  try {
+    yield put(setSpinnerVisible(true));
+    const fetchProfileImgUploadUrlResponse: GetProfileImgUploadUrlResponse =
+      yield call(fetchProfileImgUploadUrl, access_token, param);
+
+    if (
+      fetchProfileImgUploadUrlResponse.message ===
+      'PROFILE_IMAGE_UPLOAD_LINK_GENERATED'
+    ) {
+      imageUploadUrl = fetchProfileImgUploadUrlResponse.data.uploadUrl;
+
+      yield* uploadProfileImage(imageUploadUrl, imageBody);
+    } else {
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
+  }
+}
+
+function* uploadProfileImage(url: string, imageBody: any) {
+  console.log('URL->', url, '---', 'ImageBOdy->', imageBody);
+  try {
+    yield call(fetchuploadProfileImageResponse, url, imageBody);
+    console.log('Image Success Response->', responseBody);
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
   }
 }

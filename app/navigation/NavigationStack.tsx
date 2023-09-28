@@ -18,6 +18,13 @@ import WelcomeLibryScreen from '../features/AppAccess/screens/WelcomeLibryScreen
 import YourLibryReadyScreen from '../features/AppAccess/screens/YourLibryReadyScreen';
 import PublishFirstIdeaScreen from '../features/AppAccess/screens/PublishFirstIdeaScreen';
 import EnterUsernameScreen from '../features/AppAccess/screens/EnterUsernameScreen';
+import AccountSettingsScreen from '../features/ProfileView/screens/AccountSettingsScreen';
+import SettingsScreen from '../features/ProfileView/screens/SettingsScreen';
+import PasswordChangeConfirmation from '../features/ProfileView/screens/PasswordChangeConfirmation';
+import EmailChangeConfirmation from '../features/ProfileView/screens/EmailChangeConfirmation';
+import EditProfileScreen from '../features/ProfileView/screens/EditProfileScreen';
+import EditLinksOrderScreen from '../features/ProfileView/screens/EditLinksOrderScreen';
+import EditAddLinkScreen from '../features/ProfileView/screens/EditAddLinkScreen';
 
 const Stack = createStackNavigator();
 
@@ -70,6 +77,28 @@ const NavigationStack = (): React.JSX.Element => {
         name="EnterUsernameScreen"
         component={EnterUsernameScreen}
       />
+
+      {/* Profile Settings */}
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+
+      <Stack.Screen
+        name="AccountSettingsScreen"
+        component={AccountSettingsScreen}
+      />
+      <Stack.Screen
+        name="PasswordChangeConfirmation"
+        component={PasswordChangeConfirmation}
+      />
+      <Stack.Screen
+        name="EmailChangeConfirmation"
+        component={EmailChangeConfirmation}
+      />
+      <Stack.Screen name="EditProfileScreen" component={EditProfileScreen} />
+      <Stack.Screen
+        name="EditLinksOrderScreen"
+        component={EditLinksOrderScreen}
+      />
+      <Stack.Screen name="EditAddLinkScreen" component={EditAddLinkScreen} />
     </Stack.Navigator>
   );
 };

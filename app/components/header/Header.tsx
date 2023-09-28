@@ -9,14 +9,14 @@ import {
   View,
 } from 'react-native';
 import React, {PropsWithChildren, RefObject, useEffect} from 'react';
-import {Colors, Images} from '../../theme';
+import {Colors, Fonts, Images} from '../../theme';
 import {useDispatch} from 'react-redux';
 import {setEndPointErrorVisible} from '../../redux/action/action';
 
 type HeaderProps = PropsWithChildren<{
   style?: object;
   onPressBack: () => void;
-  title?: string;
+  title?: string | null;
   skipButton?: boolean;
   onPressSkip?: () => void;
   searchBar?: boolean;
@@ -29,6 +29,8 @@ type HeaderProps = PropsWithChildren<{
   searchBarRef?: RefObject<TextInput>;
   onPressHamburger?: () => void;
   onPressMeatballs?: () => void;
+  rightButton?: string | null;
+  onPressRightButton?: () => void;
 }>;
 
 const Header: React.FC<HeaderProps> = ({
@@ -47,6 +49,8 @@ const Header: React.FC<HeaderProps> = ({
   searchBarRef,
   onPressHamburger,
   onPressMeatballs,
+  rightButton = '',
+  onPressRightButton,
 }) => {
   const dispatch = useDispatch();
 
@@ -93,6 +97,16 @@ const Header: React.FC<HeaderProps> = ({
             <Text style={styles.skipButton}>SKIP</Text>
           </TouchableOpacity>
         </>
+      )}
+
+      {rightButton ? (
+        <>
+          <TouchableOpacity onPress={onPressRightButton}>
+            <Text style={styles.rightButtonText}>{rightButton}</Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <View style={styles.rightButtonSpace} />
       )}
 
       {searchBar && (
@@ -188,8 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 8,
-    marginRight: 32,
+    marginHorizontal: 8,
   },
   title: {
     fontFamily:
@@ -261,5 +274,18 @@ const styles = StyleSheet.create({
     textAlign: 'right',
     fontWeight: '600',
     color: Colors.text.GRAY_TEXT_COLOR,
+  },
+  rightButtonText: {
+    fontSize: 20,
+    fontFamily: Fonts.MyriadProRegular,
+    fontWeight: '600',
+    lineHeight: 24,
+    textAlign: 'right',
+    color: Colors.text.LINK_TEXT_COLOR,
+  },
+  rightButtonSpace: {
+    width: 24,
+    height: 32,
+    borderRadius: 4,
   },
 });

@@ -1,12 +1,117 @@
 {
     "profileView": {
         "profileViewScreen": {
-            "detailsView":{
+            "detailsView": {
                 "addedButton": "ADDED",
                 "addButton": "+ ADD",
                 "addingsButton": " addings",
                 "addsButton": " adds"
             }
+        },
+        "accountSettingsScreen": {
+            "screenTitle": "Account",
+            "option1": "Change Password",
+            "option2": "Change Email",
+            "option3": "Delete account",
+            "option4": "Email unverified",
+            "option4_lined_text": "Re-send verification email",
+            "option5": "Edit Profile",
+            "detailsUpdateAlert": {
+                "description1": "Password updated",
+                "description2": "Email updated",
+                "description3": "Email verification sent"
+            },
+            "deleteConfirmation": {
+                "title": "Are you sure you want to delete your Libry account?",
+                "description": "This is non-reversible. Your content and settings will all be deleted.",
+                "button": "DELETE",
+                "negativeButton": "NO, GO BACK"
+            }
+        },
+        "settingsScreen": {
+            "screenTitle": "Settings",
+            "option1": "Account",
+            "option2": "Send us Feedback",
+            "option3": "Terms of Service",
+            "option4": "Privacy",
+            "option5": "Sign Out"
+        },
+        "PasswordChangeConfirmationScreen": {
+            "screenTitle": "Change Password",
+            "headerRightButton": "Save",
+            "currentPasswordInputLabel": "Current Password",
+            "passwordInputLabel": "New Password",
+            "conPasswordInputLabel": "Confirm Password",
+            "currentPasswordInputPlaceholder": "Currnet Password",
+            "passwordInputPlaceholder": "Password",
+            "conPasswordInputPlaceholder": "Confirm Password",
+            "passwordChangingAlertOne": {
+                "title": "Passwords don’t match",
+                "description": "Please try entering the passwords in again.",
+                "button": "OK"
+            },
+            "passwordChangingAlertTwo": {
+                "title": "That’s not a new password",
+                "description": "Please enter a new password other than your current one.",
+                "button": "OK"
+            },
+            "passwordChangingAlertThree": {
+                "title": "Current Password Required",
+                "description": "Please Enter Your Current Password to Continue.",
+                "button": "OK"
+            }
+        },
+        "EmailChangeConfirmationScreen": {
+            "screenTitle": "Change Email",
+            "headerRightButton": "Save",
+            "emailInputLabel": "New Email",
+            "emailInputPlaceholder": "Email",
+            "emailChangingAlertOne": {
+                "title": "That’s not an email",
+                "description": "Please enter an email address with correct formatting.",
+                "button": "OK"
+            },
+            "emailChangingAlertTwo": {
+                "title": "That’s not a new email",
+                "description": "Please enter a new email other than your current one.",
+                "button": "OK"
+            }
+        },
+        "EditProfileScreen": {
+            "screenTitle": "Edit Profile",
+            "headerRightButton": "Save",
+            "changePicture": "Change picture",
+            "links": "Links",
+            "usernameInputLabel": "Username",
+            "nameInputLabel": "Name",
+            "bioInputLabel": "Bio",
+            
+            "editProfileInfoAlertOne": {
+                "title": "Can’t remove name",
+                "description": "Please add in a name before saving your changes.",
+                "button": "OK"
+            },
+            "editProfileInfoAlertTwo": {
+                "title": "Can’t remove username",
+                "description": "Please add in a username before saving your changes.",
+                "button": "OK"
+            },
+            "editProfileInfoAlertThree": {
+                "title": "This username already exists",
+                "description": "Please change your username and try again.",
+                "button": "OK"
+            }
+        },
+        "EditLinksOrderScreen": {
+            "screenTitle": "Links",
+            "addLink": "+ ADD LINK"
+        },
+        "EditAddLinkScreen": {
+            "addLinkScreenTitle": "Add Link",
+            "editLinkScreenTitle": "Edit Link",
+            "headerRightButton": "Done",
+            "nameInputLabel": "Name",
+            "urlInputLabel": "URL"
         }
     }
 }

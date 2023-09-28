@@ -54,3 +54,6 @@ export const RegisteredResponse = (state: {
 export const SuggestUsersProfils = (state: {
   appAccessReducer: {suggestUserProfils: object};
 }) => state.appAccessReducer.suggestUserProfils;
+
+export const UserProfile = (state: {appAccessReducer: {userProfile: object}}) =>
+  state.appAccessReducer.userProfile;

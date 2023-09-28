@@ -1,6 +1,6 @@
 import {callService} from '..';
 import Env from '../../config/environment';
-import AppAccessEndPoints from '../../constants/ServiceEndPoints/ServiceEndPoints';
+import AppAccessEndPoints from '../../constants/ServiceEndPoints/AppAccessEndPoints';
 
 export function fetchSignUpResponse(body: object) {
   return callService(

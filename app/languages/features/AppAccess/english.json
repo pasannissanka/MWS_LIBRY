@@ -112,7 +112,7 @@
         "enterBirthdayScreen": {
             "title": "My birthday is",
             "description": "Your age is not public.",
-            "placeholder": "DD / MM / YY",
+            "placeholder": "YY-MM-DD",
             "next": "NEXT"
         },
         "addYourLibryScreen": {

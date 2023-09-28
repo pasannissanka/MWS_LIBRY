@@ -20,6 +20,9 @@ const ProfileDetails = (): React.JSX.Element => {
   const USER_PROFILE = useSelector(
     (state: any) => state.appAccessReducer.userProfile,
   );
+  const ProfileInfoUpdatedRefKey: number = useSelector(
+    (state: any) => state.profileViewReducer.linkUpdatedRefKey,
+  );
 
   const FollowersCount =
     `${
@@ -38,7 +41,7 @@ const ProfileDetails = (): React.JSX.Element => {
   const status = {Add: 'Add', Added: 'Added', Addings: 'Addings'};
   const [addButton, setAddButton] = useState<string>(status.Addings);
   return (
-    <View style={styles.parentView}>
+    <View style={styles.parentView} key={ProfileInfoUpdatedRefKey}>
       <View style={styles.topRow}>
         <Image
           resizeMode="contain"

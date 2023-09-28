@@ -2,10 +2,11 @@ import axios from 'axios';
 
 const callService = async (
   BASE_URL: string,
-  END_POINT: string,
+  END_POINT: string | null,
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE',
   token: string | null,
   body: object | null,
+  params?: object | null | undefined,
 ) => {
   let response_data = {};
   const URL = BASE_URL + END_POINT;
@@ -33,6 +34,39 @@ const callService = async (
           .get(URL, {
             headers: {
               Authorization: `Bearer ${token}`,
+              params: params,
+            },
+          })
+          .then(response => {
+            response_data = response.data;
+            resolve(response_data);
+            console.log(response.data);
+          })
+          .catch(error => {
+            reject(error);
+            console.log(`SERVICE_ERROR ${URL} =>`, error);
+          });
+      } else if (method === 'DELETE') {
+        await axios
+          .delete(URL, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(response => {
+            response_data = response.data;
+            resolve(response_data);
+            console.log(response.data);
+          })
+          .catch(error => {
+            reject(error);
+            console.log(`SERVICE_ERROR ${URL} =>`, error);
+          });
+      } else if (method === 'PUT') {
+        await axios
+          .put(URL, {
+            headers: {
+              'Content-Type': 'image/jpeg',
             },
           })
           .then(response => {

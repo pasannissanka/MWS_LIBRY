@@ -34,16 +34,16 @@ const EnterBirthdayScreen = () => {
 
     // Split the input into groups of two digits
     const groups = digitsOnly.match(/(\d{1,2})/g);
-
     // Join the groups with a "/"
-    const formatted = groups ? groups.join('/') : '';
+    const formatted = groups ? groups.join('-') : '';
     setBirthday(formatted);
   };
 
   const onPressNext = () => {
     if (birthday.trim().length > 0) {
+      const formatedBirthday = '19' + birthday.trim();
       setWarning(false);
-      dispatch(setUserEnteredBirthDate(birthday.trim()));
+      dispatch(setUserEnteredBirthDate(formatedBirthday));
       dispatch(getAddNameBirthDateResponse());
     } else {
       setWarning(true);

@@ -1,16 +1,17 @@
 import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {PropsWithChildren} from 'react';
-import data from '../dummyData/data';
 import {useSelector} from 'react-redux';
+import { UserProfileAttribute } from '../interfaces';
 type SectionProps = PropsWithChildren<{
   style?: object;
 }>;
 const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
-  const USER_PROFILE = useSelector(
+  const USER_PROFILE: UserProfileAttribute = useSelector(
     (state: any) => state.appAccessReducer.userProfile,
   );
   const Description = USER_PROFILE.description;
   const LinksAvailability = USER_PROFILE.links.length > 0;
+
   const Links = USER_PROFILE.links;
   return (
     <View style={{...styles.parentView, ...style}}>
@@ -22,7 +23,7 @@ const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
               style={styles.linkText}
               numberOfLines={1}
               ellipsizeMode="tail">
-              {item.link}
+              {item.title}
             </Text>
           </TouchableOpacity>
         ))}
@@ -45,7 +46,6 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     color: '#FFFFFF',
     marginBottom: 12,
-    backgroundColor: 'green',
   },
   touchableLink: {
     width: '100%',

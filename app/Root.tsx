@@ -72,6 +72,9 @@ const Root = (): React.JSX.Element => {
         description={AlertBoxVisibility.description}
         button={AlertBoxVisibility.button}
         onPress={AlertBoxVisibility.onPress}
+        negativeButton={AlertBoxVisibility.negativeButton}
+        onPressNegative={AlertBoxVisibility.onPressNegative}
+        buttonTextStyle={AlertBoxVisibility.buttonTextStyle}
       />
     </>
   );

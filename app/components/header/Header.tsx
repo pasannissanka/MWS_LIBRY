@@ -8,32 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {PropsWithChildren, RefObject, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Colors, Fonts, Images} from '../../theme';
 import {useDispatch} from 'react-redux';
 import {setEndPointErrorVisible} from '../../redux/action/action';
+import {HeaderProps} from '../Interfaces';
 
-type HeaderProps = PropsWithChildren<{
-  style?: object;
-  onPressBack: () => void;
-  title?: string | null;
-  skipButton?: boolean;
-  onPressSkip?: () => void;
-  searchBar?: boolean;
-  searchBarImageUri?: string;
-  searchBarRightIcon?: 'meatballs' | 'hamburger' | 'none';
-  onChangeSearchBarText?: (text: string) => void;
-  searchBarValue?: string;
-  onFocusSearchBar?: () => void;
-  onBlurSearchBar?: () => void;
-  searchBarRef?: RefObject<TextInput>;
-  onPressHamburger?: () => void;
-  onPressMeatballs?: () => void;
-  rightButton?: string | null;
-  onPressRightButton?: () => void;
-}>;
-
-const Header: React.FC<HeaderProps> = ({
+const Header = ({
   style,
   onPressBack,
   title,
@@ -51,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
   onPressMeatballs,
   rightButton = '',
   onPressRightButton,
-}) => {
+}: HeaderProps) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -185,6 +166,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
+    paddingBottom: 4,
   },
   backButton: {
     width: 24,

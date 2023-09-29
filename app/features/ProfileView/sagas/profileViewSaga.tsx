@@ -351,10 +351,9 @@ export function* getProfileImgUploadUrl(action: any) {
 }
 
 function* uploadProfileImage(url: string, imageBody: any) {
-  console.log('URL->', url, '---', 'ImageBOdy->', imageBody);
   try {
     yield call(fetchuploadProfileImageResponse, url, imageBody);
-    console.log('Image Success Response->', responseBody);
+    console.log('<- S3 Image Upload Success ->');
     yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));

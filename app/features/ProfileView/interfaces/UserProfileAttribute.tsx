@@ -20,7 +20,13 @@ export type UserProfileAttribute = {
       order: number;
     },
   ];
-  profilePicture: object;
+  profilePicture: {
+    bucket: string;
+    key: string;
+    mediaType: any;
+    type: string;
+    s3Url: string;
+  };
   followersCount: number;
   followingCount: number;
 };

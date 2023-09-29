@@ -17,3 +17,22 @@ export type GetProfileImgUploadUrlResponse = {
   };
   message: string;
 };
+
+export type GetProfileImgUploadCompletedResponse = {
+  data: {
+    profilePicture: {
+      id: string;
+      key: string;
+      uploadedUserId: string;
+      type: string;
+      mediaType: any;
+      s3Url: string;
+      bucket: string;
+      uploadUrl: string;
+      expireTime: any;
+      isCompleted: boolean;
+      created: string;
+    };
+  };
+  message: string;
+};

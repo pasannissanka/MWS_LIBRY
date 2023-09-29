@@ -15,7 +15,11 @@ const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
   const Links = USER_PROFILE.links;
   return (
     <View style={{...styles.parentView, ...style}}>
-      {Description && <Text style={styles.discriptionText}>{Description}</Text>}
+      {Description && (
+        <Text style={styles.discriptionText} numberOfLines={3}>
+          {Description}
+        </Text>
+      )}
       {LinksAvailability &&
         Links.map((item: any, index: number) => (
           <TouchableOpacity style={styles.touchableLink} key={index}>

@@ -34,8 +34,8 @@ const callService = async (
           .get(URL, {
             headers: {
               Authorization: `Bearer ${token}`,
-              params: params,
             },
+            params: params,
           })
           .then(response => {
             response_data = response.data;
@@ -63,16 +63,30 @@ const callService = async (
             console.log(`SERVICE_ERROR ${URL} =>`, error);
           });
       } else if (method === 'PUT') {
-        await axios
-          .put(URL, {
-            headers: {
-              'Content-Type': 'image/jpeg',
-            },
-          })
+        // await axios
+        //   .put(URL, {
+        //     headers: {
+        //       'Content-Type': 'image/jpeg',
+        //     },
+        //   })
+        //   .then(response => {
+        //     response_data = response.data;
+        //     resolve(response_data);
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => {
+        //     reject(error);
+        //     console.log(`SERVICE_ERROR ${URL} =>`, error);
+        //   });
+
+        await fetch(URL, {
+          method: 'PUT',
+          body: body,
+          headers: {'Content-Type': 'application/octet-stream'},
+        })
           .then(response => {
-            response_data = response.data;
-            resolve(response_data);
-            console.log(response.data);
+            resolve(response);
+            console.log(resolve);
           })
           .catch(error => {
             reject(error);

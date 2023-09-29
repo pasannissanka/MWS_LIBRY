@@ -10,9 +10,10 @@ import {
   fetchEditLinkResponse,
   fetchEmailChangeResponse,
   fetchPasswordChangeResponse,
+  fetchProfileImgUploadCompletedResponse,
   fetchProfileImgUploadUrl,
   fetchUpdateUserInfoResponse,
-  fetchuploadProfileImageResponse,
+  fetchUploadProfileImageResponse,
 } from '../../../services/ProfileView/ProfileView';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import {
@@ -27,7 +28,14 @@ import {
   setLinkUpdatedRefKey,
   setProfileInfoUpdatedRefKey,
 } from '../redux/action/action';
-import {GetProfileImgUploadUrlResponse} from '../../../services/models/responses';
+import {
+  GetProfileImgUploadCompletedResponse,
+  GetProfileImgUploadUrlResponse,
+} from '../../../services/models/responses';
+import {
+  GetProfileImgUploadCompletedRequest,
+  GetProfileImgUploadUrlRequest,
+} from '../../../services/models/requests';
 
 //GET ADD LINK RESPONSE
 export function* addLink(action: any) {
@@ -326,6 +334,7 @@ export function* getProfileImgUploadUrl(action: any) {
 
   const access_token: string = yield select(AccessToken);
   let imageUploadUrl: string = '';
+  let imageKey: string = '';
 
   try {
     yield put(setSpinnerVisible(true));
@@ -337,8 +346,9 @@ export function* getProfileImgUploadUrl(action: any) {
       'PROFILE_IMAGE_UPLOAD_LINK_GENERATED'
     ) {
       imageUploadUrl = fetchProfileImgUploadUrlResponse.data.uploadUrl;
+      imageKey = fetchProfileImgUploadUrlResponse.data.media.key;
 
-      yield* uploadProfileImage(imageUploadUrl, imageBody);
+      yield* uploadProfileImage(imageUploadUrl, imageBody, imageKey);
     } else {
     }
     yield put(setSpinnerVisible(false));
@@ -350,11 +360,40 @@ export function* getProfileImgUploadUrl(action: any) {
   }
 }
 
-function* uploadProfileImage(url: string, imageBody: any) {
-  console.log('URL->', url, '---', 'ImageBOdy->', imageBody);
+//PROFILE IMAGE UPLOADING & GET UPLOADED COMPLETED API RESPONSE
+function* uploadProfileImage(url: string, imageBody: any, imageKey: string) {
   try {
-    yield call(fetchuploadProfileImageResponse, url, imageBody);
-    console.log('Image Success Response->', responseBody);
+    yield call(fetchUploadProfileImageResponse, url, imageBody);
+    console.log('<- S3 Image Upload Success ->');
+
+    const access_token: string = yield select(AccessToken);
+    const requestBody: GetProfileImgUploadCompletedRequest = {
+      key: imageKey,
+    };
+    let currentUserInfo: UserProfileAttribute = yield select(UserProfile);
+
+    const uploadCompletResponse: GetProfileImgUploadCompletedResponse =
+      yield call(
+        fetchProfileImgUploadCompletedResponse,
+        access_token,
+        requestBody,
+      );
+
+    if (uploadCompletResponse.message === 'PROFILE_IMAGE_UPLOAD_COMPLETED') {
+      currentUserInfo.profilePicture.bucket =
+        uploadCompletResponse.data.profilePicture.bucket;
+      currentUserInfo.profilePicture.key =
+        uploadCompletResponse.data.profilePicture.key;
+      currentUserInfo.profilePicture.mediaType =
+        uploadCompletResponse.data.profilePicture.mediaType;
+      currentUserInfo.profilePicture.s3Url =
+        uploadCompletResponse.data.profilePicture.s3Url;
+      currentUserInfo.profilePicture.type =
+        uploadCompletResponse.data.profilePicture.type;
+
+      yield put(setUserProfile({...currentUserInfo}));
+    } else {
+    }
     yield put(setSpinnerVisible(false));
   } catch (error) {
     yield put(setSpinnerVisible(false));

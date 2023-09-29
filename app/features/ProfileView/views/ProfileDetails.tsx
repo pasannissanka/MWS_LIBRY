@@ -11,13 +11,14 @@ import {Dimensions} from 'react-native';
 import {Colors, Images} from '../../../theme';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
+import {UserProfileAttribute} from '../interfaces';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 const ProfileDetails = (): React.JSX.Element => {
   const {t} = useTranslation();
-  const USER_PROFILE = useSelector(
+  const USER_PROFILE: UserProfileAttribute = useSelector(
     (state: any) => state.appAccessReducer.userProfile,
   );
   const ProfileInfoUpdatedRefKey: number = useSelector(
@@ -40,13 +41,14 @@ const ProfileDetails = (): React.JSX.Element => {
 
   const status = {Add: 'Add', Added: 'Added', Addings: 'Addings'};
   const [addButton, setAddButton] = useState<string>(status.Addings);
+
   return (
     <View style={styles.parentView} key={ProfileInfoUpdatedRefKey}>
       <View style={styles.topRow}>
         <Image
-          resizeMode="contain"
+          resizeMode="cover"
           style={styles.profileImage}
-          source={require('../../../assets/dummyImages/philhughes-profile/philhughes.png')}
+          source={{uri: USER_PROFILE.profilePicture.s3Url}}
         />
         <View style={styles.topRowLeftContainer}>
           <Text style={styles.profileName}>{USER_PROFILE.name}</Text>
@@ -111,6 +113,7 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 32,
     marginRight: 15,
+    backgroundColor: Colors.SCREEN_INACTIVE_COLOR,
   },
   topRowLeftContainer: {
     flex: 1,

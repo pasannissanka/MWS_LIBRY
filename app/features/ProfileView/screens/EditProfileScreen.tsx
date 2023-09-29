@@ -25,6 +25,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 import {GetProfileImgUploadUrlRequest} from '../../../services/models/requests';
 import {ImageInterface} from '../interfaces/ImageInterface';
+import {UserProfileAttribute} from '../interfaces';
 
 export default function EditProfileScreen() {
   const {t} = useTranslation();
@@ -33,7 +34,7 @@ export default function EditProfileScreen() {
   const nameRef = useRef<any>();
   const bioRef = useRef<any>();
 
-  const USER_PROFILE = useSelector(
+  const USER_PROFILE: UserProfileAttribute = useSelector(
     (state: any) => state.appAccessReducer.userProfile,
   );
 
@@ -67,7 +68,7 @@ export default function EditProfileScreen() {
     RootNavigation.navigate('EditLinksOrderScreen');
   };
 
-  const onPressSaveButton = async () => {
+  const onPressSaveButtonForProfInfo = async () => {
     const requestBody = {
       name: name,
       description: bio,
@@ -121,7 +122,7 @@ export default function EditProfileScreen() {
     }
   };
 
-  const onPressSaveButton1 = async () => {
+  const onPressSaveButtonForProfImage = async () => {
     if (selectedProfileImage) {
       const param: GetProfileImgUploadUrlRequest = {
         'file-type': selectedProfileImage.filename?.toString().split('.')[1],
@@ -135,6 +136,7 @@ export default function EditProfileScreen() {
       };
 
       dispatch(getProfileImageUploadedResponse(payload));
+      setSelectedProfileImage(undefined);
     }
   };
 
@@ -178,7 +180,7 @@ export default function EditProfileScreen() {
   const profileImagePreview = () => {
     return selectedProfileImage?.path
       ? {uri: selectedProfileImage.path}
-      : Images.icons.edit_profile_icon;
+      : {uri: USER_PROFILE.profilePicture.s3Url};
   };
 
   const [username, onChangeUsername] = useState(USER_PROFILE.username);
@@ -187,11 +189,12 @@ export default function EditProfileScreen() {
   const [selectedProfileImage, setSelectedProfileImage] =
     useState<ImageInterface>();
 
-  const saveButtonVisibility =
+  const profInfoChanged =
     name !== USER_PROFILE.name ||
     bio !== USER_PROFILE.description ||
-    username !== USER_PROFILE.username ||
-    selectedProfileImage;
+    username !== USER_PROFILE.username;
+
+  const saveButtonVisibility = profInfoChanged || selectedProfileImage;
 
   return (
     <>
@@ -215,7 +218,17 @@ export default function EditProfileScreen() {
                 ? t('profileView.EditProfileScreen.headerRightButton')
                 : null
             }
-            onPressRightButton={onPressSaveButton}
+            onPressRightButton={() => {
+              if (profInfoChanged && selectedProfileImage) {
+                onPressSaveButtonForProfImage();
+                onPressSaveButtonForProfInfo();
+              } else if (profInfoChanged && !selectedProfileImage) {
+                onPressSaveButtonForProfInfo();
+              } else if (!profInfoChanged && selectedProfileImage) {
+                onPressSaveButtonForProfImage();
+              } else {
+              }
+            }}
           />
 
           <PrimaryContainer style={styles.contentContainer}>
@@ -223,8 +236,9 @@ export default function EditProfileScreen() {
               style={styles.profileImageTouchable}
               onPress={addProfileImage}>
               <Image
+                defaultSource={Images.icons.edit_profile_icon}
                 style={styles.profileImage}
-                resizeMode="contain"
+                resizeMode="cover"
                 source={profileImagePreview()}
               />
             </TouchableOpacity>

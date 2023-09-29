@@ -73,6 +73,20 @@ export function fetchProfileImgUploadUrl(token: string, param: object) {
   );
 }
 
-export function fetchuploadProfileImageResponse(url: string, imageBody: any) {
+export function fetchUploadProfileImageResponse(url: string, imageBody: any) {
   return callService(url, null, 'PUT', null, imageBody, null);
+}
+
+export function fetchProfileImgUploadCompletedResponse(
+  token: string,
+  param: object,
+) {
+  return callService(
+    Env.BASE_URL,
+    ProfileViewEndPoints.PROFILE_IMAGE_UPLOAD_COMPLETED,
+    'GET',
+    token,
+    null,
+    param,
+  );
 }

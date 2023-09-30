@@ -32,6 +32,7 @@ const Header = ({
   onPressMeatballs,
   rightButton = '',
   onPressRightButton,
+  screenType = 'none',
 }: HeaderProps) => {
   const dispatch = useDispatch();
 
@@ -56,13 +57,24 @@ const Header = ({
 
   return (
     <View style={{...styles.parentView, ...style}}>
-      <TouchableOpacity style={styles.backButton} onPress={onPressBackArrow}>
-        <Image
-          style={styles.backArrow}
-          resizeMode="contain"
-          source={Images.icons.back_icon}
-        />
-      </TouchableOpacity>
+      {screenType === 'homeViewer' ? (
+        <TouchableOpacity onPress={onPressBackArrow}>
+          <Image
+            source={Images.logos.app_logo_header}
+            resizeMode="contain"
+            style={styles.libryIcon}
+          />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={styles.backButton} onPress={onPressBackArrow}>
+          <Image
+            style={styles.backArrow}
+            resizeMode="contain"
+            source={Images.icons.back_icon}
+          />
+        </TouchableOpacity>
+      )}
+
       {title && (
         <View style={styles.titleContainer}>
           <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
@@ -78,16 +90,6 @@ const Header = ({
             <Text style={styles.skipButton}>SKIP</Text>
           </TouchableOpacity>
         </>
-      )}
-
-      {rightButton ? (
-        <>
-          <TouchableOpacity onPress={onPressRightButton}>
-            <Text style={styles.rightButtonText}>{rightButton}</Text>
-          </TouchableOpacity>
-        </>
-      ) : (
-        <View style={styles.rightButtonSpace} />
       )}
 
       {searchBar && (
@@ -155,6 +157,16 @@ const Header = ({
           ) : null}
         </>
       )}
+
+      {rightButton && title ? (
+        <TouchableOpacity onPress={onPressRightButton}>
+          <Text style={styles.rightButtonText}>{rightButton}</Text>
+        </TouchableOpacity>
+      ) : title ? (
+        <View style={styles.rightButtonSpace} />
+      ) : (
+        <View />
+      )}
     </View>
   );
 };
@@ -175,6 +187,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#00000040',
     borderRadius: 4,
+  },
+  libryIcon: {
+    width: 64,
+    height: 32,
   },
   backArrow: {
     width: 8,

@@ -19,6 +19,8 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import SearchViewer from '../views/SearchViewer';
 import {HeaderSearchBarRightIcon} from '../../../components/Interfaces';
 import * as Animatable from 'react-native-animatable';
+import HomeViewer from '../views/HomeViewer';
+import {DashboardScreenTypes} from '../interfaces/DashboardInterface';
 
 const DashboardScreen = (): React.JSX.Element => {
   type TabNavigatorParams = {
@@ -26,7 +28,6 @@ const DashboardScreen = (): React.JSX.Element => {
     DummyOne: undefined;
   };
 
-  type ProfileTypes = 'someone' | 'user' | 'none';
   const Tab = createBottomTabNavigator();
   const navigation = useNavigation() as NavigationProp<TabNavigatorParams>;
   const infoBottomSheetRef: RefObject<RBSheet> = useRef<RBSheet>(null);
@@ -52,18 +53,36 @@ const DashboardScreen = (): React.JSX.Element => {
   };
 
   const [searchText, onChangeSearchText] = useState('');
-  const [profileType, setProfileType] = useState<ProfileTypes>('someone');
-  const [searchViewerVisibility, setSearchViewerVisibility] = useState(true);
+  const [screenType, setScreenType] =
+    useState<DashboardScreenTypes>('homeViewer');
+  const [searchViewerVisibility, setSearchViewerVisibility] = useState(false);
 
   const getHeaderRightIcon = (): HeaderSearchBarRightIcon => {
     if (searchViewerVisibility) {
       return 'none';
-    } else if (profileType === 'user') {
+    } else if (screenType === 'userProfileViewer') {
       return 'hamburger';
-    } else if (profileType === 'someone') {
+    } else if (screenType === 'none') {
       return 'meatballs';
     } else {
       return 'none';
+    }
+  };
+
+  const onChangeScreen = (e: any) => {
+    switch (e.data.state.index) {
+      case 0:
+        setScreenType('homeViewer');
+        break;
+      case 1:
+        setScreenType('none');
+        break;
+      case 2:
+        setScreenType('userProfileViewer');
+        break;
+      default:
+        setScreenType('none');
+        break;
     }
   };
 
@@ -79,6 +98,7 @@ const DashboardScreen = (): React.JSX.Element => {
       />
       <View style={styles.headerContainer}>
         <Header
+          screenType={screenType}
           searchBar={true}
           onPressBack={onPressBack}
           searchBarImageUri="https://reactnative.dev/img/tiny_logo.png"
@@ -104,7 +124,7 @@ const DashboardScreen = (): React.JSX.Element => {
         <Tab.Navigator
           screenListeners={{
             state: (e: any) => {
-              setProfileType(e.data.state.index === 2 ? 'user' : 'someone');
+              onChangeScreen(e);
             },
           }}
           initialRouteName="ProfileView"
@@ -114,8 +134,8 @@ const DashboardScreen = (): React.JSX.Element => {
             tabBarStyle: styles.tabBarStyle,
           }}>
           <Tab.Screen
-            name="ProfileView"
-            component={ProfileScreen}
+            name="HomeViewer"
+            component={HomeViewer}
             options={{
               tabBarIcon: ({focused}) => (
                 <>
@@ -174,7 +194,7 @@ const DashboardScreen = (): React.JSX.Element => {
         </Tab.Navigator>
       )}
 
-      <InfoBottomSheet reference={infoBottomSheetRef} infoType={profileType} />
+      <InfoBottomSheet reference={infoBottomSheetRef} infoType={screenType} />
     </KeyboardAvoidingView>
   );
 };

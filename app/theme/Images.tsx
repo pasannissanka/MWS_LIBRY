@@ -1,6 +1,7 @@
 const Images = {
   logos: {
     app_logo: require('../assets/images/app-logo/app-logo.png'),
+    app_logo_header: require('../assets/images/app-logo/app-logo-header.png'),
   },
   icons: {
     back_icon: require('../assets/images/back-arrow/back-arrow.png'),

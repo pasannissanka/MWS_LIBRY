@@ -11,6 +11,7 @@ import {
 import * as Animatable from 'react-native-animatable';
 import {Colors, Fonts, Images} from '../../../theme';
 import {SearchViewerProps} from '../interfaces';
+import LinearGradient from 'react-native-linear-gradient';
 
 type ActiveCatagory = 'POST' | 'PROFILE';
 type UserItemProps = {
@@ -85,57 +86,66 @@ const SearchViewer = ({onPressItem, reference}: SearchViewerProps) => {
       animation="fadeIn"
       duration={2000}
       ref={reference}>
-      <View style={styles.container}>
-        <View style={styles.catagoryRow}>
-          <TouchableOpacity
-            style={
-              activeCatagory === 'POST'
-                ? styles.catagoryActiveTouchable
-                : styles.catagoryTouchable
-            }
-            onPress={() => {
-              setActiveCatagory('POST');
-            }}>
-            <Text
+      <LinearGradient
+        colors={[
+          Colors.SCREEN_PRIMARY_DARK_BACKGROUND_COLOR,
+          Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
+        ]}
+        style={styles.gradientView}>
+        <View style={styles.container}>
+          <View style={styles.catagoryRow}>
+            <TouchableOpacity
               style={
                 activeCatagory === 'POST'
-                  ? styles.catagoryActiveText
-                  : styles.catagoryText
-              }>
-              {'Posts'}
-            </Text>
-          </TouchableOpacity>
+                  ? styles.catagoryActiveTouchable
+                  : styles.catagoryTouchable
+              }
+              onPress={() => {
+                setActiveCatagory('POST');
+              }}>
+              <Text
+                style={
+                  activeCatagory === 'POST'
+                    ? styles.catagoryActiveText
+                    : styles.catagoryText
+                }>
+                {'Posts'}
+              </Text>
+            </TouchableOpacity>
 
-          <View style={styles.catagorySeparator} />
+            <View style={styles.catagorySeparator} />
 
-          <TouchableOpacity
-            style={
-              activeCatagory === 'PROFILE'
-                ? styles.catagoryActiveTouchable
-                : styles.catagoryTouchable
-            }
-            onPress={() => {
-              setActiveCatagory('PROFILE');
-            }}>
-            <Text
+            <TouchableOpacity
               style={
                 activeCatagory === 'PROFILE'
-                  ? styles.catagoryActiveText
-                  : styles.catagoryText
-              }>
-              {'Profiles'}
-            </Text>
-          </TouchableOpacity>
+                  ? styles.catagoryActiveTouchable
+                  : styles.catagoryTouchable
+              }
+              onPress={() => {
+                setActiveCatagory('PROFILE');
+              }}>
+              <Text
+                style={
+                  activeCatagory === 'PROFILE'
+                    ? styles.catagoryActiveText
+                    : styles.catagoryText
+                }>
+                {'Profiles'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={data}
+            renderItem={({item, index}) => (
+              <UserItem item={item} index={index} />
+            )}
+            style={styles.flatList}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
+            contentContainerStyle={styles.flatListContentContainer}
+          />
         </View>
-        <FlatList
-          data={data}
-          renderItem={({item, index}) => <UserItem item={item} index={index} />}
-          style={styles.flatList}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={styles.flatListContentContainer}
-        />
-      </View>
+      </LinearGradient>
     </Animatable.View>
   );
 };
@@ -144,6 +154,9 @@ export default SearchViewer;
 
 const styles = StyleSheet.create({
   animationView: {
+    flex: 1,
+  },
+  gradientView: {
     flex: 1,
     width: '100%',
     justifyContent: 'center',

@@ -80,16 +80,6 @@ const Header = ({
         </>
       )}
 
-      {rightButton ? (
-        <>
-          <TouchableOpacity onPress={onPressRightButton}>
-            <Text style={styles.rightButtonText}>{rightButton}</Text>
-          </TouchableOpacity>
-        </>
-      ) : (
-        <View style={styles.rightButtonSpace} />
-      )}
-
       {searchBar && (
         <>
           <View style={styles.searchBar}>
@@ -154,6 +144,16 @@ const Header = ({
             </TouchableOpacity>
           ) : null}
         </>
+      )}
+
+      {rightButton && title ? (
+        <TouchableOpacity onPress={onPressRightButton}>
+          <Text style={styles.rightButtonText}>{rightButton}</Text>
+        </TouchableOpacity>
+      ) : title ? (
+        <View style={styles.rightButtonSpace} />
+      ) : (
+        <View />
       )}
     </View>
   );

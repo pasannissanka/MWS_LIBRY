@@ -1,13 +1,14 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   Image,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
-import React, {RefObject, useRef, useState} from 'react';
+import React, {MutableRefObject, RefObject, useRef, useState} from 'react';
 import ProfileScreen from '../../ProfileView/screens/ProfileScreen';
 import DummyScreen from '../../ProfileView/screens/DummyScreen';
 import {Colors, Images} from '../../../theme';
@@ -15,6 +16,9 @@ import {NavigationProp, useNavigation} from '@react-navigation/native';
 import Header from '../../../components/header/Header';
 import InfoBottomSheet from '../components/InfoBottomSheet';
 import RBSheet from 'react-native-raw-bottom-sheet';
+import SearchViewer from '../views/SearchViewer';
+import {HeaderSearchBarRightIcon} from '../../../components/Interfaces';
+import * as Animatable from 'react-native-animatable';
 
 const DashboardScreen = (): React.JSX.Element => {
   type TabNavigatorParams = {
@@ -22,13 +26,21 @@ const DashboardScreen = (): React.JSX.Element => {
     DummyOne: undefined;
   };
 
-  type ProfileTypes = 'someone' | 'user';
+  type ProfileTypes = 'someone' | 'user' | 'none';
   const Tab = createBottomTabNavigator();
   const navigation = useNavigation() as NavigationProp<TabNavigatorParams>;
   const infoBottomSheetRef: RefObject<RBSheet> = useRef<RBSheet>(null);
+  const searchViewerRef: MutableRefObject<Animatable.View> = useRef(null);
 
   const onPressBack = () => {
-    navigation.navigate('DummyOne');
+    if (searchViewerVisibility) {
+      searchViewerRef.current?.bounceOutDown(2000).then(() => {
+        Keyboard.dismiss();
+        setSearchViewerVisibility(false);
+      });
+    } else {
+      navigation.navigate('DummyOne');
+    }
   };
 
   const onPressSearchBarHamburger = () => {
@@ -41,6 +53,19 @@ const DashboardScreen = (): React.JSX.Element => {
 
   const [searchText, onChangeSearchText] = useState('');
   const [profileType, setProfileType] = useState<ProfileTypes>('someone');
+  const [searchViewerVisibility, setSearchViewerVisibility] = useState(true);
+
+  const getHeaderRightIcon = (): HeaderSearchBarRightIcon => {
+    if (searchViewerVisibility) {
+      return 'none';
+    } else if (profileType === 'user') {
+      return 'hamburger';
+    } else if (profileType === 'someone') {
+      return 'meatballs';
+    } else {
+      return 'none';
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -57,87 +82,97 @@ const DashboardScreen = (): React.JSX.Element => {
           searchBar={true}
           onPressBack={onPressBack}
           searchBarImageUri="https://reactnative.dev/img/tiny_logo.png"
-          searchBarRightIcon={
-            profileType === 'user' ? 'hamburger' : 'meatballs'
-          }
+          searchBarRightIcon={getHeaderRightIcon()}
           onChangeSearchBarText={onChangeSearchText}
           searchBarValue={searchText}
           onPressHamburger={onPressSearchBarHamburger}
           onPressMeatballs={onPressSearchBarMeatballs}
+          onFocusSearchBar={() => {
+            setSearchViewerVisibility(true);
+          }}
+          // onBlurSearchBar={() => {
+          //   searchViewerRef.current?.bounceOutDown(2000).then(() => {
+          //     setSearchViewerVisibility(false);
+          //   });
+          // }}
         />
       </View>
 
-      <Tab.Navigator
-        screenListeners={{
-          state: (e: any) => {
-            setProfileType(e.data.state.index === 2 ? 'user' : 'someone');
-          },
-        }}
-        initialRouteName="ProfileView"
-        screenOptions={{
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarStyle: styles.tabBarStyle,
-        }}>
-        <Tab.Screen
-          name="ProfileView"
-          component={ProfileScreen}
-          options={{
-            tabBarIcon: ({focused}) => (
-              <>
-                <Image
-                  style={styles.leftTabIcon}
-                  resizeMode="stretch"
-                  source={Images.icons.bottom_tab_icon.conttent_icon}
-                />
+      {searchViewerVisibility ? (
+        <SearchViewer onPressItem={() => {}} reference={searchViewerRef} />
+      ) : (
+        <Tab.Navigator
+          screenListeners={{
+            state: (e: any) => {
+              setProfileType(e.data.state.index === 2 ? 'user' : 'someone');
+            },
+          }}
+          initialRouteName="ProfileView"
+          screenOptions={{
+            headerShown: false,
+            tabBarShowLabel: false,
+            tabBarStyle: styles.tabBarStyle,
+          }}>
+          <Tab.Screen
+            name="ProfileView"
+            component={ProfileScreen}
+            options={{
+              tabBarIcon: ({focused}) => (
+                <>
+                  <Image
+                    style={styles.leftTabIcon}
+                    resizeMode="stretch"
+                    source={Images.icons.bottom_tab_icon.conttent_icon}
+                  />
 
-                <View
-                  style={
-                    focused
-                      ? styles.tabIconActiveBar
-                      : styles.tabIconInactiveBar
-                  }
-                />
-              </>
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="DummyOne"
-          component={DummyScreen}
-          options={{
-            tabBarIcon: () => (
-              <Image
-                style={styles.middleTabIcon}
-                resizeMode="stretch"
-                source={Images.icons.bottom_tab_icon.add_icon}
-              />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name="DummyTwo"
-          component={ProfileScreen}
-          options={{
-            tabBarIcon: ({focused}) => (
-              <>
+                  <View
+                    style={
+                      focused
+                        ? styles.tabIconActiveBar
+                        : styles.tabIconInactiveBar
+                    }
+                  />
+                </>
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="DummyOne"
+            component={DummyScreen}
+            options={{
+              tabBarIcon: () => (
                 <Image
-                  style={styles.rightTabIcon}
+                  style={styles.middleTabIcon}
                   resizeMode="stretch"
-                  source={require('../../../assets/dummyImages/philhughes-profile/philhughes.png')}
+                  source={Images.icons.bottom_tab_icon.add_icon}
                 />
-                <View
-                  style={
-                    focused
-                      ? styles.tabIconActiveBar
-                      : styles.tabIconInactiveBar
-                  }
-                />
-              </>
-            ),
-          }}
-        />
-      </Tab.Navigator>
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="DummyTwo"
+            component={ProfileScreen}
+            options={{
+              tabBarIcon: ({focused}) => (
+                <>
+                  <Image
+                    style={styles.rightTabIcon}
+                    resizeMode="stretch"
+                    source={require('../../../assets/dummyImages/philhughes-profile/philhughes.png')}
+                  />
+                  <View
+                    style={
+                      focused
+                        ? styles.tabIconActiveBar
+                        : styles.tabIconInactiveBar
+                    }
+                  />
+                </>
+              ),
+            }}
+          />
+        </Tab.Navigator>
+      )}
 
       <InfoBottomSheet reference={infoBottomSheetRef} infoType={profileType} />
     </KeyboardAvoidingView>

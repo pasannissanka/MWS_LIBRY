@@ -1,5 +1,5 @@
-import {Alert, BackHandler, Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {PropsWithChildren, useEffect} from 'react';
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {PropsWithChildren} from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {Colors, Sizes} from '../../../theme';
 import Header from '../../../components/header/Header';

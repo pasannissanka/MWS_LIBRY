@@ -8,7 +8,7 @@ import * as RootNavigation from '../../../navigation/RootNavigation';
 
 type BottomSheetProps = PropsWithChildren<{
   reference?: RefObject<RBSheet>;
-  infoType?: 'user' | 'someone';
+  infoType?: 'user' | 'someone' | 'none';
 }>;
 
 const InfoBottomSheet: React.FC<BottomSheetProps> = ({

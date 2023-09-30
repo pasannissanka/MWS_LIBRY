@@ -21,5 +21,5 @@ export type HeaderProps = {
   onPressMeatballs?: () => void;
   rightButton?: string | null;
   onPressRightButton?: () => void;
-  screenType?: 'none' | 'homeViewer' | null | string;
+  screenType?: 'none' | 'HomeViewer' | null | string;
 };

@@ -57,7 +57,7 @@ const Header = ({
 
   return (
     <View style={{...styles.parentView, ...style}}>
-      {screenType === 'homeViewer' ? (
+      {screenType === 'HomeViewer' ? (
         <TouchableOpacity onPress={onPressBackArrow}>
           <Image
             source={Images.logos.app_logo_header}

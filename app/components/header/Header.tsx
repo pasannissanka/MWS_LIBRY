@@ -33,6 +33,7 @@ const Header = ({
   rightButton = '',
   onPressRightButton,
   screenType = 'none',
+  onPressSettings,
 }: HeaderProps) => {
   const dispatch = useDispatch();
 
@@ -154,6 +155,16 @@ const Header = ({
                 source={Images.icons.meatballs_icon}
               />
             </TouchableOpacity>
+          ) : searchBarRightIcon === 'settings' ? (
+            <TouchableOpacity
+              onPress={onPressSettings}
+              style={styles.rightIconTouchable}>
+              <Image
+                style={styles.settingsIcons}
+                resizeMode="contain"
+                source={Images.icons.settings_icon}
+              />
+            </TouchableOpacity>
           ) : null}
         </>
       )}
@@ -259,6 +270,10 @@ const styles = StyleSheet.create({
   },
   hamburgerIcons: {
     height: 16,
+    width: 24,
+  },
+  settingsIcons: {
+    height: 24,
     width: 24,
   },
   flexOne: {

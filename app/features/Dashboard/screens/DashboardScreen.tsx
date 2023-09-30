@@ -47,6 +47,10 @@ const DashboardScreen = (): React.JSX.Element => {
     infoBottomSheetRef.current!.open();
   };
 
+  const onPressSearchBarSettings = () => {
+    RootNavigation.navigate('SettingsScreen');
+  };
+
   const [searchText, onChangeSearchText] = useState('');
   const [DashboardViewer, setDashboardViewer] =
     useState<DashboardScreens>('HomeViewer');
@@ -54,14 +58,15 @@ const DashboardScreen = (): React.JSX.Element => {
     useState<DashboardScreens>('HomeViewer');
 
   const getHeaderRightIcon = (): HeaderSearchBarRightIcon => {
-    if (DashboardViewer === 'SearchViewer') {
-      return 'none';
-    } else if (DashboardViewer === 'ProfileViewer') {
-      return 'hamburger';
-    } else if (DashboardViewer === 'none') {
-      return 'meatballs';
-    } else {
-      return 'none';
+    switch (DashboardViewer) {
+      case 'SearchViewer':
+        return 'none';
+      case 'ProfileViewer':
+        return 'hamburger';
+      case 'HomeViewer':
+        return 'settings';
+      default:
+        return 'none';
     }
   };
 
@@ -106,6 +111,7 @@ const DashboardScreen = (): React.JSX.Element => {
           searchBarValue={searchText}
           onPressHamburger={onPressSearchBarHamburger}
           onPressMeatballs={onPressSearchBarMeatballs}
+          onPressSettings={onPressSearchBarSettings}
           onFocusSearchBar={() => {
             setPrevDashboardViewer(DashboardViewer);
             setDashboardViewer('SearchViewer');

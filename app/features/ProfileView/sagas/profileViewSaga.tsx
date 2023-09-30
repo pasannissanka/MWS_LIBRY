@@ -330,11 +330,13 @@ export function* changePassword(action: any) {
 //GET PROFILE IMAGE UPLOAD RESPONSE
 export function* getProfileImgUploadUrl(action: any) {
   const param = action.payload.param;
-  const imageBody = action.payload.imageBody;
+  const imageUri = action.payload.imageUri;
 
   const access_token: string = yield select(AccessToken);
   let imageUploadUrl: string = '';
   let imageKey: string = '';
+
+  console.log('Action ->', action.payload);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -348,7 +350,7 @@ export function* getProfileImgUploadUrl(action: any) {
       imageUploadUrl = fetchProfileImgUploadUrlResponse.data.uploadUrl;
       imageKey = fetchProfileImgUploadUrlResponse.data.media.key;
 
-      yield* uploadProfileImage(imageUploadUrl, imageBody, imageKey);
+      yield* uploadProfileImage(imageUploadUrl, imageUri, imageKey);
     } else {
     }
     yield put(setSpinnerVisible(false));
@@ -361,9 +363,10 @@ export function* getProfileImgUploadUrl(action: any) {
 }
 
 //PROFILE IMAGE UPLOADING & GET UPLOADED COMPLETED API RESPONSE
-function* uploadProfileImage(url: string, imageBody: any, imageKey: string) {
+function* uploadProfileImage(url: string, imageUri: string, imageKey: string) {
   try {
-    yield call(fetchUploadProfileImageResponse, url, imageBody);
+    console.log('S3 Upload->', imageUri, 'URL->', url);
+    yield call(fetchUploadProfileImageResponse, url, imageUri);
     console.log('<- S3 Image Upload Success ->');
 
     const access_token: string = yield select(AccessToken);

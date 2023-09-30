@@ -73,8 +73,8 @@ export function fetchProfileImgUploadUrl(token: string, param: object) {
   );
 }
 
-export function fetchUploadProfileImageResponse(url: string, imageBody: any) {
-  return callService(url, null, 'PUT', null, imageBody, null);
+export function fetchUploadProfileImageResponse(url: string, imageUri: string) {
+  return callService(url, null, 'PUT', null, imageUri, null);
 }
 
 export function fetchProfileImgUploadCompletedResponse(

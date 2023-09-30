@@ -127,13 +127,14 @@ export default function EditProfileScreen() {
       const param: GetProfileImgUploadUrlRequest = {
         'file-type': selectedProfileImage.filename?.toString().split('.')[1],
       };
-      const response = await fetch(selectedProfileImage.path);
-      const imageBody = await response.blob();
 
       const payload = {
         param: param,
-        imageBody: imageBody,
+        imageUri: selectedProfileImage.path,
       };
+
+      console.log('Selected Image ->', selectedProfileImage);
+      console.log('Dispatch ->', payload);
 
       dispatch(getProfileImageUploadedResponse(payload));
       setSelectedProfileImage(undefined);
@@ -174,6 +175,15 @@ export default function EditProfileScreen() {
         path: image.path,
       };
       setSelectedProfileImage(selectedImage);
+
+      // RNFetchBlob.fs.readFile(image.path, 'base64').then(async () => {
+      //   const response = await fetch(image.path);
+      //   setImageBody(await response.blob());
+
+      //   console.log('File body->', ImageBody);
+      // });
+      console.log('File Image->', image);
+      console.log('File Path->', image.sourceURL);
     });
   };
 

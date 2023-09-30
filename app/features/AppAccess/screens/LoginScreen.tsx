@@ -65,8 +65,8 @@ const LoginScreen = () => {
   const EmailValidation = useSelector(
     (state: any) => state.appAccessReducer.emailValidation,
   );
-  const [email, onChangeEmail] = useState('');
-  const [password, onChangePassword] = useState('');
+  const [email, onChangeEmail] = useState('chamupathihasitha@gmail.com');
+  const [password, onChangePassword] = useState('Password@123');
 
   const passwordRef = useRef<any>();
   const emailRef = useRef<any>();

@@ -1,6 +1,4 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
-  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -9,24 +7,30 @@ import {
   View,
 } from 'react-native';
 import React, {MutableRefObject, RefObject, useRef, useState} from 'react';
-import ProfileScreen from '../../ProfileView/screens/ProfileScreen';
-import DummyScreen from '../../ProfileView/screens/DummyScreen';
-import {Colors, Images} from '../../../theme';
+import {Colors} from '../../../theme';
 import Header from '../../../components/header/Header';
 import InfoBottomSheet from '../components/InfoBottomSheet';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import SearchViewer from '../views/SearchViewer';
 import {HeaderSearchBarRightIcon} from '../../../components/Interfaces';
 import * as Animatable from 'react-native-animatable';
-import HomeViewer from '../views/HomeViewer';
 import {DashboardScreens} from '../interfaces/DashboardInterface';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import NavigationTabs from '../../../navigation/NavigationTabs';
+import {useDispatch} from 'react-redux';
+import {getUsersBySearch} from '../redux/action/action';
 
 const DashboardScreen = (): React.JSX.Element => {
-  const Tab = createBottomTabNavigator();
+  const dispatch = useDispatch();
   const infoBottomSheetRef: RefObject<RBSheet> = useRef<RBSheet>(null);
   const searchViewerRef: MutableRefObject<Animatable.View> = useRef(null);
+
+  const [searchText, setSearchText] = useState('');
+  const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout>();
+  const [DashboardViewer, setDashboardViewer] =
+    useState<DashboardScreens>('HomeViewer');
+  const [PrevDashboardViewer, setPrevDashboardViewer] =
+    useState<DashboardScreens>('HomeViewer');
 
   const onPressBack = () => {
     if (DashboardViewer === 'SearchViewer') {
@@ -50,12 +54,6 @@ const DashboardScreen = (): React.JSX.Element => {
   const onPressSearchBarSettings = () => {
     RootNavigation.navigate('SettingsScreen');
   };
-
-  const [searchText, onChangeSearchText] = useState('');
-  const [DashboardViewer, setDashboardViewer] =
-    useState<DashboardScreens>('HomeViewer');
-  const [PrevDashboardViewer, setPrevDashboardViewer] =
-    useState<DashboardScreens>('HomeViewer');
 
   const getHeaderRightIcon = (): HeaderSearchBarRightIcon => {
     switch (DashboardViewer) {
@@ -87,6 +85,22 @@ const DashboardScreen = (): React.JSX.Element => {
     }
   };
 
+  //ON CHANGE SEARCHBAR
+  const onChangeSearchText = (text: string) => {
+    setSearchText(text);
+
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    const newTimeout = setTimeout(() => {
+      //SEARCH USERS BY KEYWORD
+      dispatch(getUsersBySearch(text));
+    }, 3000);
+
+    setTypingTimeout(newTimeout);
+  };
+
   const InitialViewer =
     DashboardViewer === 'SearchViewer' ? PrevDashboardViewer : DashboardViewer;
 
@@ -107,7 +121,9 @@ const DashboardScreen = (): React.JSX.Element => {
           onPressBack={onPressBack}
           searchBarImageUri="https://reactnative.dev/img/tiny_logo.png"
           searchBarRightIcon={getHeaderRightIcon()}
-          onChangeSearchBarText={onChangeSearchText}
+          onChangeSearchBarText={text => {
+            onChangeSearchText(text);
+          }}
           searchBarValue={searchText}
           onPressHamburger={onPressSearchBarHamburger}
           onPressMeatballs={onPressSearchBarMeatballs}

@@ -128,13 +128,16 @@ const Header = ({
             />
           </View>
 
-          <TouchableOpacity>
-            <Image
-              style={styles.bellIcon}
-              resizeMode="contain"
-              source={Images.icons.bell_icon}
-            />
-          </TouchableOpacity>
+          {screenType !== 'SearchViewer' && (
+            <TouchableOpacity>
+              <Image
+                style={styles.bellIcon}
+                resizeMode="contain"
+                source={Images.icons.bell_icon}
+              />
+            </TouchableOpacity>
+          )}
+
           {searchBarRightIcon === 'hamburger' ? (
             <TouchableOpacity
               onPress={onPressHamburger}

@@ -2,58 +2,29 @@ import React, {useEffect, useState} from 'react';
 import {
   FlatList,
   Image,
-  ImageSourcePropType,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import {Colors, Fonts, Images} from '../../../theme';
-import {SearchViewerProps} from '../interfaces';
+import {Colors, Fonts} from '../../../theme';
+import {SearchViewerProps, SearchedUserItemProps} from '../interfaces';
 import LinearGradient from 'react-native-linear-gradient';
+import {useSelector} from 'react-redux';
+import {GetUsersBySearchResponse} from '../../../services/models/responses';
 
 type ActiveCatagory = 'POST' | 'PROFILE';
-type UserItemProps = {
-  item: {
-    name: string;
-    image: ImageSourcePropType;
-    username: string;
-  };
-  index: number;
-};
 
 const SearchViewer = ({onPressItem, reference}: SearchViewerProps) => {
   const [activeCatagory, setActiveCatagory] =
     useState<ActiveCatagory>('PROFILE');
 
-  const data = [
-    {
-      image: Images.image.opening_placeholder,
-      name: 'Hasitha',
-      username: 'Hasitha97',
-    },
-    {
-      image: Images.image.opening_placeholder,
-      name: 'Hasitha',
-      username: 'Hasitha97',
-    },
-    {
-      image: Images.image.opening_placeholder,
-      name: 'Hasitha',
-      username: 'Hasitha97',
-    },
-    {
-      image: Images.image.opening_placeholder,
-      name: 'Hasitha',
-      username: 'Hasitha97',
-    },
-    {
-      image: Images.image.opening_placeholder,
-      name: 'Hasitha',
-      username: 'Hasitha97',
-    },
-  ];
+  const SearchedResponse: GetUsersBySearchResponse = useSelector(
+    (state: any) => state.DashboardReducer.searchedUsersResponse,
+  );
+
+  const UsersList = SearchedResponse.data;
 
   useEffect(() => {
     slideIn();
@@ -63,14 +34,22 @@ const SearchViewer = ({onPressItem, reference}: SearchViewerProps) => {
     reference.current?.bounceInUp(2000);
   };
 
-  const UserItem = ({item, index}: UserItemProps) => {
+  const UserItem = ({item, index}: SearchedUserItemProps) => {
     return (
       <TouchableOpacity style={styles.userItemRow} onPress={onPressItem}>
-        <Image
-          source={item.image}
-          style={styles.userProfImage}
-          resizeMode="cover"
-        />
+        {item.profilePicture.s3Url ? (
+          <Image
+            source={{uri: item.profilePicture.s3Url}}
+            style={styles.userProfImage}
+            resizeMode="cover"
+          />
+        ) : (
+          <View style={styles.userProfImageFallback}>
+            <Text style={styles.userProfImageFallbackText}>
+              {item.name.charAt(0)}
+            </Text>
+          </View>
+        )}
 
         <View>
           <Text style={styles.userName}>{item.name}</Text>
@@ -135,7 +114,7 @@ const SearchViewer = ({onPressItem, reference}: SearchViewerProps) => {
             </TouchableOpacity>
           </View>
           <FlatList
-            data={data}
+            data={UsersList}
             renderItem={({item, index}) => (
               <UserItem item={item} index={index} />
             )}
@@ -229,6 +208,23 @@ const styles = StyleSheet.create({
     height: 42,
     borderRadius: 21,
     marginRight: 16,
+    backgroundColor: Colors.COMPONENTS_BACKGROUNDS.GRAY,
+  },
+  userProfImageFallback: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    marginRight: 16,
+    backgroundColor: Colors.COMPONENTS_BACKGROUNDS.GRAY,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  userProfImageFallbackText: {
+    fontSize: 20,
+    fontWeight: '400',
+    textAlign: 'center',
+    fontFamily: Fonts.MyriadProRegular,
+    color: Colors.text.TRANSPARENT_ON_SCREEN_PRIMARY_DARK_BACKGROUND_COLOR,
   },
   userName: {
     fontSize: 16,

@@ -1,9 +1,9 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Colors, Fonts, Sizes} from '../../theme';
-import {ArticalInterface} from '../../features/ProfileView/interfaces/ProfileViewInterface';
+import {ExtendedArticalInterface} from '../../features/Dashboard/interfaces/DashboardInterface';
 
-const ArticalThumbnail = ({item, index}: ArticalInterface) => {
+const ExtendedArticalThumbnail = ({item, index}: ExtendedArticalInterface) => {
   return (
     <TouchableOpacity style={styles.card}>
       <Image
@@ -31,7 +31,7 @@ const ArticalThumbnail = ({item, index}: ArticalInterface) => {
   );
 };
 
-export default ArticalThumbnail;
+export default ExtendedArticalThumbnail;
 
 const styles = StyleSheet.create({
   card: {

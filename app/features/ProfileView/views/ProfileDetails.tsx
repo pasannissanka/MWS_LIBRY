@@ -101,7 +101,7 @@ export default ProfileDetails;
 
 const styles = StyleSheet.create({
   parentView: {
-    paddingTop: 28,
+    paddingTop: 16,
     width: (windowWidth < windowHeight ? windowWidth : windowHeight) - 30,
   },
   topRow: {

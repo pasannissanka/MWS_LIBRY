@@ -19,10 +19,10 @@ export function* getUsersBySearch(action: any) {
     order: 'ASC',
     query: {
       name: keyword,
-      exclude_logged_user: false,
+      exclude_logged_user: true,
       email: '',
       phone_number: '',
-      username: '',
+      username: keyword,
     },
   };
 

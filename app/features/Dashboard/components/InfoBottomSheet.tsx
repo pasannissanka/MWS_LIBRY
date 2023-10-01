@@ -5,11 +5,11 @@ import {Colors, Fonts, Images} from '../../../theme';
 import {useTranslation} from 'react-i18next';
 import Clipboard from '@react-native-clipboard/clipboard';
 import * as RootNavigation from '../../../navigation/RootNavigation';
-import {DashboardScreenTypes} from '../interfaces/DashboardInterface';
+import {DashboardScreens} from '../interfaces/DashboardInterface';
 
 type BottomSheetProps = PropsWithChildren<{
   reference?: RefObject<RBSheet>;
-  infoType?: DashboardScreenTypes;
+  infoType?: DashboardScreens;
 }>;
 
 const InfoBottomSheet: React.FC<BottomSheetProps> = ({
@@ -59,7 +59,7 @@ const InfoBottomSheet: React.FC<BottomSheetProps> = ({
   ];
 
   const infoOption =
-    infoType === 'userProfileViewer' ? userInfoOptions : someoneInfoOptions;
+    infoType === 'ProfileViewer' ? userInfoOptions : someoneInfoOptions;
 
   return (
     <RBSheet

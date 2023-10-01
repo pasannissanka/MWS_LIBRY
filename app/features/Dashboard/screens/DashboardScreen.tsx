@@ -1,6 +1,4 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
-  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -9,38 +7,48 @@ import {
   View,
 } from 'react-native';
 import React, {MutableRefObject, RefObject, useRef, useState} from 'react';
-import ProfileScreen from '../../ProfileView/screens/ProfileScreen';
-import DummyScreen from '../../ProfileView/screens/DummyScreen';
-import {Colors, Images} from '../../../theme';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {Colors} from '../../../theme';
 import Header from '../../../components/header/Header';
 import InfoBottomSheet from '../components/InfoBottomSheet';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import SearchViewer from '../views/SearchViewer';
 import {HeaderSearchBarRightIcon} from '../../../components/Interfaces';
 import * as Animatable from 'react-native-animatable';
-import HomeViewer from '../views/HomeViewer';
-import {DashboardScreenTypes} from '../interfaces/DashboardInterface';
+import {DashboardScreens} from '../interfaces/DashboardInterface';
+import * as RootNavigation from '../../../navigation/RootNavigation';
+import NavigationTabs from '../../../navigation/NavigationTabs';
+import {useDispatch, useSelector} from 'react-redux';
+import {getUsersBySearch, setUsersBySearch} from '../redux/action/action';
+import { GetUsersBySearchResponse } from '../../../services/models/responses/DashboardResponse';
 
 const DashboardScreen = (): React.JSX.Element => {
-  type TabNavigatorParams = {
-    ProfileView: undefined;
-    DummyOne: undefined;
-  };
+  const dispatch = useDispatch();
 
-  const Tab = createBottomTabNavigator();
-  const navigation = useNavigation() as NavigationProp<TabNavigatorParams>;
+  let SearchedResponse: GetUsersBySearchResponse = useSelector(
+    (state: any) => state.DashboardReducer.searchedUsersResponse,
+  );
   const infoBottomSheetRef: RefObject<RBSheet> = useRef<RBSheet>(null);
   const searchViewerRef: MutableRefObject<Animatable.View> = useRef(null);
 
+  const [searchText, setSearchText] = useState('');
+  const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout>();
+  const [DashboardViewer, setDashboardViewer] =
+    useState<DashboardScreens>('HomeViewer');
+  const [PrevDashboardViewer, setPrevDashboardViewer] =
+    useState<DashboardScreens>('HomeViewer');
+
   const onPressBack = () => {
-    if (searchViewerVisibility) {
+    if (DashboardViewer === 'SearchViewer') {
       searchViewerRef.current?.bounceOutDown(2000).then(() => {
+
+        SearchedResponse.data = [];
+        dispatch(setUsersBySearch(SearchedResponse));
+        setSearchText('');
         Keyboard.dismiss();
-        setSearchViewerVisibility(false);
+        setDashboardViewer(PrevDashboardViewer);
       });
     } else {
-      navigation.navigate('DummyOne');
+      RootNavigation.jumpTo('HomeViewer');
     }
   };
 
@@ -52,39 +60,58 @@ const DashboardScreen = (): React.JSX.Element => {
     infoBottomSheetRef.current!.open();
   };
 
-  const [searchText, onChangeSearchText] = useState('');
-  const [screenType, setScreenType] =
-    useState<DashboardScreenTypes>('homeViewer');
-  const [searchViewerVisibility, setSearchViewerVisibility] = useState(false);
+  const onPressSearchBarSettings = () => {
+    RootNavigation.navigate('SettingsScreen');
+  };
 
   const getHeaderRightIcon = (): HeaderSearchBarRightIcon => {
-    if (searchViewerVisibility) {
-      return 'none';
-    } else if (screenType === 'userProfileViewer') {
-      return 'hamburger';
-    } else if (screenType === 'none') {
-      return 'meatballs';
-    } else {
-      return 'none';
+    switch (DashboardViewer) {
+      case 'SearchViewer':
+        return 'none';
+      case 'ProfileViewer':
+        return 'hamburger';
+      case 'HomeViewer':
+        return 'settings';
+      default:
+        return 'none';
     }
   };
 
   const onChangeScreen = (e: any) => {
     switch (e.data.state.index) {
       case 0:
-        setScreenType('homeViewer');
+        setDashboardViewer('HomeViewer');
         break;
       case 1:
-        setScreenType('none');
+        setDashboardViewer('none');
         break;
       case 2:
-        setScreenType('userProfileViewer');
+        setDashboardViewer('ProfileViewer');
         break;
       default:
-        setScreenType('none');
+        setDashboardViewer('none');
         break;
     }
   };
+
+  //ON CHANGE SEARCHBAR
+  const onChangeSearchText = (text: string) => {
+    setSearchText(text);
+
+    if (typingTimeout) {
+      clearTimeout(typingTimeout);
+    }
+
+    const newTimeout = setTimeout(() => {
+      //SEARCH USERS BY KEYWORD
+      dispatch(getUsersBySearch(text));
+    }, 3000);
+
+    setTypingTimeout(newTimeout);
+  };
+
+  const InitialViewer =
+    DashboardViewer === 'SearchViewer' ? PrevDashboardViewer : DashboardViewer;
 
   return (
     <KeyboardAvoidingView
@@ -98,17 +125,21 @@ const DashboardScreen = (): React.JSX.Element => {
       />
       <View style={styles.headerContainer}>
         <Header
-          screenType={screenType}
+          screenType={DashboardViewer}
           searchBar={true}
           onPressBack={onPressBack}
           searchBarImageUri="https://reactnative.dev/img/tiny_logo.png"
           searchBarRightIcon={getHeaderRightIcon()}
-          onChangeSearchBarText={onChangeSearchText}
+          onChangeSearchBarText={text => {
+            onChangeSearchText(text);
+          }}
           searchBarValue={searchText}
           onPressHamburger={onPressSearchBarHamburger}
           onPressMeatballs={onPressSearchBarMeatballs}
+          onPressSettings={onPressSearchBarSettings}
           onFocusSearchBar={() => {
-            setSearchViewerVisibility(true);
+            setPrevDashboardViewer(DashboardViewer);
+            setDashboardViewer('SearchViewer');
           }}
           // onBlurSearchBar={() => {
           //   searchViewerRef.current?.bounceOutDown(2000).then(() => {
@@ -118,83 +149,19 @@ const DashboardScreen = (): React.JSX.Element => {
         />
       </View>
 
-      {searchViewerVisibility ? (
+      {DashboardViewer === 'SearchViewer' ? (
         <SearchViewer onPressItem={() => {}} reference={searchViewerRef} />
       ) : (
-        <Tab.Navigator
-          screenListeners={{
-            state: (e: any) => {
-              onChangeScreen(e);
-            },
-          }}
-          initialRouteName="ProfileView"
-          screenOptions={{
-            headerShown: false,
-            tabBarShowLabel: false,
-            tabBarStyle: styles.tabBarStyle,
-          }}>
-          <Tab.Screen
-            name="HomeViewer"
-            component={HomeViewer}
-            options={{
-              tabBarIcon: ({focused}) => (
-                <>
-                  <Image
-                    style={styles.leftTabIcon}
-                    resizeMode="stretch"
-                    source={Images.icons.bottom_tab_icon.conttent_icon}
-                  />
-
-                  <View
-                    style={
-                      focused
-                        ? styles.tabIconActiveBar
-                        : styles.tabIconInactiveBar
-                    }
-                  />
-                </>
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="DummyOne"
-            component={DummyScreen}
-            options={{
-              tabBarIcon: () => (
-                <Image
-                  style={styles.middleTabIcon}
-                  resizeMode="stretch"
-                  source={Images.icons.bottom_tab_icon.add_icon}
-                />
-              ),
-            }}
-          />
-          <Tab.Screen
-            name="DummyTwo"
-            component={ProfileScreen}
-            options={{
-              tabBarIcon: ({focused}) => (
-                <>
-                  <Image
-                    style={styles.rightTabIcon}
-                    resizeMode="stretch"
-                    source={require('../../../assets/dummyImages/philhughes-profile/philhughes.png')}
-                  />
-                  <View
-                    style={
-                      focused
-                        ? styles.tabIconActiveBar
-                        : styles.tabIconInactiveBar
-                    }
-                  />
-                </>
-              ),
-            }}
-          />
-        </Tab.Navigator>
+        <NavigationTabs
+          onChangeScreen={onChangeScreen}
+          InitialViewer={InitialViewer}
+        />
       )}
 
-      <InfoBottomSheet reference={infoBottomSheetRef} infoType={screenType} />
+      <InfoBottomSheet
+        reference={infoBottomSheetRef}
+        infoType={DashboardViewer}
+      />
     </KeyboardAvoidingView>
   );
 };

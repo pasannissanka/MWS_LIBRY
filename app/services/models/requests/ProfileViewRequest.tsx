@@ -6,3 +6,12 @@ export type GetProfileImgUploadUrlRequest = {
 export type GetProfileImgUploadCompletedRequest = {
   key: string;
 };
+
+export type ReorderLinksRequestType = {
+  links: [
+    {
+      id: string;
+      order: number;
+    },
+  ];
+};

@@ -5,6 +5,7 @@ import {
   GET_EMAIL_CHANGE_RESPONSE,
   GET_PASSWORD_CHANGE_RESPONSE,
   GET_PROFILE_IMAGE_UPLOADED_RESPONSE,
+  GET_REORDER_LINKS_RESPONSE,
   GET_USER_INFO_UPDATE_RESPONSE,
   SET_LINK_UPDATED_REFERNCE_KEY,
   SET_PORFILE_INFO_UPDATED_REFERNCE_KEY,
@@ -27,6 +28,13 @@ export const getDeleteLinkResponse = (request: string) => {
 export const getEditLinkResponse = (payload: object) => {
   return {
     type: GET_EDIT_LINK_RESPONSE,
+    payload: payload,
+  };
+};
+
+export const getReorderLinksResponse = (payload: object) => {
+  return {
+    type: GET_REORDER_LINKS_RESPONSE,
     payload: payload,
   };
 };

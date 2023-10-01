@@ -63,6 +63,22 @@ const callService = async (
             reject(error);
             console.log(`SERVICE_ERROR ${URL} =>`, error);
           });
+      } else if (method === 'PATCH') {
+        await axios
+          .patch(URL, body, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(response => {
+            response_data = response.data;
+            resolve(response_data);
+            console.log(response.data);
+          })
+          .catch(error => {
+            reject(error);
+            console.log(`SERVICE_ERROR ${URL} =>`, error);
+          });
       } else if (method === 'PUT') {
         // await axios
         //   .put(URL, {

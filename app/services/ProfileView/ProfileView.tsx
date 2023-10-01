@@ -32,6 +32,16 @@ export function fetchEditLinkResponse(token: string, id: string, body: object) {
   );
 }
 
+export function fetchReorderLinksResponse(token: string, body: object) {
+  return callService(
+    Env.BASE_URL,
+    ProfileViewEndPoints.REORDER_LINKS,
+    'PATCH',
+    token,
+    body,
+  );
+}
+
 export function fetchUpdateUserInfoResponse(token: string, body: object) {
   return callService(
     Env.BASE_URL,

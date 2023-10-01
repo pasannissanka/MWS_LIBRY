@@ -36,6 +36,7 @@ import {
   GetProfileImgUploadCompletedRequest,
   GetProfileImgUploadUrlRequest,
 } from '../../../services/models/requests';
+import {ImageInterface} from '../interfaces/ImageInterface';
 
 //GET ADD LINK RESPONSE
 export function* addLink(action: any) {
@@ -328,15 +329,15 @@ export function* changePassword(action: any) {
 }
 
 //GET PROFILE IMAGE UPLOAD RESPONSE
-export function* getProfileImgUploadUrl(action: any) {
-  const param = action.payload.param;
-  const imageUri = action.payload.imageUri;
-
+export function* getProfileImgUploadUrl(action: {payload: ImageInterface}) {
+  const param: GetProfileImgUploadUrlRequest = {
+    'file-type': action.payload?.path?.toString()?.split('.').at(-1),
+  };
+  const mimeType = action.payload.mime;
+  const filePath = action.payload.path;
   const access_token: string = yield select(AccessToken);
   let imageUploadUrl: string = '';
   let imageKey: string = '';
-
-  console.log('Action ->', action.payload);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -345,12 +346,13 @@ export function* getProfileImgUploadUrl(action: any) {
 
     if (
       fetchProfileImgUploadUrlResponse.message ===
-      'PROFILE_IMAGE_UPLOAD_LINK_GENERATED'
+        'PROFILE_IMAGE_UPLOAD_LINK_GENERATED' &&
+      filePath !== undefined
     ) {
       imageUploadUrl = fetchProfileImgUploadUrlResponse.data.uploadUrl;
       imageKey = fetchProfileImgUploadUrlResponse.data.media.key;
 
-      yield* uploadProfileImage(imageUploadUrl, imageUri, imageKey);
+      yield* uploadProfileImage(imageUploadUrl, filePath, imageKey, mimeType);
     } else {
     }
     yield put(setSpinnerVisible(false));
@@ -363,10 +365,14 @@ export function* getProfileImgUploadUrl(action: any) {
 }
 
 //PROFILE IMAGE UPLOADING & GET UPLOADED COMPLETED API RESPONSE
-function* uploadProfileImage(url: string, imageUri: string, imageKey: string) {
+function* uploadProfileImage(
+  url: string,
+  data: string,
+  imageKey: string,
+  mimeType: string,
+) {
   try {
-    console.log('S3 Upload->', imageUri, 'URL->', url);
-    yield call(fetchUploadProfileImageResponse, url, imageUri);
+    yield call(fetchUploadProfileImageResponse, url, data, mimeType);
     console.log('<- S3 Image Upload Success ->');
 
     const access_token: string = yield select(AccessToken);

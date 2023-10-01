@@ -124,19 +124,9 @@ export default function EditProfileScreen() {
 
   const onPressSaveButtonForProfImage = async () => {
     if (selectedProfileImage) {
-      const param: GetProfileImgUploadUrlRequest = {
-        'file-type': selectedProfileImage.filename?.toString().split('.')[1],
-      };
-
-      const payload = {
-        param: param,
-        imageUri: selectedProfileImage.path,
-      };
-
       console.log('Selected Image ->', selectedProfileImage);
-      console.log('Dispatch ->', payload);
 
-      dispatch(getProfileImageUploadedResponse(payload));
+      dispatch(getProfileImageUploadedResponse(selectedProfileImage));
       setSelectedProfileImage(undefined);
     }
   };
@@ -170,11 +160,7 @@ export default function EditProfileScreen() {
       mediaType: 'photo',
       cropperCircleOverlay: true,
     }).then(async image => {
-      const selectedImage: ImageInterface = {
-        filename: image.filename,
-        path: image.path,
-      };
-      setSelectedProfileImage(selectedImage);
+      setSelectedProfileImage(image);
 
       // RNFetchBlob.fs.readFile(image.path, 'base64').then(async () => {
       //   const response = await fetch(image.path);

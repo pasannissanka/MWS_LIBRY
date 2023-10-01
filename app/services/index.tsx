@@ -79,37 +79,6 @@ const callService = async (
         //     reject(error);
         //     console.log(`SERVICE_ERROR ${URL} =>`, error);
         //   });
-
-        console.log('Service idex->', body);
-        RNFetchBlob.fetch(
-          'PUT',
-          URL,
-          {},
-          RNFetchBlob.wrap(
-            '/Users/hasitha/Library/Developer/CoreSimulator/Devices/35EA73C5-AD8A-4FDD-AC74-D5DC30005C31/data/Media/DCIM/100APPLE/IMG_0001.JPG',
-          ),
-        )
-          .then(response => {
-            console.log(resolve);
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-            console.log(`SERVICE_ERROR ${URL} =>`, error);
-          });
-        // await fetch(URL, {
-        //   method: 'PUT',
-        //   body: body,
-        //   headers: {'Content-Type': 'image/jpeg'},
-        // })
-        //   .then(response => {
-        //     resolve(response);
-        //     console.log(resolve);
-        //   })
-        //   .catch(error => {
-        //     reject(error);
-        //     console.log(`SERVICE_ERROR ${URL} =>`, error);
-        //   });
       }
     });
   } catch (error) {
@@ -117,4 +86,22 @@ const callService = async (
   }
 };
 
-export {callService};
+const callUpload = (url: string, data: string, mimeType: string) => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('PUT', url);
+    xhr.setRequestHeader('Content-Type', mimeType);
+    xhr.onload = () => {
+      if (xhr.status !== 200) {
+        reject('Could not upload image.');
+      }
+      resolve(xhr.response);
+    };
+    xhr.onerror = e => {
+      reject('Could not upload image.');
+    };
+    xhr.send({uri: data});
+  });
+};
+
+export {callService, callUpload};

@@ -1,3 +1,4 @@
+import {ImageInterface} from '../../interfaces/ImageInterface';
 import {
   GET_ADD_LINK_RESPONSE,
   GET_DELETE_LINK_RESPONSE,
@@ -66,7 +67,7 @@ export const setProfileInfoUpdatedRefKey = (key: number) => {
   };
 };
 
-export const getProfileImageUploadedResponse = (payload: object) => {
+export const getProfileImageUploadedResponse = (payload: ImageInterface) => {
   return {
     type: GET_PROFILE_IMAGE_UPLOADED_RESPONSE,
     payload: payload,

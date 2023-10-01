@@ -1,4 +1,4 @@
-import {callService} from '..';
+import {callService, callUpload} from '..';
 import Env from '../../config/environment';
 import ProfileViewEndPoints from '../../constants/ServiceEndPoints/ProfileViewEndPoints';
 
@@ -73,8 +73,12 @@ export function fetchProfileImgUploadUrl(token: string, param: object) {
   );
 }
 
-export function fetchUploadProfileImageResponse(url: string, imageUri: string) {
-  return callService(url, null, 'PUT', null, imageUri, null);
+export function fetchUploadProfileImageResponse(
+  url: string,
+  data: string,
+  mimeType: string,
+) {
+  return callUpload(url, data, mimeType);
 }
 
 export function fetchProfileImgUploadCompletedResponse(

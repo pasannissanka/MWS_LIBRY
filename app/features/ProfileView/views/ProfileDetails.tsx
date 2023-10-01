@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {Dimensions} from 'react-native';
-import {Colors, Images} from '../../../theme';
+import {Colors, Fonts, Images} from '../../../theme';
 import {useSelector} from 'react-redux';
 import {useTranslation} from 'react-i18next';
 import {UserProfileAttribute} from '../interfaces';
@@ -45,11 +45,19 @@ const ProfileDetails = (): React.JSX.Element => {
   return (
     <View style={styles.parentView} key={ProfileInfoUpdatedRefKey}>
       <View style={styles.topRow}>
-        <Image
-          resizeMode="cover"
-          style={styles.profileImage}
-          source={{uri: USER_PROFILE.profilePicture.s3Url}}
-        />
+        {USER_PROFILE.profilePicture.s3Url ? (
+          <Image
+            resizeMode="cover"
+            style={styles.profileImage}
+            source={{uri: USER_PROFILE.profilePicture.s3Url}}
+          />
+        ) : (
+          <View style={styles.profImageFallback}>
+            <Text style={styles.profImageFallbackText}>
+              {USER_PROFILE.name.charAt(0)}
+            </Text>
+          </View>
+        )}
         <View style={styles.topRowLeftContainer}>
           <Text style={styles.profileName}>{USER_PROFILE.name}</Text>
           <View style={styles.followingButtonRow}>
@@ -113,7 +121,26 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 32,
     marginRight: 15,
-    backgroundColor: Colors.SCREEN_INACTIVE_COLOR,
+    backgroundColor:
+      Colors.text.TRANSPARENT_ON_SCREEN_PRIMARY_DARK_BACKGROUND_COLOR,
+  },
+  profImageFallback: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    marginRight: 15,
+    justifyContent: 'center',
+    backgroundColor: Colors.COMPONENTS_BACKGROUNDS.GRAY,
+    alignItems: 'center',
+  },
+  profImageFallbackText: {
+    fontSize: 32,
+    fontWeight: '400',
+    textAlign: 'center',
+    lineHeight: 60,
+    textAlignVertical: 'center',
+    fontFamily: Fonts.MyriadProRegular,
+    color: Colors.text.TRANSPARENT_ON_SCREEN_PRIMARY_DARK_BACKGROUND_COLOR,
   },
   topRowLeftContainer: {
     flex: 1,

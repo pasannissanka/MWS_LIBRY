@@ -1,10 +1,12 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationTabsProps} from '../features/Dashboard/interfaces/DashboardInterface';
-import {Image, StyleSheet, View} from 'react-native';
-import {Colors, Images} from '../theme';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {Colors, Fonts, Images} from '../theme';
 import HomeViewer from '../features/Dashboard/views/HomeViewer';
 import DummyScreen from '../features/ProfileView/screens/DummyScreen';
 import ProfileScreen from '../features/ProfileView/screens/ProfileScreen';
+import {UserProfileAttribute} from '../features/ProfileView/interfaces';
+import {useSelector} from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,6 +14,9 @@ const NavigationTabs = ({
   InitialViewer,
   onChangeScreen,
 }: NavigationTabsProps): React.JSX.Element => {
+  const USER_PROFILE: UserProfileAttribute = useSelector(
+    (state: any) => state.appAccessReducer.userProfile,
+  );
   return (
     <Tab.Navigator
       screenListeners={{
@@ -65,11 +70,19 @@ const NavigationTabs = ({
         options={{
           tabBarIcon: ({focused}) => (
             <>
-              <Image
-                style={styles.rightTabIcon}
-                resizeMode="stretch"
-                source={Images.image.opening_placeholder}
-              />
+              {USER_PROFILE.profilePicture.s3Url ? (
+                <Image
+                  style={styles.rightTabIcon}
+                  resizeMode="stretch"
+                  source={{uri: USER_PROFILE.profilePicture.s3Url}}
+                />
+              ) : (
+                <View style={styles.profImageFallback}>
+                  <Text style={styles.profImageFallbackText}>
+                    {USER_PROFILE.name.charAt(0)}
+                  </Text>
+                </View>
+              )}
               <View
                 style={
                   focused ? styles.tabIconActiveBar : styles.tabIconInactiveBar
@@ -103,6 +116,21 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
+  },
+  profImageFallback: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    paddingVertical: 8,
+    backgroundColor: Colors.COMPONENTS_BACKGROUNDS.GRAY,
+    alignItems: 'center',
+  },
+  profImageFallbackText: {
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center',
+    fontFamily: Fonts.MyriadProRegular,
+    color: Colors.text.TRANSPARENT_ON_SCREEN_PRIMARY_DARK_BACKGROUND_COLOR,
   },
   middleTabIcon: {
     width: 60,

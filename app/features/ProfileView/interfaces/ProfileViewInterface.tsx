@@ -6,7 +6,7 @@ export type ArticalInterface = {
     collobarators: {
       userName: string;
       profileImage: ImageSourcePropType;
-    }[];
+    };
     artical: {
       image: ImageSourcePropType;
       title: string;
@@ -16,7 +16,6 @@ export type ArticalInterface = {
     };
   };
   index: number;
-  onToggle: any;
 };
 
 export type ArticalType = 'IDEA' | 'IMAGE';

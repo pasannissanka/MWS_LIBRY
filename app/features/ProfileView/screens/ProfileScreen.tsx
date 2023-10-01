@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   },
   flatListHeader: {
     paddingHorizontal: 15,
+    backgroundColor: Colors.SCREEN_PRIMARY_BACKGROUND_COLOR,
   },
   collectionFlatList: {
     marginTop: 10,

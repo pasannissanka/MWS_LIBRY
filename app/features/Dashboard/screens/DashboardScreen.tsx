@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 15,
     paddingTop: 10,
+    paddingBottom: 10,
   },
   tabBarStyle: {
     width: '100%',

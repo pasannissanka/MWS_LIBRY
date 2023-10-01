@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10,
     padding: 15,
     backgroundColor: Colors.SCREEN_PRIMARY_DARK_BACKGROUND_COLOR,
   },

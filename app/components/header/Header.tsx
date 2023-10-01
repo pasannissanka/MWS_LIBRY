@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingBottom: 4,
+    paddingBottom: 10,
   },
   backButton: {
     width: 24,

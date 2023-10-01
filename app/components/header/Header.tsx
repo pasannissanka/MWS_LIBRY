@@ -33,6 +33,7 @@ const Header = ({
   rightButton = '',
   onPressRightButton,
   screenType = 'none',
+  onPressSettings,
 }: HeaderProps) => {
   const dispatch = useDispatch();
 
@@ -57,7 +58,7 @@ const Header = ({
 
   return (
     <View style={{...styles.parentView, ...style}}>
-      {screenType === 'homeViewer' ? (
+      {screenType === 'HomeViewer' ? (
         <TouchableOpacity onPress={onPressBackArrow}>
           <Image
             source={Images.logos.app_logo_header}
@@ -127,13 +128,16 @@ const Header = ({
             />
           </View>
 
-          <TouchableOpacity>
-            <Image
-              style={styles.bellIcon}
-              resizeMode="contain"
-              source={Images.icons.bell_icon}
-            />
-          </TouchableOpacity>
+          {screenType !== 'SearchViewer' && (
+            <TouchableOpacity>
+              <Image
+                style={styles.bellIcon}
+                resizeMode="contain"
+                source={Images.icons.bell_icon}
+              />
+            </TouchableOpacity>
+          )}
+
           {searchBarRightIcon === 'hamburger' ? (
             <TouchableOpacity
               onPress={onPressHamburger}
@@ -152,6 +156,16 @@ const Header = ({
                 style={styles.meatballsIcon}
                 resizeMode="contain"
                 source={Images.icons.meatballs_icon}
+              />
+            </TouchableOpacity>
+          ) : searchBarRightIcon === 'settings' ? (
+            <TouchableOpacity
+              onPress={onPressSettings}
+              style={styles.rightIconTouchable}>
+              <Image
+                style={styles.settingsIcons}
+                resizeMode="contain"
+                source={Images.icons.settings_icon}
               />
             </TouchableOpacity>
           ) : null}
@@ -259,6 +273,10 @@ const styles = StyleSheet.create({
   },
   hamburgerIcons: {
     height: 16,
+    width: 24,
+  },
+  settingsIcons: {
+    height: 24,
     width: 24,
   },
   flexOne: {

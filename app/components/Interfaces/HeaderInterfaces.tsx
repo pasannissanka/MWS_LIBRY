@@ -1,7 +1,11 @@
 import {RefObject} from 'react';
 import {TextInput} from 'react-native';
 
-export type HeaderSearchBarRightIcon = 'meatballs' | 'hamburger' | 'none';
+export type HeaderSearchBarRightIcon =
+  | 'meatballs'
+  | 'hamburger'
+  | 'none'
+  | 'settings';
 
 export type HeaderProps = {
   style?: object;
@@ -21,5 +25,6 @@ export type HeaderProps = {
   onPressMeatballs?: () => void;
   rightButton?: string | null;
   onPressRightButton?: () => void;
-  screenType?: 'none' | 'homeViewer' | null | string;
+  screenType?: 'none' | 'HomeViewer' | null | string;
+  onPressSettings?: () => void;
 };

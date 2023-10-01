@@ -5,6 +5,7 @@ import {
   setSpinnerVisible,
 } from '../../../redux/action/action';
 import {
+  fetchAccountDeleteResponse,
   fetchAddLinkResponse,
   fetchDeleteLinkResponse,
   fetchEditLinkResponse,
@@ -30,6 +31,7 @@ import {
   setProfileInfoUpdatedRefKey,
 } from '../redux/action/action';
 import {
+  AccountDeleteResponseType,
   GetProfileImgUploadCompletedResponse,
   GetProfileImgUploadUrlResponse,
   LinksUpdateResponseType,
@@ -435,5 +437,27 @@ function* uploadProfileImage(url: string, imageUri: string, imageKey: string) {
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
+  }
+}
+
+export function* deleteAccount() {
+  const access_token: string = yield select(AccessToken);
+
+  try {
+    yield put(setSpinnerVisible(true));
+    const response: AccountDeleteResponseType = yield call(
+      fetchAccountDeleteResponse,
+      access_token,
+    );
+    if (response.status === 'SUCCESS') {
+      RootNavigation.replace('OpeningScreen');
+    } else {
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
   }
 }

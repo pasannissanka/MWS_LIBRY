@@ -1,4 +1,5 @@
 import {
+  GET_ACCOUNT_DELETE_RESPONSE,
   GET_ADD_LINK_RESPONSE,
   GET_DELETE_LINK_RESPONSE,
   GET_EDIT_LINK_RESPONSE,
@@ -78,5 +79,11 @@ export const getProfileImageUploadedResponse = (payload: object) => {
   return {
     type: GET_PROFILE_IMAGE_UPLOADED_RESPONSE,
     payload: payload,
+  };
+};
+
+export const getAccountDeleteResponse = () => {
+  return {
+    type: GET_ACCOUNT_DELETE_RESPONSE,
   };
 };

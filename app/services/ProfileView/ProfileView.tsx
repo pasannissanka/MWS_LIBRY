@@ -100,3 +100,14 @@ export function fetchProfileImgUploadCompletedResponse(
     param,
   );
 }
+
+export function fetchAccountDeleteResponse(token: string) {
+  return callService(
+    Env.BASE_URL,
+    ProfileViewEndPoints.DELETE_ACCOUNT,
+    'DELETE',
+    token,
+    null,
+    null,
+  );
+}

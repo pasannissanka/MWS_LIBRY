@@ -4,6 +4,7 @@ import {
   addLink,
   changeEmail,
   changePassword,
+  deleteAccount,
   deleteLink,
   editLink,
   getProfileImgUploadUrl,
@@ -20,4 +21,5 @@ export const profileViewSagas = [
   takeLatest(type.GET_PASSWORD_CHANGE_RESPONSE, changePassword),
   takeLatest(type.GET_PROFILE_IMAGE_UPLOADED_RESPONSE, getProfileImgUploadUrl),
   takeLatest(type.GET_REORDER_LINKS_RESPONSE, reorderLinks),
+  takeLatest(type.GET_ACCOUNT_DELETE_RESPONSE, deleteAccount),
 ];

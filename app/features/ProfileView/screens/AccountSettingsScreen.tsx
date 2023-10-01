@@ -19,6 +19,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setAlertBoxVisibility} from '../../../redux/action/action';
 import {UpdateDetailsAlertType} from '../interfaces';
 import {useFocusEffect} from '@react-navigation/native';
+import { getAccountDeleteResponse } from '../redux/action/action';
 
 type RouteParams = PropsWithChildren<{
   alertType: UpdateDetailsAlertType;
@@ -77,7 +78,9 @@ const AccountSettingsScreen: React.FC<{route: {params: RouteParams}}> = ({
       negativeButton: t(
         'profileView.accountSettingsScreen.deleteConfirmation.negativeButton',
       ),
-      onPress: () => {},
+      onPress: () => {
+        dispatch(getAccountDeleteResponse());
+      },
       onPressNegative: () => {},
       buttonTextStyle: {color: Colors.text.WARNING_RED_COLOR},
     };

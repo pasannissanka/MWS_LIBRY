@@ -92,6 +92,7 @@ const LoginScreen = () => {
   };
 
   const onPressBack = () => {
+    dispatch(setLoginStatus('UNDEFINED'));
     dispatch(setEmailValidation('VALID'));
     dispatch(setPasswordValidation('VALID'));
     RootNavigation.replace('OpeningScreen');

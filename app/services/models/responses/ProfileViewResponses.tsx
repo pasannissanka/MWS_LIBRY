@@ -50,3 +50,12 @@ export type LinksUpdateResponseType = {
     },
   ];
 };
+
+export type AccountDeleteResponseType = {
+  status: 'ERROR' | 'SUCCESS';
+  message: string;
+  data: {
+    raw: [];
+    affected: 1;
+  };
+};

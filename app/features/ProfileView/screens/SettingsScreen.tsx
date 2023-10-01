@@ -24,6 +24,10 @@ const SettingsScreen = () => {
     RootNavigation.navigate('AccountSettingsScreen');
   };
 
+  const onPressOption5 = () => {
+    RootNavigation.replace('OpeningScreen');
+  };
+
   return (
     <>
       <StatusBar
@@ -93,7 +97,7 @@ const SettingsScreen = () => {
             <View style={styles.middleSpacer} />
 
             <OptionCard>
-              <TouchableOpacity style={styles.optionTouchable}>
+              <TouchableOpacity style={styles.optionTouchable} onPress={onPressOption5}>
                 <Image
                   source={Images.icons.logout_icon}
                   resizeMode="contain"

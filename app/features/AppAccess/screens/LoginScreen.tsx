@@ -65,8 +65,8 @@ const LoginScreen = () => {
   const EmailValidation = useSelector(
     (state: any) => state.appAccessReducer.emailValidation,
   );
-  const [email, onChangeEmail] = useState('chamupathihasitha@gmail.com');
-  const [password, onChangePassword] = useState('Password@123');
+  const [email, onChangeEmail] = useState('');
+  const [password, onChangePassword] = useState('');
 
   const passwordRef = useRef<any>();
   const emailRef = useRef<any>();
@@ -92,6 +92,7 @@ const LoginScreen = () => {
   };
 
   const onPressBack = () => {
+    dispatch(setLoginStatus('UNDEFINED'));
     dispatch(setEmailValidation('VALID'));
     dispatch(setPasswordValidation('VALID'));
     RootNavigation.replace('OpeningScreen');

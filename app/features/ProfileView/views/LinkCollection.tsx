@@ -1,7 +1,8 @@
 import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {PropsWithChildren} from 'react';
 import {useSelector} from 'react-redux';
-import { UserProfileAttribute } from '../interfaces';
+import {UserProfileAttribute} from '../interfaces';
+import {Linking} from 'react-native';
 type SectionProps = PropsWithChildren<{
   style?: object;
 }>;
@@ -13,6 +14,13 @@ const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
   const LinksAvailability = USER_PROFILE.links.length > 0;
 
   const Links = USER_PROFILE.links;
+
+  const onPressLinkTouchable = async (url: string) => {
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    }
+  };
   return (
     <View style={{...styles.parentView, ...style}}>
       {Description && (
@@ -22,7 +30,12 @@ const LinkCollection = ({style}: SectionProps): React.JSX.Element => {
       )}
       {LinksAvailability &&
         Links.map((item: any, index: number) => (
-          <TouchableOpacity style={styles.touchableLink} key={index}>
+          <TouchableOpacity
+            style={styles.touchableLink}
+            key={index}
+            onPress={() => {
+              onPressLinkTouchable(item.url);
+            }}>
             <Text
               style={styles.linkText}
               numberOfLines={1}

@@ -5,6 +5,7 @@ import {
   setSpinnerVisible,
 } from '../../../redux/action/action';
 import {
+  fetchAccountDeleteResponse,
   fetchAddLinkResponse,
   fetchDeleteLinkResponse,
   fetchEditLinkResponse,
@@ -12,6 +13,7 @@ import {
   fetchPasswordChangeResponse,
   fetchProfileImgUploadCompletedResponse,
   fetchProfileImgUploadUrl,
+  fetchReorderLinksResponse,
   fetchUpdateUserInfoResponse,
   fetchUploadProfileImageResponse,
 } from '../../../services/ProfileView/ProfileView';
@@ -29,8 +31,10 @@ import {
   setProfileInfoUpdatedRefKey,
 } from '../redux/action/action';
 import {
+  AccountDeleteResponseType,
   GetProfileImgUploadCompletedResponse,
   GetProfileImgUploadUrlResponse,
+  LinksUpdateResponseType,
 } from '../../../services/models/responses';
 import {
   GetProfileImgUploadCompletedRequest,
@@ -146,6 +150,38 @@ export function* editLink(action: any) {
       );
       RootNavigation.navigate('EditLinksOrderScreen');
 
+      const refKey: number = yield select(LinkUpdatedRefKey);
+      yield put(setLinkUpdatedRefKey(refKey + 1));
+    } else {
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
+  }
+}
+
+//GET REORDER LINK RESPONSE
+export function* reorderLinks(action: any) {
+  const requestBody = action.payload;
+  const access_token: string = yield select(AccessToken);
+  const currentUserInfo: UserProfileAttribute = yield select(UserProfile);
+
+  try {
+    yield put(setSpinnerVisible(true));
+
+    const raw_response: LinksUpdateResponseType = yield call(
+      fetchReorderLinksResponse,
+      access_token,
+      requestBody,
+    );
+
+    if (raw_response.status === 'SUCCESS') {
+      yield put(
+        setUserProfile({...currentUserInfo, ...{links: raw_response.data}}),
+      );
       const refKey: number = yield select(LinkUpdatedRefKey);
       yield put(setLinkUpdatedRefKey(refKey + 1));
     } else {
@@ -407,5 +443,27 @@ function* uploadProfileImage(
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
+  }
+}
+
+export function* deleteAccount() {
+  const access_token: string = yield select(AccessToken);
+
+  try {
+    yield put(setSpinnerVisible(true));
+    const response: AccountDeleteResponseType = yield call(
+      fetchAccountDeleteResponse,
+      access_token,
+    );
+    if (response.status === 'SUCCESS') {
+      RootNavigation.replace('OpeningScreen');
+    } else {
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
   }
 }

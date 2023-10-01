@@ -1,11 +1,13 @@
 import {ImageInterface} from '../../interfaces/ImageInterface';
 import {
+  GET_ACCOUNT_DELETE_RESPONSE,
   GET_ADD_LINK_RESPONSE,
   GET_DELETE_LINK_RESPONSE,
   GET_EDIT_LINK_RESPONSE,
   GET_EMAIL_CHANGE_RESPONSE,
   GET_PASSWORD_CHANGE_RESPONSE,
   GET_PROFILE_IMAGE_UPLOADED_RESPONSE,
+  GET_REORDER_LINKS_RESPONSE,
   GET_USER_INFO_UPDATE_RESPONSE,
   SET_LINK_UPDATED_REFERNCE_KEY,
   SET_PORFILE_INFO_UPDATED_REFERNCE_KEY,
@@ -28,6 +30,13 @@ export const getDeleteLinkResponse = (request: string) => {
 export const getEditLinkResponse = (payload: object) => {
   return {
     type: GET_EDIT_LINK_RESPONSE,
+    payload: payload,
+  };
+};
+
+export const getReorderLinksResponse = (payload: object) => {
+  return {
+    type: GET_REORDER_LINKS_RESPONSE,
     payload: payload,
   };
 };
@@ -71,5 +80,11 @@ export const getProfileImageUploadedResponse = (payload: ImageInterface) => {
   return {
     type: GET_PROFILE_IMAGE_UPLOADED_RESPONSE,
     payload: payload,
+  };
+};
+
+export const getAccountDeleteResponse = () => {
+  return {
+    type: GET_ACCOUNT_DELETE_RESPONSE,
   };
 };

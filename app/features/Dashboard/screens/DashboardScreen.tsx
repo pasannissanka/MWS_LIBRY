@@ -17,11 +17,16 @@ import * as Animatable from 'react-native-animatable';
 import {DashboardScreens} from '../interfaces/DashboardInterface';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import NavigationTabs from '../../../navigation/NavigationTabs';
-import {useDispatch} from 'react-redux';
-import {getUsersBySearch} from '../redux/action/action';
+import {useDispatch, useSelector} from 'react-redux';
+import {getUsersBySearch, setUsersBySearch} from '../redux/action/action';
+import { GetUsersBySearchResponse } from '../../../services/models/responses/DashboardResponse';
 
 const DashboardScreen = (): React.JSX.Element => {
   const dispatch = useDispatch();
+
+  let SearchedResponse: GetUsersBySearchResponse = useSelector(
+    (state: any) => state.DashboardReducer.searchedUsersResponse,
+  );
   const infoBottomSheetRef: RefObject<RBSheet> = useRef<RBSheet>(null);
   const searchViewerRef: MutableRefObject<Animatable.View> = useRef(null);
 
@@ -35,6 +40,9 @@ const DashboardScreen = (): React.JSX.Element => {
   const onPressBack = () => {
     if (DashboardViewer === 'SearchViewer') {
       searchViewerRef.current?.bounceOutDown(2000).then(() => {
+
+        SearchedResponse.data = [];
+        dispatch(setUsersBySearch(SearchedResponse));
         setSearchText('');
         Keyboard.dismiss();
         setDashboardViewer(PrevDashboardViewer);

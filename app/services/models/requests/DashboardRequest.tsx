@@ -4,7 +4,7 @@ export type GetUsersBySearchRequest = {
   order: 'ASC';
   query: {
     name: string;
-    exclude_logged_user: false;
+    exclude_logged_user: true;
     email: string;
     phone_number: string;
     username: string;

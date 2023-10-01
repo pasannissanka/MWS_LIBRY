@@ -128,7 +128,7 @@ const DashboardScreen = (): React.JSX.Element => {
           screenType={DashboardViewer}
           searchBar={true}
           onPressBack={onPressBack}
-          searchBarImageUri="https://reactnative.dev/img/tiny_logo.png"
+          //searchBarImageUri="https://reactnative.dev/img/tiny_logo.png"
           searchBarRightIcon={getHeaderRightIcon()}
           onChangeSearchBarText={text => {
             onChangeSearchText(text);

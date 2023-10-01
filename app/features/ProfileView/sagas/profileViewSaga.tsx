@@ -5,6 +5,7 @@ import {
   setSpinnerVisible,
 } from '../../../redux/action/action';
 import {
+  fetchAccountDeleteResponse,
   fetchAddLinkResponse,
   fetchDeleteLinkResponse,
   fetchEditLinkResponse,
@@ -12,6 +13,7 @@ import {
   fetchPasswordChangeResponse,
   fetchProfileImgUploadCompletedResponse,
   fetchProfileImgUploadUrl,
+  fetchReorderLinksResponse,
   fetchUpdateUserInfoResponse,
   fetchUploadProfileImageResponse,
 } from '../../../services/ProfileView/ProfileView';
@@ -29,8 +31,10 @@ import {
   setProfileInfoUpdatedRefKey,
 } from '../redux/action/action';
 import {
+  AccountDeleteResponseType,
   GetProfileImgUploadCompletedResponse,
   GetProfileImgUploadUrlResponse,
+  LinksUpdateResponseType,
 } from '../../../services/models/responses';
 import {
   GetProfileImgUploadCompletedRequest,
@@ -145,6 +149,38 @@ export function* editLink(action: any) {
       );
       RootNavigation.navigate('EditLinksOrderScreen');
 
+      const refKey: number = yield select(LinkUpdatedRefKey);
+      yield put(setLinkUpdatedRefKey(refKey + 1));
+    } else {
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
+  }
+}
+
+//GET REORDER LINK RESPONSE
+export function* reorderLinks(action: any) {
+  const requestBody = action.payload;
+  const access_token: string = yield select(AccessToken);
+  const currentUserInfo: UserProfileAttribute = yield select(UserProfile);
+
+  try {
+    yield put(setSpinnerVisible(true));
+
+    const raw_response: LinksUpdateResponseType = yield call(
+      fetchReorderLinksResponse,
+      access_token,
+      requestBody,
+    );
+
+    if (raw_response.status === 'SUCCESS') {
+      yield put(
+        setUserProfile({...currentUserInfo, ...{links: raw_response.data}}),
+      );
       const refKey: number = yield select(LinkUpdatedRefKey);
       yield put(setLinkUpdatedRefKey(refKey + 1));
     } else {
@@ -330,11 +366,13 @@ export function* changePassword(action: any) {
 //GET PROFILE IMAGE UPLOAD RESPONSE
 export function* getProfileImgUploadUrl(action: any) {
   const param = action.payload.param;
-  const imageBody = action.payload.imageBody;
+  const imageUri = action.payload.imageUri;
 
   const access_token: string = yield select(AccessToken);
   let imageUploadUrl: string = '';
   let imageKey: string = '';
+
+  console.log('Action ->', action.payload);
 
   try {
     yield put(setSpinnerVisible(true));
@@ -348,7 +386,7 @@ export function* getProfileImgUploadUrl(action: any) {
       imageUploadUrl = fetchProfileImgUploadUrlResponse.data.uploadUrl;
       imageKey = fetchProfileImgUploadUrlResponse.data.media.key;
 
-      yield* uploadProfileImage(imageUploadUrl, imageBody, imageKey);
+      yield* uploadProfileImage(imageUploadUrl, imageUri, imageKey);
     } else {
     }
     yield put(setSpinnerVisible(false));
@@ -361,9 +399,10 @@ export function* getProfileImgUploadUrl(action: any) {
 }
 
 //PROFILE IMAGE UPLOADING & GET UPLOADED COMPLETED API RESPONSE
-function* uploadProfileImage(url: string, imageBody: any, imageKey: string) {
+function* uploadProfileImage(url: string, imageUri: string, imageKey: string) {
   try {
-    yield call(fetchUploadProfileImageResponse, url, imageBody);
+    console.log('S3 Upload->', imageUri, 'URL->', url);
+    yield call(fetchUploadProfileImageResponse, url, imageUri);
     console.log('<- S3 Image Upload Success ->');
 
     const access_token: string = yield select(AccessToken);
@@ -398,5 +437,27 @@ function* uploadProfileImage(url: string, imageBody: any, imageKey: string) {
   } catch (error) {
     yield put(setSpinnerVisible(false));
     yield put(setEndPointErrorVisible(true));
+  }
+}
+
+export function* deleteAccount() {
+  const access_token: string = yield select(AccessToken);
+
+  try {
+    yield put(setSpinnerVisible(true));
+    const response: AccountDeleteResponseType = yield call(
+      fetchAccountDeleteResponse,
+      access_token,
+    );
+    if (response.status === 'SUCCESS') {
+      RootNavigation.replace('OpeningScreen');
+    } else {
+    }
+    yield put(setSpinnerVisible(false));
+  } catch (error) {
+    yield put(setSpinnerVisible(false));
+    yield put(setEndPointErrorVisible(true));
+
+    console.log('PROFILE_VIEW_SAGA_ERROR =>', error);
   }
 }

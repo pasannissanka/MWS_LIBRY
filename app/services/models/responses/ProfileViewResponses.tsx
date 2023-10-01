@@ -36,3 +36,26 @@ export type GetProfileImgUploadCompletedResponse = {
   };
   message: string;
 };
+
+export type LinksUpdateResponseType = {
+  status: 'ERROR' | 'SUCCESS';
+  message: string;
+  data: [
+    {
+      id: string;
+      url: string;
+      title: string;
+      createdAt: string;
+      order: number;
+    },
+  ];
+};
+
+export type AccountDeleteResponseType = {
+  status: 'ERROR' | 'SUCCESS';
+  message: string;
+  data: {
+    raw: [];
+    affected: 1;
+  };
+};

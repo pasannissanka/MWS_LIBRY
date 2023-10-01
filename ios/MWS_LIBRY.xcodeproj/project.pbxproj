@@ -567,7 +567,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 85Z2GQKLL2;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = MWS_LIBRY/Info.plist;
@@ -576,7 +576,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.004;
+				MARKETING_VERSION = 0.2.001;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -600,7 +600,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = 85Z2GQKLL2;
 				INFOPLIST_FILE = MWS_LIBRY/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Libry;
@@ -608,7 +608,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.004;
+				MARKETING_VERSION = 0.2.001;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

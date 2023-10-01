@@ -1,4 +1,4 @@
-import React, {PropsWithChildren, useEffect, useState} from 'react';
+import React, {PropsWithChildren, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import DraggableFlatList, {
   ScaleDecorator,
@@ -6,27 +6,32 @@ import DraggableFlatList, {
 import {Colors, Images} from '../../../theme';
 import * as RootNavigation from '../../../navigation/RootNavigation';
 import {useDispatch, useSelector} from 'react-redux';
-import {getDeleteLinkResponse} from '../redux/action/action';
+import {
+  getDeleteLinkResponse,
+  getReorderLinksResponse,
+} from '../redux/action/action';
 
 type ItemRowProps = PropsWithChildren<{
   item: {id: string; url: string; title: string; createdAt: string};
   drag: any;
   isActive: boolean;
 }>;
+
+type LinksProps = [
+  {
+    id: string;
+    url: string;
+    title: string;
+    createdAt: string;
+  },
+];
 const EditLinkOrderDraggableList = () => {
   const dispatch = useDispatch();
   let USER_PROFILE = useSelector(
     (state: any) => state.appAccessReducer.userProfile,
   );
 
-  const initialData: [
-    {
-      id: string;
-      url: string;
-      title: string;
-      createdAt: string;
-    },
-  ] = USER_PROFILE.links;
+  const initialData: LinksProps = USER_PROFILE.links;
   const [data, setData] = useState(initialData);
 
   const onPressItem = (item: {
@@ -45,6 +50,19 @@ const EditLinkOrderDraggableList = () => {
     createdAt: string;
   }) => {
     dispatch(getDeleteLinkResponse(item.id));
+  };
+
+  const onDragEnd = (reorderedList: LinksProps) => {
+    const requestBody = {
+      links: reorderedList.map((item, index) => {
+        return {
+          id: item.id,
+          order: index + 1,
+        };
+      }),
+    };
+
+    dispatch(getReorderLinksResponse(requestBody));
   };
   const renderItem: React.FC<ItemRowProps> = ({item, drag, isActive}) => {
     return (
@@ -85,7 +103,10 @@ const EditLinkOrderDraggableList = () => {
   return (
     <DraggableFlatList
       data={data}
-      onDragEnd={({data}) => setData(data)}
+      onDragEnd={({data}) => {
+        setData(data);
+        onDragEnd(data);
+      }}
       keyExtractor={(item, index) => index.toString()}
       renderItem={renderItem}
       style={styles.draggableList}

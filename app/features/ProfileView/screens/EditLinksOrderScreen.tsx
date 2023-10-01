@@ -13,7 +13,6 @@ import {useTranslation} from 'react-i18next';
 import EditLinkOrderDragableList from '../views/EditLinkOrderDraggableList';
 import {useSelector} from 'react-redux';
 import EndPointError from '../../../components/views/EndPointError';
-import {UserProfileAttribute} from '../interfaces';
 
 const EditLinksOrderScreen = () => {
   const {t} = useTranslation();

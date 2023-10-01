@@ -1,4 +1,5 @@
 import createReducer from '../../../../helper/createReducer';
+import {UserProfileAttribute} from '../../../ProfileView/interfaces';
 import {
   SET_ACCESS_TOKEN,
   SET_ADD_NAME_BIRTH_DATE_RESPONSE,
@@ -183,10 +184,16 @@ export const appAccessReducer = createReducer(initialState, {
       addNameBirthDateResponse: action.payload,
     };
   },
-  [SET_USER_PROFILE](state: any, action: {payload: object}) {
+  [SET_USER_PROFILE](state: any, action: {payload: UserProfileAttribute}) {
+    let user_profile_info: UserProfileAttribute = action.payload;
+
+    const links = user_profile_info.links;
+    const sortedLinks = links.sort((a, b) => a.order - b.order);
+    user_profile_info.links = sortedLinks;
+
     return {
       ...state,
-      userProfile: action.payload,
+      userProfile: user_profile_info,
     };
   },
   [SET_SUGGEST_USERS](state: any, action: {payload: object}) {

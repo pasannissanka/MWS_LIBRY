@@ -35,6 +35,7 @@ const DashboardScreen = (): React.JSX.Element => {
   const onPressBack = () => {
     if (DashboardViewer === 'SearchViewer') {
       searchViewerRef.current?.bounceOutDown(2000).then(() => {
+        setSearchText('');
         Keyboard.dismiss();
         setDashboardViewer(PrevDashboardViewer);
       });
